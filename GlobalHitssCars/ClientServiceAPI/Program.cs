@@ -1,24 +1,24 @@
-using CarServiceData.Context;
-using CarServiceDomain.Repositories;
-using CarServiceDomain.Services;
-using CarServiceInfrastructure.Repositories;
-using CarServiceInfrastructure.Services;
+
+using ClientServiceData.Context;
+using ClientServiceDomain.Repositories;
+using ClientServiceDomain.Services;
+using ClientServiceInfrastructure.Repositories;
+using ClientServiceInfrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<ApplicationCarDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
-builder.Services.AddScoped<ICarRepository, CarRepository>();
-builder.Services.AddScoped<ICarService, CarService>();
+
+builder.Services.AddDbContext<ApplicationClientDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
 
 
-
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<IClientService, ClientService>();
 
 var app = builder.Build();
 

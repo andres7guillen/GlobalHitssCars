@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CarServiceData\CarServiceData.csproj" />
-    <ProjectReference Include="..\CarServiceDomain\CarServiceDomain.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.27" />
   </ItemGroup>
 
 </Project>
