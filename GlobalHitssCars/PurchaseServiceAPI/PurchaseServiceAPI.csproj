@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>249ad0de-db30-43b3-94ca-118b2226261e</UserSecretsId>
+    <UserSecretsId>16601b63-8ba5-49ab-b07f-397a9bb3b935</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
@@ -18,8 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CarServiceData\CarServiceData.csproj" />
-    <ProjectReference Include="..\CarServiceInfrastructure\CarServiceInfrastructure.csproj" />
+    <ProjectReference Include="..\PurchaseServiceInfrastructure\PurchaseServiceInfrastructure.csproj" />
   </ItemGroup>
 
 </Project>

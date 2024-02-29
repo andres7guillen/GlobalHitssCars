@@ -4,22 +4,17 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>249ad0de-db30-43b3-94ca-118b2226261e</UserSecretsId>
+    <UserSecretsId>6ad9c727-bada-4a8c-a5d4-58f3220a6b68</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.16">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CarServiceData\CarServiceData.csproj" />
-    <ProjectReference Include="..\CarServiceInfrastructure\CarServiceInfrastructure.csproj" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>
