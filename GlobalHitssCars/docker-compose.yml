@@ -1,0 +1,104 @@
+version: '3.4'
+
+networks:
+  backend: 
+
+services:
+  sparepartsservicedb:
+    container_name: spare-parts-service-db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD:Y0k0gawA_19929495
+    networks:
+      - backend
+    ports:
+      - 8007:1433 
+  purchaseservicedb:
+    container_name: purchase-service-db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD:Y0k0gawA_19929495
+    networks:
+      - backend
+    ports:
+      - 8001:1433
+  clientservicedb:
+    container_name: client-service-db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD:Y0k0gawA_19929495
+    networks:
+      - backend
+    ports:
+      - 8002:1433 
+  carservicedb:
+    container_name: car-service-db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD:Y0k0gawA_19929495
+    networks:
+      - backend
+    ports:
+      - 8003:1433 
+  carserviceapi:
+    container_name: car-service-api
+    image: ${DOCKER_REGISTRY-}carserviceapi
+    build:
+      context: .
+      dockerfile: CarServiceAPI/Dockerfile
+    networks:
+      - backend
+    ports:
+      - 8004:81 
+
+  clientserviceapi:
+    container_name: client-service-api
+    image: ${DOCKER_REGISTRY-}clientserviceapi
+    build:
+      context: .
+      dockerfile: ClientServiceAPI/Dockerfile
+    networks:
+      - backend
+    ports:
+      - 8005:82 
+
+
+  purchaseserviceapi:
+    container_name: purchase-service-api
+    image: ${DOCKER_REGISTRY-}purchaseserviceapi
+    build:
+      context: .
+      dockerfile: PurchaseServiceAPI/Dockerfile
+    networks:
+      - backend
+    ports:
+      - 8006:83 
+
+
+  sparepartsserviceapi:
+    container_name: spare-parts-service-api
+    image: ${DOCKER_REGISTRY-}sparepartsserviceapi
+    build:
+      context: .
+      dockerfile: SparePartsServiceAPI/Dockerfile
+    networks:
+      - backend
+    ports:
+      - 8008:84
+    environment:
+      - DB_HOST_SPARE_PARTS_SERVICE=sparepartsservicedb
+      - DB_NAME_SPARE_PARTS=GlobalHitssSparePartsDb
+      - DB_SA_PASSWORD_SPARE_PARTS=Y0k0gawA_19929495
+      - DB_HOST_PURCHASE_SERVICE=purchaseservicedb
+      - DB_NAME_PURCHASE=GlobalHitssPurchaseDb
+      - DB_SA_PASSWORD_PURCHASE=Y0k0gawA_19929495
+      - DB_HOST_CLIENT_SERVICE=clientservicedb
+      - DB_NAME_CLIENT=GlobalHitssClientDb
+      - DB_SA_PASSWORD_CLIENT=Y0k0gawA_19929495
+      - DB_HOST_CAR_SERVICE=carservicedb
+      - DB_NAME_CAR=GlobalHitssCarDb
+      - DB_SA_PASSWORD_CAR=Y0k0gawA_19929495

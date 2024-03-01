@@ -49,6 +49,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserServiceAPI", "UserServi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarServiceData", "CarServiceData\CarServiceData.csproj", "{0E1FDFEA-4A80-4D3A-B988-6C845AB4F2CE}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{FB3E9FC1-67F5-49DF-A4A5-2997B799822A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +129,10 @@ Global
 		{0E1FDFEA-4A80-4D3A-B988-6C845AB4F2CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E1FDFEA-4A80-4D3A-B988-6C845AB4F2CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E1FDFEA-4A80-4D3A-B988-6C845AB4F2CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB3E9FC1-67F5-49DF-A4A5-2997B799822A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB3E9FC1-67F5-49DF-A4A5-2997B799822A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB3E9FC1-67F5-49DF-A4A5-2997B799822A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB3E9FC1-67F5-49DF-A4A5-2997B799822A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
