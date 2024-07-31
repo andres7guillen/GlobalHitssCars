@@ -1,5 +1,6 @@
 ﻿using CarServiceDomain.DTOs;
 using CarServiceDomain.Entities;
+using CSharpFunctionalExtensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,10 @@ namespace CarServiceDomain.Repositories
     public interface ICarRepository
     {
         Task<Car> Create(Car model);
-        IQueryable<Car> GetAll();
-        Task<Car> GetById(Guid id);
-        Task<Car> Update(Car model);
+        Task<IEnumerable<Car>> GetAll();
+        Task<Maybe<Car>> GetById(Guid id);
+        Task<bool> Update(Car model);
         Task<bool> Delete(Guid id);
-        IQueryable<Car> GetCarByFilter(CarByFilterDTO filter);
+        Task<Maybe<Car>> GetCarByFilter(CarByFilterDTO filter);
     }
 }

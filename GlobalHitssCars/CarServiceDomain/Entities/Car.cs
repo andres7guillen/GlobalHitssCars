@@ -12,7 +12,7 @@ namespace CarServiceDomain.Entities
         [Key]
         public Guid Id { get; set; }
         public string Brand { get; set; } = string.Empty;
-        public byte Model { get; set; }
+        public int Model { get; set; }
         public string Colour { get; set; } = string.Empty;
         public string LicensePlate { get; set; } = string.Empty;
     }

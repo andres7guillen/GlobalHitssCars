@@ -10,7 +10,7 @@ namespace CarServiceAPI.Utilities
         {
             CreateMap<CarModel, Car>()
                 .ForMember(a => a.Id,
-                    opt => opt.MapFrom(src => Guid.Parse(src.Id))
+                    opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.Id) ? Guid.Parse(src.Id) : Guid.Empty)
             );
 
             CreateMap<Car, CarModel>()
