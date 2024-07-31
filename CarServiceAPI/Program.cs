@@ -3,6 +3,7 @@ using CarServiceDomain.Repositories;
 using CarServiceDomain.Services;
 using CarServiceInfrastructure.Repositories;
 using CarServiceInfrastructure.Services;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -11,15 +12,24 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<ApplicationCarDbContext>(options =>
+{
+options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"),
+sqlServerOptionsAction: sqlOptions =>
+    {
+        //Resiliency config
+        sqlOptions.
+            EnableRetryOnFailure(maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(30),
+            errorNumbersToAdd: null);
+    });
+    options.ConfigureWarnings(warnings => warnings.Throw(
+            RelationalEventId.QueryPossibleUnintendedUseOfEqualsWarning));
+});
 
-/* Database context dependency injection */
-var dbHost = Environment.GetEnvironmentVariable("DB_HOST_CAR_SERVICE");
-var dbName = Environment.GetEnvironmentVariable("DB_NAME_CAR");
-var dbPassword = Environment.GetEnvironmentVariable("DB_SA_PASSWORD_CAR");
-var connectionString = $"Data Source={dbHost};Initial Catalog={dbName};TrustServerCertificate=true;User ID=sa;Password={dbPassword}";
-builder.Services.AddDbContext<ApplicationCarDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString(connectionString)));
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 builder.Services.AddScoped<ICarRepository, CarRepository>();

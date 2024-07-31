@@ -1,5 +1,6 @@
 ﻿using CarServiceDomain.DTOs;
 using CarServiceDomain.Entities;
+using CSharpFunctionalExtensions;
 
 
 
@@ -7,11 +8,11 @@ namespace CarServiceDomain.Services
 {
     public interface ICarService
     {
-        Task<Car> Create(Car model);
-        Task<IEnumerable<Car>> GetAll();
-        Task<Car> GetById(Guid id);
-        Task<Car> Update(Car model);
-        Task<bool> Delete(Guid id);
-        Task<Car> GetCarByFilter(CarByFilterDTO filter);
+        Task<Result<Car>> Create(Car model);
+        Task<Result<IEnumerable<Car>>> GetAll();
+        Task<Result<Car>> GetById(Guid id);
+        Task<Result<Car>> Update(Car model);
+        Task<Result<bool>> Delete(Guid id);
+        Task<Result<Car>> GetCarByFilter(CarByFilterDTO filter);
     }
 }

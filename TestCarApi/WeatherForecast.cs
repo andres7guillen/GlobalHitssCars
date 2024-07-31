@@ -1,4 +1,4 @@
-namespace CarServiceAPI
+namespace TestCarApi
 {
     public class WeatherForecast
     {
