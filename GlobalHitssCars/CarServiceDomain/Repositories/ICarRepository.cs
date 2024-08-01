@@ -12,7 +12,7 @@ namespace CarServiceDomain.Repositories
     public interface ICarRepository
     {
         Task<Car> Create(Car model);
-        Task<IEnumerable<Car>> GetAll();
+        Task<IEnumerable<Car>> GetAll(int offset = 0, int limit = 50);
         Task<Maybe<Car>> GetById(Guid id);
         Task<bool> Update(Car model);
         Task<bool> Delete(Guid id);

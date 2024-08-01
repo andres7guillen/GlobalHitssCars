@@ -30,7 +30,7 @@ namespace CarServiceApplication.Queries
             {
                 var maybeCar = await _carRepository.GetById(request.Id);
                 if (maybeCar.HasNoValue)
-                    return Result.Failure<Car>(CarContextExceptionEnum.CarNotFound.ToString());
+                    return Result.Failure<Car>(CarContextExceptionEnum.CarNotFound.GetErrorMessage());
                 return Result.Success(maybeCar.Value);
             }
         }

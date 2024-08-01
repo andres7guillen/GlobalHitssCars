@@ -19,6 +19,7 @@ public class CarContextException : BusinessException
             CarContextExceptionEnum.ErrorUpdatingCar => new Tuple<int, string> (code, "Error updating car"),
             CarContextExceptionEnum.ErrorCreatingCar => new Tuple<int, string>(code, "Error creating car"),
             CarContextExceptionEnum.ErrorDeleteingCar => new Tuple<int, string>(code, "Error deleteing car"),
+            CarContextExceptionEnum.NoCarsFound => new Tuple<int, string>(code, "No cars found"),
             _ => new Tuple<int, string>(code, "Undefined error")
         };
         return detail;
@@ -34,6 +35,7 @@ public enum CarContextExceptionEnum
     ErrorUpdatingCar = 4002,
     ErrorCreatingCar = 4003,
     ErrorDeleteingCar = 4004,
+    NoCarsFound = 4005,
 }
 
 public static class CarContextExceptionEnumExtensions
