@@ -29,12 +29,14 @@ namespace CarServiceInfrastructure.Repositories
             var car = await _context.Cars.FindAsync(id);
             _context.Cars.Remove(car);
             return await _context.SaveChangesAsync() > 0;
-
         }
 
-        public async Task<IEnumerable<Car>> GetAll()
+        public async Task<IEnumerable<Car>> GetAll(int offset = 0,int limit = 50)
         {
-            var cars = await _context.Cars.AsQueryable().ToListAsync();
+            var cars = await _context.Cars.AsQueryable()
+                .Skip(offset)
+                .Take(limit)
+                .ToListAsync();
             IEnumerable<Car> carCollection = cars;
             return carCollection;
         }

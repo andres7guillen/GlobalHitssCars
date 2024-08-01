@@ -47,13 +47,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserServiceAPI", "UserServi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarServiceData", "CarServiceData\CarServiceData.csproj", "{0E1FDFEA-4A80-4D3A-B988-6C845AB4F2CE}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{FB3E9FC1-67F5-49DF-A4A5-2997B799822A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarServiceAPI", "..\CarServiceAPI\CarServiceAPI.csproj", "{E92A1785-9A38-4932-8A67-B5103D4C2009}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AuthService", "AuthService", "{650379B6-1FB4-42C5-808E-B3617AB8A24D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarServiceApplication", "..\CarServiceApplication\CarServiceApplication.csproj", "{4B6684EA-B51F-490D-BCAF-CF996B4786A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarServiceApplication", "..\CarServiceApplication\CarServiceApplication.csproj", "{4B6684EA-B51F-490D-BCAF-CF996B4786A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -129,10 +127,6 @@ Global
 		{0E1FDFEA-4A80-4D3A-B988-6C845AB4F2CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E1FDFEA-4A80-4D3A-B988-6C845AB4F2CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E1FDFEA-4A80-4D3A-B988-6C845AB4F2CE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB3E9FC1-67F5-49DF-A4A5-2997B799822A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB3E9FC1-67F5-49DF-A4A5-2997B799822A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB3E9FC1-67F5-49DF-A4A5-2997B799822A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB3E9FC1-67F5-49DF-A4A5-2997B799822A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E92A1785-9A38-4932-8A67-B5103D4C2009}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E92A1785-9A38-4932-8A67-B5103D4C2009}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E92A1785-9A38-4932-8A67-B5103D4C2009}.Release|Any CPU.ActiveCfg = Release|Any CPU
