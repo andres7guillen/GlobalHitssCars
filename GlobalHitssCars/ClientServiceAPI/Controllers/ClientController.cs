@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ClientServiceAPI.Models;
+using ClientServiceApplication.Commands;
 using ClientServiceDomain.Entities;
 using ClientServiceDomain.Services;
 using MediatR;
@@ -27,9 +28,10 @@ namespace ClientServiceAPI.Controllers
         public async Task<IActionResult> Create([FromBody] ClientModel model)
         {
             var clientEntity = _mapper.Map<Client>(model);
-            // var result = _mediator.Send(new CreateClientCommand() { Client = clienteEntity });
-            var result = await _clientService.Create(clientEntity);
-            return Ok(_mapper.Map<ClientModel>(result));
+            var clientCreated = await _mediator.Send(new CreateClientCommand() { Client = clientEntity });
+            if(clientCreated.IsFailure)
+                return BadRequest(clientCreated.Error);
+            return Ok(_mapper.Map<ClientModel>(clientCreated.Value));
         }
 
         [HttpGet]

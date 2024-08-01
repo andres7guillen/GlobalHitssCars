@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>9a405d7c-ba93-4a2e-8665-a1b2d58bb064</UserSecretsId>
@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ClientServiceApplication\ClientServiceApplication.csproj" />
     <ProjectReference Include="..\ClientServiceDomain\ClientServiceDomain.csproj" />
     <ProjectReference Include="..\ClientServiceInfrastructure\ClientServiceInfrastructure.csproj" />
   </ItemGroup>
