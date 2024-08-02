@@ -7,15 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Queries\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="CSharpFunctionalExtensions" Version="2.42.5" />
     <PackageReference Include="MediatR" Version="12.4.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CarServiceDomain\CarServiceDomain.csproj" />
     <ProjectReference Include="..\ClientServiceDomain\ClientServiceDomain.csproj" />
   </ItemGroup>
 
