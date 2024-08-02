@@ -21,10 +21,14 @@ namespace ClientServiceInfrastructure.Services
 
         public async Task<bool> Delete(Guid id) => await _repository.Delete(id);
 
-        public async Task<IEnumerable<Client>> GetAll() => await _repository.GetAll().ToListAsync();
+        public async Task<IEnumerable<Client>> GetAll() => await _repository.GetAll();
 
-        public async Task<Client> GetById(Guid id) => await _repository.GetById(id);
+        public async Task<Client> GetById(Guid id) 
+        {
+            var clientMaybe = await _repository.GetById(id);
+            return clientMaybe.Value;
+        } 
 
-        public async Task<Client> Update(Client model) => await _repository.Update(model);
+        public async Task<bool> Update(Client model) => await _repository.Update(model);
     }
 }

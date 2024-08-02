@@ -53,6 +53,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AuthService", "AuthService"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarServiceApplication", "..\CarServiceApplication\CarServiceApplication.csproj", "{4B6684EA-B51F-490D-BCAF-CF996B4786A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientServiceApplication", "ClientServiceApplication\ClientServiceApplication.csproj", "{1DE96184-D186-410A-AF94-784EEDCF0D48}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,10 @@ Global
 		{4B6684EA-B51F-490D-BCAF-CF996B4786A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B6684EA-B51F-490D-BCAF-CF996B4786A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B6684EA-B51F-490D-BCAF-CF996B4786A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DE96184-D186-410A-AF94-784EEDCF0D48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DE96184-D186-410A-AF94-784EEDCF0D48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DE96184-D186-410A-AF94-784EEDCF0D48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DE96184-D186-410A-AF94-784EEDCF0D48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -159,6 +165,7 @@ Global
 		{0E1FDFEA-4A80-4D3A-B988-6C845AB4F2CE} = {6971278E-F9BC-46E5-AF85-9B538C9F125E}
 		{E92A1785-9A38-4932-8A67-B5103D4C2009} = {6971278E-F9BC-46E5-AF85-9B538C9F125E}
 		{4B6684EA-B51F-490D-BCAF-CF996B4786A6} = {6971278E-F9BC-46E5-AF85-9B538C9F125E}
+		{1DE96184-D186-410A-AF94-784EEDCF0D48} = {B2E49071-43E4-40CD-B948-09B135595DDA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ABAE896F-F9BC-4D57-8238-9ADD5584934E}

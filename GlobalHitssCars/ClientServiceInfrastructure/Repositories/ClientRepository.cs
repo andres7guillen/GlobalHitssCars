@@ -1,6 +1,8 @@
 ﻿using ClientServiceData.Context;
 using ClientServiceDomain.Entities;
 using ClientServiceDomain.Repositories;
+using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,26 +29,35 @@ namespace ClientServiceInfrastructure.Repositories
 
         public async Task<bool> Delete(Guid id)
         {
-            var Client = await _context.Clients.FindAsync(id);
-            _context.Clients.Remove(Client);
+            var client = await _context.Clients.FindAsync(id);
+            if (client == null)
+                return false;
+            _context.Clients.Remove(client);
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public IQueryable<Client> GetAll()
+        public async Task<IEnumerable<Client>> GetAll(int offset = 0, int limit = 50)
         {
-            return _context.Clients.AsQueryable();
+            var list = await _context.Clients.AsQueryable()
+                .Skip(offset)
+                .Take(limit)
+                .ToListAsync();
+            IEnumerable<Client> clientsCollection = list;
+            return clientsCollection;
         }
 
-        public async Task<Client> GetById(Guid id)
+        public async Task<Maybe<Client>> GetById(Guid id)
         {
-            return await _context.Clients.FindAsync(id);
+            var client = await _context.Clients.FindAsync(id);
+            return client == null
+                ? Maybe<Client>.None
+                : Maybe<Client>.From(client);
         }
 
-        public async Task<Client> Update(Client model)
+        public async Task<bool> Update(Client model)
         {
             _context.Clients.Update(model);
-            await _context.SaveChangesAsync();
-            return model;
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace CarServiceApplication.Commands
 {
-    public class UpdateCarCommand : IRequest<Result<Car>>
+    public class UpdateCarCommand : IRequest<Result<bool>>
     {
         public Car Car { get; set; }
     }
 
-    public class UpdateCarCommandHandler : IRequestHandler<UpdateCarCommand, Result<Car>>
+    public class UpdateCarCommandHandler : IRequestHandler<UpdateCarCommand, Result<bool>>
     {
         private readonly ICarRepository _carRepository;
 
@@ -25,12 +25,12 @@ namespace CarServiceApplication.Commands
             _carRepository = carRepository;
         }
 
-        public async Task<Result<Car>> Handle(UpdateCarCommand request, CancellationToken cancellationToken)
+        public async Task<Result<bool>> Handle(UpdateCarCommand request, CancellationToken cancellationToken)
         {
             var result = await _carRepository.Update(request.Car);
             if (result)
-                return Result.Success(request.Car);
-            return Result.Failure<Car>(CarContextExceptionEnum.ErrorUpdatingCar.GetErrorMessage());
+                return Result.Success(result);
+            return Result.Failure<bool>(CarContextExceptionEnum.ErrorUpdatingCar.GetErrorMessage());
         }
     }
 }
