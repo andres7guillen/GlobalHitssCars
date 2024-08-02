@@ -12,7 +12,7 @@ namespace ClientServiceDomain.Services
         Task<Client> Create(Client model);
         Task<IEnumerable<Client>> GetAll();
         Task<Client> GetById(Guid id);
-        Task<Client> Update(Client model);
+        Task<bool> Update(Client model);
         Task<bool> Delete(Guid id);
     }
 }
