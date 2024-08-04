@@ -27,9 +27,10 @@ namespace ClientServiceAPI.Controllers.UpdateClient
         }
 
         [HttpPut]
+        [Route("UpdateClient")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomResponse<object>))]
-        public async Task<IActionResult> Update([FromBody] ClientModel model)
+        public async Task<IActionResult> UpdateClient([FromBody] ClientModel model)
         {
             var clientEntity = _mapper.Map<Client>(model);
             var result = await _mediator.Send(new UpdateClientCommand() { Client = clientEntity });

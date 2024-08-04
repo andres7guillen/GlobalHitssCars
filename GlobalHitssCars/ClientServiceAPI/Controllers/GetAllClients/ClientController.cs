@@ -24,7 +24,8 @@ namespace ClientServiceAPI.Controllers.GetAllClients
             _mediator = mediator;
         }
 
-        [HttpGet("{offset}/{limit}")]
+        [HttpGet]
+        [Route("{offset}/{limit}/GetAllClients")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetAllClientsResponse>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomResponse<object>))]
         public async Task<IActionResult> GetAllClients(int offset, int limit)

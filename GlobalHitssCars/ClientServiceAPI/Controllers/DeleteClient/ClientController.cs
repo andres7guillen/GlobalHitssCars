@@ -25,10 +25,11 @@ namespace ClientServiceAPI.Controllers.DeleteClient
         }
 
 
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("{id}/DeleteClient")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomResponse<object>))]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> DeleteClient(string id)
         {
             var guidId = Guid.Parse(id);
             var result = await _mediator.Send(new DeleteClientCommand() { Id = guidId });

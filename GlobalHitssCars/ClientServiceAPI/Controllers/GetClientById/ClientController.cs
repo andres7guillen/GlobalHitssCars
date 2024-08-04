@@ -27,12 +27,13 @@ namespace ClientServiceAPI.Controllers.GetClientById
             _mediator = mediator;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("{id}/GetClientById")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetClientByIdResponse>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomResponse<object>))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(CustomResponse<object>))]
 
-        public async Task<IActionResult> GetById(string id)
+        public async Task<IActionResult> GetClientById(string id)
         {
             try
             {
