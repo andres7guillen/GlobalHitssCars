@@ -27,9 +27,10 @@ namespace ClientServiceAPI.Controllers.CreateController
         }
 
         [HttpPost]
+        [Route("CreateClient")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<CreateClientResponse>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomResponse<object>))]
-        public async Task<IActionResult> Create([FromBody] ClientModel model)
+        public async Task<IActionResult> CreateClient([FromBody] ClientModel model)
         {
             var clientEntity = _mapper.Map<Client>(model);
             var clientCreated = await _mediator.Send(new CreateClientCommand() { Client = clientEntity });
