@@ -10,19 +10,19 @@ using System.Threading.Tasks;
 
 namespace CarServiceApplication.Commands
 {
-    public class DeleteCompanyCommand : IRequest<Result<bool>>
+    public class DeleteCarCommand : IRequest<Result<bool>>
     {
         public Guid Id { get; set; }
     }
 
-    public class DeleteCompanyCommandHandler : IRequestHandler<DeleteCompanyCommand, Result<bool>>
+    public class DeleteCarCommandHandler : IRequestHandler<DeleteCarCommand, Result<bool>>
     {
         private readonly ICarRepository _carRepository;
-        public DeleteCompanyCommandHandler(ICarRepository carRepository)
+        public DeleteCarCommandHandler(ICarRepository carRepository)
         {
             _carRepository = carRepository;
         }
-        public async Task<Result<bool>> Handle(DeleteCompanyCommand request, CancellationToken cancellationToken)
+        public async Task<Result<bool>> Handle(DeleteCarCommand request, CancellationToken cancellationToken)
         {
             var wasDeleted = await _carRepository.Delete(request.Id);
             return wasDeleted

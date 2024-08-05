@@ -2,8 +2,8 @@
 {
     public class CarByFilterModel
     {
-        public string Brand { get; set; } = string.Empty;
-        public string Colour { get; set; } = string.Empty;
+        public string? Brand { get; set; }
+        public string? Colour { get; set; } 
         public byte? Model { get; set; }
     }
 }

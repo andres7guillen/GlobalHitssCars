@@ -13,6 +13,6 @@ namespace CarServiceDomain.Services
         Task<Result<Car>> GetById(Guid id);
         Task<Result<Car>> Update(Car model);
         Task<Result<bool>> Delete(Guid id);
-        Task<Result<Car>> GetCarByFilter(CarByFilterDTO filter);
+        Task<Result<IEnumerable<Car>>> GetCarByFilter(CarByFilterDTO filter);
     }
 }
