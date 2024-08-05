@@ -50,17 +50,15 @@ namespace CarServiceInfrastructure.Repositories
                 : Maybe<Car>.From(car);
         }
 
-        public async Task<Maybe<Car>> GetCarByFilter(CarByFilterDTO filter)
+        public async Task<IEnumerable<Car>> GetCarByFilter(CarByFilterDTO filter)
         {
-            var car = await _context.Cars
+            return await _context.Cars
                 .AsQueryable()
                 .Where(c => filter.Colour == null || c.Colour == filter.Colour)
                      .Where(c => filter.Model == null || c.Model == filter.Model)
                      .Where(c => filter.Brand == null || c.Brand == filter.Brand)
-                     .FirstOrDefaultAsync();
-            return car == null
-                ? Maybe<Car>.None
-                : Maybe<Car>.From(car);
+                     .ToListAsync();
+            
         }
 
         public async Task<bool> Update(Car model)

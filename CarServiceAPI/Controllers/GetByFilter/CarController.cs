@@ -38,7 +38,7 @@ namespace CarServiceAPI.Controllers.GetByFilter
                 return NotFound();
             var response = new GetCarByFilterResponse
             {
-                Car = _mapper.Map<CarModel>(carResult.Value)
+                Cars = _mapper.Map<IEnumerable<CarModel>>(carResult.Value)
             };
 
             return Ok(CustomResponse<GetCarByFilterResponse>.BuildSuccess(response));
@@ -46,7 +46,7 @@ namespace CarServiceAPI.Controllers.GetByFilter
 
         public class GetCarByFilterResponse 
         {
-            public CarModel Car { get; set; }
+            public IEnumerable<CarModel> Cars { get; set; }
         }
 
     }

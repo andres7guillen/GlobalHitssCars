@@ -47,12 +47,12 @@ namespace CarServiceInfrastructure.Services
             return Result.Failure<Car>(CarContextExceptionEnum.CarNotFound.GetErrorMessage());
         }
 
-        public async Task<Result<Car>> GetCarByFilter(CarByFilterDTO filter)
+        public async Task<Result<IEnumerable<Car>>> GetCarByFilter(CarByFilterDTO filter)
         {
-            var carMaybe = await _repository.GetCarByFilter(filter);
-            return carMaybe.HasValue == true
-                ? Result.Success(carMaybe.Value)
-                : Result.Failure<Car>(CarContextExceptionEnum.CarNotFoundByFilter.GetErrorMessage());
+            var cars = await _repository.GetCarByFilter(filter);
+            return cars.Count() > 0
+                ? Result.Success(cars)
+                : Result.Failure<IEnumerable<Car>>(CarContextExceptionEnum.CarNotFoundByFilter.GetErrorMessage());
         }
 
         public async Task<Result<Car>> Update(Car model)

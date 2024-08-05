@@ -6,6 +6,8 @@ using CarServiceInfrastructure.Services;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using CarServiceApplication.Commands;
+using CarServiceApplication.Queries;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +33,14 @@ builder.Services.AddDbContext<ApplicationCarDbContext>(options =>
 });
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly(),
+    typeof(CreateCarCommand).Assembly,
+    typeof(GetAllCarsQuery).Assembly,
+    typeof(GetCarByIdQuery).Assembly,
+    typeof(GetCarByFilterQuery).Assembly,
+    typeof(UpdateCarCommand).Assembly,
+    typeof(DeleteCarCommand).Assembly
+    ));
 builder.Services.AddScoped<ICarRepository, CarRepository>();
 builder.Services.AddScoped<ICarService, CarService>();
 

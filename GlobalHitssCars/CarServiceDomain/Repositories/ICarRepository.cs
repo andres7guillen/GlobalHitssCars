@@ -16,6 +16,6 @@ namespace CarServiceDomain.Repositories
         Task<Maybe<Car>> GetById(Guid id);
         Task<bool> Update(Car model);
         Task<bool> Delete(Guid id);
-        Task<Maybe<Car>> GetCarByFilter(CarByFilterDTO filter);
+        Task<IEnumerable<Car>> GetCarByFilter(CarByFilterDTO filter);
     }
 }

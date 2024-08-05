@@ -19,7 +19,7 @@ namespace CarServiceAPI.Utilities
             );
 
             CreateMap<CarByFilterDTO, CarByFilterModel>();
-
+            CreateMap<CarByFilterModel, CarByFilterDTO>();
         }
     }
 }

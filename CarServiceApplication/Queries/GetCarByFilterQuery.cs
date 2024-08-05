@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace CarServiceApplication.Queries
 {
-    public class GetCarByFilterQuery : IRequest<Result<Car>>
+    public class GetCarByFilterQuery : IRequest<Result<IEnumerable<Car>>>
     {
         public CarByFilterDTO Filter { get; set; }
 
@@ -22,7 +22,7 @@ namespace CarServiceApplication.Queries
         }
     }
 
-    public class GetCarByFilterQueryHandler : IRequestHandler<GetCarByFilterQuery, Result<Car>>
+    public class GetCarByFilterQueryHandler : IRequestHandler<GetCarByFilterQuery, Result<IEnumerable<Car>>>
     {
         private readonly ICarRepository _carRepository;
 
@@ -31,12 +31,12 @@ namespace CarServiceApplication.Queries
             _carRepository = carRepository;
         }
 
-        public async Task<Result<Car>> Handle(GetCarByFilterQuery request, CancellationToken cancellationToken)
+        public async Task<Result<IEnumerable<Car>>> Handle(GetCarByFilterQuery request, CancellationToken cancellationToken)
         {
-            var carMaybe = await _carRepository.GetCarByFilter(request.Filter);
-            return carMaybe.HasNoValue
-                ? Result.Failure<Car>(CarContextExceptionEnum.CarNotFoundByFilter.GetErrorMessage())
-                : Result.Success(carMaybe.Value);
+            var cars = await _carRepository.GetCarByFilter(request.Filter);
+            return cars.Count() > 0
+                ? Result.Success(cars)
+                : Result.Failure<IEnumerable<Car>>(CarContextExceptionEnum.CarNotFoundByFilter.GetErrorMessage());                 
         }
     }
 
