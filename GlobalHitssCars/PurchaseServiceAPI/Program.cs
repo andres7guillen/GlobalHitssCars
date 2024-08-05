@@ -22,7 +22,8 @@ builder.Services.AddDbContext<ApplicationPurchaseDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"));
 });
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()
+    ));
 builder.Services.AddScoped<IPurchaseRepository, PurchaseRepository>();
 builder.Services.AddScoped<IPurchaseService, PurchaseService>();
 

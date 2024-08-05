@@ -1,4 +1,6 @@
 
+using ClientServiceApplication.Commands;
+using ClientServiceApplication.Queries;
 using ClientServiceData.Context;
 using ClientServiceDomain.Repositories;
 using ClientServiceDomain.Services;
@@ -21,7 +23,13 @@ builder.Services.AddSwaggerGen();
 //var connectionString = $"Data Source={dbHost};Initial Catalog={dbName};TrustServerCertificate=true;User ID=sa;Password={dbPassword}";
 builder.Services.AddDbContext<ApplicationClientDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly(),
+    typeof(CreateClientCommand).Assembly,
+    typeof(GetAllClientsQuery).Assembly,
+    typeof(GetClientByIdQuery).Assembly,
+    typeof(UpdateClientCommand).Assembly,
+    typeof(DeleteClientCommand).Assembly
+    ));
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IClientService, ClientService>();
 
