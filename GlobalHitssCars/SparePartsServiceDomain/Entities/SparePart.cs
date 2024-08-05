@@ -12,6 +12,8 @@ namespace SparePartsServiceDomain.Entities
         public string SpareName { get; set; } = string.Empty;
         public string BrandSpare { get; set; } = string.Empty;
         public string BrandCar { get; set; } = string.Empty;
+        public string ModelCar { get; set; }
         public bool IsInStock { get; set; }
+        public int Stock { get; set; }
     }
 }

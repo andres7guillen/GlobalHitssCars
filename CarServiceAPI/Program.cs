@@ -17,8 +17,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationCarDbContext>(options =>
 {
-options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"),
-sqlServerOptionsAction: sqlOptions =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"),
+    sqlServerOptionsAction: sqlOptions =>
     {
         //Resiliency config
         sqlOptions.
