@@ -11,5 +11,6 @@ namespace PurchaseServiceDomain.Entities
         public Guid Id { get; set; }
         public Guid ClientId { get; set; }
         public Guid CarId { get; set; }
+        public double Amount { get; set; }
     }
 }
