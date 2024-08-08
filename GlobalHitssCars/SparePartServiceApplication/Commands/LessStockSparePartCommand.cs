@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace SparePartServiceApplication.Commands
 {
-    public class UpdateSpareStockCommand : IRequest<Result<bool>>
+    public class LessStockSparePartCommand : IRequest<Result<bool>>
     {
         public Guid Id { get; set; }
         public int stockQuantity { get; set; }
     }
 
-    public class UpdateSpareStockCommandHandler : IRequestHandler<UpdateSpareStockCommand, Result<bool>>
+    public class UpdateSpareStockCommandHandler : IRequestHandler<LessStockSparePartCommand, Result<bool>>
     {
         private readonly ISparePartRepository _sparePartRepository;
-        public async Task<Result<bool>> Handle(UpdateSpareStockCommand request, CancellationToken cancellationToken)
+        public async Task<Result<bool>> Handle(LessStockSparePartCommand request, CancellationToken cancellationToken)
         {
             var totalStock = await _sparePartRepository.GetStockBySpareId(request.Id);
             if (request.stockQuantity > totalStock.Value)

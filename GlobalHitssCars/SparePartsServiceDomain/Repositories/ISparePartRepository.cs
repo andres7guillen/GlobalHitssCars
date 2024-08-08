@@ -19,5 +19,6 @@ namespace SparePartsServiceDomain.Repositories
         Task<Result<int>> GetStockBySpareId(Guid id);
         Task<bool> DeleteSparePart(Guid id);
         Task<bool> LessStock(Guid id, int stockQuantity);
+        Task<bool> AddStock(Guid id, int quantity);
     }
 }

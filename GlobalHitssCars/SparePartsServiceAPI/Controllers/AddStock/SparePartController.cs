@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SparePartServiceApplication.Commands;
 using SparePartsServiceAPI.Middleware;
+using SparePartsServiceAPI.Models;
 using SparePartsServiceDomain.Services;
 
-namespace SparePartsServiceAPI.Controllers.UpdateStock
+namespace SparePartsServiceAPI.Controllers.AddStock
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -24,16 +25,17 @@ namespace SparePartsServiceAPI.Controllers.UpdateStock
         }
 
         [HttpPut]
-        [Route("{id}/{newStock}/UpdateSpareStock")]
+        [Route("AddSparePart")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomResponse<object>))]
-        public async Task<IActionResult> UpdateSpareStock(string id, int newStock)
+        public async Task<IActionResult> LessSparePart([FromBody] AddStockSparePartModel model)
         {
-            Guid idGuid = Guid.Parse(id);
-            var result = await _mediator.Send(new LessStockSparePartCommand() { Id = idGuid, stockQuantity = newStock });
+
+            var result = await _mediator.Send(new AddSpareStockCommand() { Id = Guid.Parse(model.Id), Quantity = model.Quantity });
             if (result.IsFailure)
                 return BadRequest(result.Error);
             return Ok(CustomResponse<bool>.BuildSuccess(result.Value));
         }
+        
     }
 }

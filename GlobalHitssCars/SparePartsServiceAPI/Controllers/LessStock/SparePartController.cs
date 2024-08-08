@@ -8,7 +8,7 @@ using SparePartsServiceAPI.Models;
 using SparePartsServiceDomain.Entities;
 using SparePartsServiceDomain.Services;
 
-namespace SparePartsServiceAPI.Controllers.Update
+namespace SparePartsServiceAPI.Controllers.LessStock
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -26,13 +26,13 @@ namespace SparePartsServiceAPI.Controllers.Update
         }
 
         [HttpPut]
-        [Route("UpdateSparePart")]
+        [Route("LessSparePart")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomResponse<object>))]
-        public async Task<IActionResult> UpdateSparePart([FromBody] GetSparePartByFilterModel model)
+        public async Task<IActionResult> LessSparePart([FromBody] LessStockSparePartModel model)
         {
-            var sparePartEntity = _mapper.Map<SparePart>(model);
-            var result = await _mediator.Send(new UpdateSparePartCommand() { Spare = sparePartEntity });
+            
+            var result = await _mediator.Send(new LessStockSparePartCommand() { Id = Guid.Parse(model.Id), stockQuantity = model.Quantity });
             if (result.IsFailure)
                 return BadRequest(result.Error);
             return Ok(CustomResponse<bool>.BuildSuccess(result.Value));
