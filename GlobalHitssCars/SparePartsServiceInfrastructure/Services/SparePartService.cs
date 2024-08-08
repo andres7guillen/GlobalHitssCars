@@ -22,8 +22,7 @@ namespace SparePartsServiceInfrastructure.Services
 
         public async Task<SparePart> Create(SparePart model) => await _repository.Create(model);
 
-        public async Task<IEnumerable<SparePart>> GetSparePartsByFilter(SparePartByFilter filter) => await _repository.GetSparePartsByFilter(filter).ToListAsync();
-
-        public async Task<SparePart> UpdatateSpareInStock(SparePart model) => await _repository.UpdatateSpareInStock(model);
+        public async Task<IEnumerable<SparePart>> GetSparePartsByFilter(GetSparePartByFilterDTO filter) => await _repository.GetSparePartsByFilter(filter);
+        public async Task<bool> UpdatateSpareInStock(SparePart model) => await _repository.UpdatateSpare(model);
     }
 }

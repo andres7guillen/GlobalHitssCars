@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using SparePartServiceApplication.Commands;
+using SparePartServiceApplication.Queries;
 using SparePartsServiceData.Context;
 using SparePartsServiceDomain.Repositories;
 using SparePartsServiceDomain.Services;
@@ -25,7 +27,16 @@ builder.Services.AddDbContext<ApplicationSparePartDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"));
 });
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly(),
+    typeof(CreateSparePartCommand).Assembly,
+    typeof(UpdateSparePartCommand).Assembly,
+    typeof(UpdateSpareStockCommand).Assembly,
+    typeof(DeleteSparePartCommand).Assembly,
+    typeof(GetAllSparePartsQuery).Assembly,
+    typeof(GetSparePartsByFilterQuery).Assembly,
+    typeof(GetSparePartByIdQuery).Assembly
+
+    ));
 builder.Services.AddScoped<ISparePartRepository, SparePartRepository>();
 builder.Services.AddScoped<ISparePartService, SparePartService>();
 

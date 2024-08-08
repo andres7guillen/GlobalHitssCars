@@ -11,7 +11,7 @@ namespace SparePartsServiceDomain.Services
     public interface ISparePartService
     {
         Task<SparePart> Create(SparePart model);
-        Task<IEnumerable<SparePart>> GetSparePartsByFilter(SparePartByFilter filter);
-        Task<SparePart> UpdatateSpareInStock(SparePart model);
+        Task<IEnumerable<SparePart>> GetSparePartsByFilter(GetSparePartByFilterDTO filter);
+        Task<bool> UpdatateSpareInStock(SparePart model);
     }
 }

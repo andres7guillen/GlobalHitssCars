@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using PurchaseApplication.Commands;
+using PurchaseApplication.Queries;
 using PurchaseServiceData.Context;
 using PurchaseServiceDomain.Repository;
 using PurchaseServiceDomain.Services;
@@ -22,7 +24,12 @@ builder.Services.AddDbContext<ApplicationPurchaseDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"));
 });
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly(),
+    typeof(GetAllPurchasesQuery).Assembly,
+    typeof(GetPurchaseByIdQuery).Assembly,
+    typeof(CreatePurchaseCommand).Assembly,
+    typeof(DeletePurchaseCommand).Assembly,
+    typeof(UpdatePurchaseCommand).Assembly
     ));
 builder.Services.AddScoped<IPurchaseRepository, PurchaseRepository>();
 builder.Services.AddScoped<IPurchaseService, PurchaseService>();

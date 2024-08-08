@@ -1,4 +1,5 @@
-﻿using SparePartsServiceDomain.DTOs;
+﻿using CSharpFunctionalExtensions;
+using SparePartsServiceDomain.DTOs;
 using SparePartsServiceDomain.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,12 @@ namespace SparePartsServiceDomain.Repositories
     public interface ISparePartRepository
     {
         Task<SparePart> Create(SparePart model);
-        IQueryable<SparePart> GetSparePartsByFilter(SparePartByFilter filter);
-        Task<SparePart> UpdatateSpareInStock(SparePart model);
+        Task<IEnumerable<SparePart>> GetSparePartsByFilter(GetSparePartByFilterDTO filter);
+        Task<IEnumerable<SparePart>> GetAllSpareParts(int offset, int limit);
+        Task<bool> UpdatateSpare(SparePart model);
+        Task<Maybe<SparePart>> GetSparePartById(Guid id);
+        Task<Result<int>> GetStockBySpareId(Guid id);
+        Task<bool> DeleteSparePart(Guid id);
+        Task<bool> LessStock(Guid id, int stockQuantity);
     }
 }
