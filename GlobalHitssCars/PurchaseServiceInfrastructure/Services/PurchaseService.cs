@@ -22,10 +22,14 @@ namespace PurchaseServiceInfrastructure.Services
 
         public async Task<bool> Delete(Guid id) => await _repository.Delete(id);
 
-        public async Task<IEnumerable<Purchase>> GetAll() => await _repository.GetAll().ToListAsync();
+        public async Task<IEnumerable<Purchase>> GetAll(int offset, int limit) => await _repository.GetAll(offset, limit);
 
-        public async Task<Purchase> GetById(Guid id) => await _repository.GetById(id);
+        public async Task<Purchase> GetById(Guid id) 
+        {
+            var result = await _repository.GetById(id);
+            return result.Value;
+        }
 
-        public async Task<Purchase> Update(Purchase model) => await _repository.Update(model);
+        public async Task<bool> Update(Purchase model) => await _repository.Update(model);
     }
 }

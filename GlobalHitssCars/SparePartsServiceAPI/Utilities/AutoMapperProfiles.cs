@@ -18,7 +18,7 @@ namespace SparePartsServiceAPI.Utilities
                 opt => opt.MapFrom(src => src.Id.ToString())
             );
 
-            CreateMap<SparePartByFilterModel, SparePartByFilter>();
+            CreateMap<GetSparePartByFilterModel, GetSparePartByFilterDTO>();
         }
     }
 }

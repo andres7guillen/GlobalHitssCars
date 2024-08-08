@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SparePartsServiceDomain.DTOs
 {
-    public class SparePartByFilter
+    public class GetSparePartByFilterDTO
     {
         public string BrandSpare { get; set; } = string.Empty;
         public string BrandCar { get; set; } = string.Empty;

@@ -10,9 +10,9 @@ namespace PurchaseServiceDomain.Services
     public interface IPurchaseService
     {
         Task<Purchase> Create(Purchase model);
-        Task<IEnumerable<Purchase>> GetAll();
+        Task<IEnumerable<Purchase>> GetAll(int offset, int limit);
         Task<Purchase> GetById(Guid id);
-        Task<Purchase> Update(Purchase model);
+        Task<bool> Update(Purchase model);
         Task<bool> Delete(Guid id);
     }
 }

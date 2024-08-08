@@ -1,4 +1,6 @@
-﻿using PurchaseServiceData.Context;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
+using PurchaseServiceData.Context;
 using PurchaseServiceDomain.Entities;
 using PurchaseServiceDomain.Repository;
 using System;
@@ -14,7 +16,7 @@ namespace PurchaseServiceInfrastructure.Repositories
         private readonly ApplicationPurchaseDbContext _context;
         public PurchaseRepository(ApplicationPurchaseDbContext context)
         {
-                _context = context;
+            _context = context;
         }
 
         public async Task<Purchase> Create(Purchase model)
@@ -29,24 +31,33 @@ namespace PurchaseServiceInfrastructure.Repositories
         {
             var purchase = await _context.Purchases.FindAsync(id);
             _context.Purchases.Remove(purchase);
-            return await _context.SaveChangesAsync() > 0;
+            return await _context.SaveChangesAsync() > 0
+                ? true
+                : false;
         }
 
-        public IQueryable<Purchase> GetAll()
+        public async Task<IEnumerable<Purchase>> GetAll(int offset, int limit)
         {
-            return _context.Purchases.AsQueryable();
+            var list = await _context.Purchases
+                .Skip(offset)
+                .Take(limit)
+                .AsQueryable().ToListAsync();
+            IEnumerable<Purchase> purchases = list;
+            return purchases;
         }
 
-        public async Task<Purchase> GetById(Guid id)
+        public async Task<Maybe<Purchase>> GetById(Guid id)
         {
-            return await _context.Purchases.FindAsync(id);
+            var purchase = await _context.Purchases.FindAsync(id);
+            return purchase == null
+            ? Maybe<Purchase>.None
+            : Maybe<Purchase>.From(purchase);
         }
 
-        public async Task<Purchase> Update(Purchase model)
+        public async Task<bool> Update(Purchase model)
         {
             _context.Purchases.Update(model);
-            await _context.SaveChangesAsync();
-            return model;
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

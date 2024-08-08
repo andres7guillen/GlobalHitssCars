@@ -1,4 +1,5 @@
-﻿using PurchaseServiceDomain.Entities;
+﻿using CSharpFunctionalExtensions;
+using PurchaseServiceDomain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,9 @@ namespace PurchaseServiceDomain.Repository
     public interface IPurchaseRepository
     {
         Task<Purchase> Create(Purchase model);
-        IQueryable<Purchase> GetAll();
-        Task<Purchase> GetById(Guid id);
-        Task<Purchase> Update(Purchase model);
+        Task<IEnumerable<Purchase>> GetAll(int offset, int limit);
+        Task<Maybe<Purchase>> GetById(Guid id);
+        Task<bool> Update(Purchase model);
         Task<bool> Delete(Guid id);
     }
 }
