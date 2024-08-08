@@ -30,7 +30,7 @@ builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly(),
     typeof(CreateSparePartCommand).Assembly,
     typeof(UpdateSparePartCommand).Assembly,
-    typeof(UpdateSpareStockCommand).Assembly,
+    typeof(LessStockSparePartCommand).Assembly,
     typeof(DeleteSparePartCommand).Assembly,
     typeof(GetAllSparePartsQuery).Assembly,
     typeof(GetSparePartsByFilterQuery).Assembly,

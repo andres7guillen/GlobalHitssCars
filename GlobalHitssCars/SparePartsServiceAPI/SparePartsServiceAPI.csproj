@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Controllers\Update\SparePartController.cs~RF657515.TMP" />
+    <None Remove="Controllers\LessStock\SparePartController.cs~RF657515.TMP" />
   </ItemGroup>
 
   <ItemGroup>
