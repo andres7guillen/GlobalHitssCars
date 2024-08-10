@@ -9,7 +9,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="log4net.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="log4net" Version="2.0.17" />
     <PackageReference Include="MediatR" Version="12.4.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.16">
       <PrivateAssets>all</PrivateAssets>
@@ -22,6 +33,7 @@
     <ProjectReference Include="..\CarServiceApplication\CarServiceApplication.csproj" />
     <ProjectReference Include="..\GlobalHitssCars\CarServiceDomain\CarServiceDomain.csproj" />
     <ProjectReference Include="..\GlobalHitssCars\CarServiceInfrastructure\CarServiceInfrastructure.csproj" />
+    <ProjectReference Include="..\GlobalHitssCars\Common.Logging\Common.Logging.csproj" />
   </ItemGroup>
 
 </Project>
