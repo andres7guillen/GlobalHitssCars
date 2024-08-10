@@ -6,8 +6,11 @@ using ClientServiceDomain.Repositories;
 using ClientServiceDomain.Services;
 using ClientServiceInfrastructure.Repositories;
 using ClientServiceInfrastructure.Services;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using System.Reflection;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +25,13 @@ builder.Services.AddSwaggerGen();
 //var dbPassword = Environment.GetEnvironmentVariable("DB_SA_PASSWORD_CLIENT");
 //var connectionString = $"Data Source={dbHost};Initial Catalog={dbName};TrustServerCertificate=true;User ID=sa;Password={dbPassword}";
 builder.Services.AddDbContext<ApplicationClientDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
+builder.Services.AddHealthChecks()
+    .AddCheck("ClientApiCheck", () => HealthCheckResult.Healthy())
+    .AddDbContextCheck<ApplicationClientDbContext>(
+        name: "ApplicationCarDbContext",
+        failureStatus: HealthStatus.Unhealthy,
+        tags: new[] { "ready", "db" }
+    );
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly(),
     typeof(CreateClientCommand).Assembly,
@@ -45,6 +55,24 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = async (context, report) =>
+    {
+        context.Response.ContentType = "application/json";
+        var result = JsonSerializer.Serialize(new
+        {
+            status = report.Status.ToString(),
+            checks = report.Entries.Select(entry => new {
+                name = entry.Key,
+                status = entry.Value.Status.ToString(),
+                exception = entry.Value.Exception?.Message,
+                duration = entry.Value.Duration.ToString()
+            })
+        });
+        await context.Response.WriteAsync(result);
+    }
+});
 
 app.MapControllers();
 

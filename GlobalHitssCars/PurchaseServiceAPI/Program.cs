@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using PurchaseApplication.Commands;
 using PurchaseApplication.Queries;
 using PurchaseServiceData.Context;
@@ -7,6 +9,7 @@ using PurchaseServiceDomain.Services;
 using PurchaseServiceInfrastructure.Repositories;
 using PurchaseServiceInfrastructure.Services;
 using System.Reflection;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +26,13 @@ builder.Services.AddDbContext<ApplicationPurchaseDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"));
 });
+builder.Services.AddHealthChecks()
+    .AddCheck("PurchaseApiCheck", () => HealthCheckResult.Healthy())
+    .AddDbContextCheck<ApplicationPurchaseDbContext>(
+        name: "ApplicationCarDbContext",
+        failureStatus: HealthStatus.Unhealthy,
+        tags: new[] { "ready", "db" }
+    );
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly(),
     typeof(GetAllPurchasesQuery).Assembly,
@@ -50,6 +60,24 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = async (context, report) =>
+    {
+        context.Response.ContentType = "application/json";
+        var result = JsonSerializer.Serialize(new
+        {
+            status = report.Status.ToString(),
+            checks = report.Entries.Select(entry => new {
+                name = entry.Key,
+                status = entry.Value.Status.ToString(),
+                exception = entry.Value.Exception?.Message,
+                duration = entry.Value.Duration.ToString()
+            })
+        });
+        await context.Response.WriteAsync(result);
+    }
+});
 
 app.MapControllers();
 
