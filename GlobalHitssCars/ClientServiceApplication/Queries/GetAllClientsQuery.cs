@@ -1,14 +1,8 @@
-﻿using CarServiceDomain.Entities;
-using ClientServiceDomain.Entities;
+﻿using ClientServiceDomain.Entities;
 using ClientServiceDomain.Exceptions;
 using ClientServiceDomain.Repositories;
 using CSharpFunctionalExtensions;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClientServiceApplication.Queries
 {
@@ -21,24 +15,22 @@ namespace ClientServiceApplication.Queries
             Offset = offset;
             Limit = limit;
         }
-    }
-
-    public class GetAllClientsQueryHandler : IRequestHandler<GetAllClientsQuery, Result<IEnumerable<Client>>>
-    {
-        private readonly IClientRepository _clientRepository;
-
-        public GetAllClientsQueryHandler(IClientRepository clientRepository)
+        public class GetAllClientsQueryHandler : IRequestHandler<GetAllClientsQuery, Result<IEnumerable<Client>>>
         {
-            _clientRepository = clientRepository;
-        }
+            private readonly IClientRepository _clientRepository;
 
-        public async Task<Result<IEnumerable<Client>>> Handle(GetAllClientsQuery request, CancellationToken cancellationToken)
-        {
-            var listClient = await _clientRepository.GetAll(offset: request.Offset, limit: request.Limit);
-            return listClient.Count() > 0
-                ? Result.Success(listClient)
-                : Result.Failure<IEnumerable<Client>>(ClientContextExceptionEnum.NoClientsFound.GetErrorMessage());
+            public GetAllClientsQueryHandler(IClientRepository clientRepository)
+            {
+                _clientRepository = clientRepository;
+            }
+
+            public async Task<Result<IEnumerable<Client>>> Handle(GetAllClientsQuery request, CancellationToken cancellationToken)
+            {
+                var listClient = await _clientRepository.GetAll(offset: request.Offset, limit: request.Limit);
+                return listClient.Count() > 0
+                    ? Result.Success(listClient)
+                    : Result.Failure<IEnumerable<Client>>(ClientContextExceptionEnum.NoClientsFound.GetErrorMessage());
+            }
         }
     }
-
 }

@@ -31,7 +31,7 @@ namespace SparePartsServiceAPI.Controllers.AddStock
         public async Task<IActionResult> LessSparePart([FromBody] AddStockSparePartModel model)
         {
 
-            var result = await _mediator.Send(new AddSpareStockCommand() { Id = Guid.Parse(model.Id), Quantity = model.Quantity });
+            var result = await _mediator.Send(new AddSpareStockCommand(Guid.Parse(model.Id), model.Quantity));
             if (result.IsFailure)
                 return BadRequest(result.Error);
             return Ok(CustomResponse<bool>.BuildSuccess(result.Value));

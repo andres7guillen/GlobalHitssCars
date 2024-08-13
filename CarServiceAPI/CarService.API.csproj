@@ -31,9 +31,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CarServiceApplication\CarServiceApplication.csproj" />
-    <ProjectReference Include="..\GlobalHitssCars\CarServiceDomain\CarServiceDomain.csproj" />
-    <ProjectReference Include="..\GlobalHitssCars\CarServiceInfrastructure\CarServiceInfrastructure.csproj" />
+    <ProjectReference Include="..\CarServiceApplication\CarService.Application.csproj" />
+    <ProjectReference Include="..\GlobalHitssCars\CarServiceDomain\CarService.Domain.csproj" />
+    <ProjectReference Include="..\GlobalHitssCars\CarServiceInfrastructure\CarService.Infrastructure.csproj" />
     <ProjectReference Include="..\GlobalHitssCars\Common.Logging\Common.Logging.csproj" />
   </ItemGroup>
 

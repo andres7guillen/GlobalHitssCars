@@ -30,10 +30,7 @@ namespace PurchaseServiceAPI.Controllers.GetById
         public async Task<IActionResult> GetById(string id)
         {
             Guid idGuid = Guid.Parse(id);
-            var query = new GetPurchaseByIdQuery
-            {
-                Id = idGuid
-            };
+            var query = new GetPurchaseByIdQuery(idGuid);
             var purchaseResult = await _mediator.Send(query);
             if (purchaseResult.IsFailure)
                 return BadRequest(purchaseResult.Error);

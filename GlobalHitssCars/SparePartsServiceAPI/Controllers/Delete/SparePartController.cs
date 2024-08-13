@@ -32,7 +32,7 @@ namespace SparePartsServiceAPI.Controllers.Delete
         public async Task<IActionResult> Delete(string id) 
         {
             Guid idGuid = Guid.Parse(id);
-            var result = await _mediator.Send(new DeleteSparePartCommand() { Id = idGuid });
+            var result = await _mediator.Send(new DeleteSparePartCommand(idGuid));
             if (result.IsFailure)
                 BadRequest(result.Error);            
             return Ok(CustomResponse<bool>.BuildSuccess(result.Value));

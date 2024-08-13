@@ -14,23 +14,31 @@ namespace ClientServiceApplication.Commands
     public class UpdateClientCommand : IRequest<Result<bool>>
     {
         public Client Client { get; set; }
-    }
 
-    public class UpdateClientCommandHandler : IRequestHandler<UpdateClientCommand, Result<bool>>
-    {
-        private readonly IClientRepository _clientRepository;
-
-        public UpdateClientCommandHandler(IClientRepository clientRepository)
+        public UpdateClientCommand(Client client)
         {
-            _clientRepository = clientRepository;
+            Client = client;
         }
 
-        public async Task<Result<bool>> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
+        public class UpdateClientCommandHandler : IRequestHandler<UpdateClientCommand, Result<bool>>
         {
-            var isUpdated = await _clientRepository.Update(request.Client);
-            return isUpdated
-                ? Result.Success(isUpdated)
-                : Result.Failure<bool>(ClientContextExceptionEnum.ErrorUpdatingClient.GetErrorMessage());
+            private readonly IClientRepository _clientRepository;
+
+            public UpdateClientCommandHandler(IClientRepository clientRepository)
+            {
+                _clientRepository = clientRepository;
+            }
+
+            public async Task<Result<bool>> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
+            {
+                var isUpdated = await _clientRepository.Update(request.Client);
+                return isUpdated
+                    ? Result.Success(isUpdated)
+                    : Result.Failure<bool>(ClientContextExceptionEnum.ErrorUpdatingClient.GetErrorMessage());
+            }
         }
+
     }
+
+    
 }

@@ -14,23 +14,31 @@ namespace CarServiceApplication.Commands
     public class UpdateCarCommand : IRequest<Result<bool>>
     {
         public Car Car { get; set; }
-    }
 
-    public class UpdateCarCommandHandler : IRequestHandler<UpdateCarCommand, Result<bool>>
-    {
-        private readonly ICarRepository _carRepository;
-
-        public UpdateCarCommandHandler(ICarRepository carRepository)
+        public UpdateCarCommand(Car car)
         {
-            _carRepository = carRepository;
+            Car = car;
         }
 
-        public async Task<Result<bool>> Handle(UpdateCarCommand request, CancellationToken cancellationToken)
+        public class UpdateCarCommandHandler : IRequestHandler<UpdateCarCommand, Result<bool>>
         {
-            var result = await _carRepository.Update(request.Car);
-            if (result)
-                return Result.Success(result);
-            return Result.Failure<bool>(CarContextExceptionEnum.ErrorUpdatingCar.GetErrorMessage());
+            private readonly ICarRepository _carRepository;
+
+            public UpdateCarCommandHandler(ICarRepository carRepository)
+            {
+                _carRepository = carRepository;
+            }
+
+            public async Task<Result<bool>> Handle(UpdateCarCommand request, CancellationToken cancellationToken)
+            {
+                var result = await _carRepository.Update(request.Car);
+                if (result)
+                    return Result.Success(result);
+                return Result.Failure<bool>(CarContextExceptionEnum.ErrorUpdatingCar.GetErrorMessage());
+            }
         }
+
     }
+
+    
 }

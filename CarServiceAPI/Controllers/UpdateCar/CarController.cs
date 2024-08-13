@@ -30,7 +30,7 @@ namespace CarServiceAPI.Controllers.UpdateCar
         public async Task<IActionResult> UpdateCar([FromBody] CarModel model)
         {
             var carEntity = _mapper.Map<Car>(model);
-            var carUpdated = await _mediator.Send(new UpdateCarCommand() { Car = carEntity });
+            var carUpdated = await _mediator.Send(new UpdateCarCommand(carEntity));
 
             if (carUpdated.IsFailure)
                 return BadRequest(carUpdated.Error);

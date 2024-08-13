@@ -12,24 +12,30 @@ namespace ClientServiceApplication.Commands
 {
     public class DeleteClientCommand : IRequest<Result<bool>>
     {
-        public Guid Id { get; set; }        
-    }
+        public Guid Id { get; set; }
 
-    public class DeleteClientCommandHandler : IRequestHandler<DeleteClientCommand, Result<bool>>
-    {
-        private readonly IClientRepository _clientRepository;
-
-        public DeleteClientCommandHandler(IClientRepository clientRepository)
+        public DeleteClientCommand(Guid id)
         {
-            _clientRepository = clientRepository;
+            Id = id;
         }
 
-        public async Task<Result<bool>> Handle(DeleteClientCommand request, CancellationToken cancellationToken)
+        public class DeleteClientCommandHandler : IRequestHandler<DeleteClientCommand, Result<bool>>
         {
-            var isDeleted = await _clientRepository.Delete(request.Id);
-            return isDeleted
-                ? Result.Success(isDeleted)
-                : Result.Failure<bool>(ClientContextExceptionEnum.ErrorDeleteingClient.GetErrorMessage());
+            private readonly IClientRepository _clientRepository;
+
+            public DeleteClientCommandHandler(IClientRepository clientRepository)
+            {
+                _clientRepository = clientRepository;
+            }
+
+            public async Task<Result<bool>> Handle(DeleteClientCommand request, CancellationToken cancellationToken)
+            {
+                var isDeleted = await _clientRepository.Delete(request.Id);
+                return isDeleted
+                    ? Result.Success(isDeleted)
+                    : Result.Failure<bool>(ClientContextExceptionEnum.ErrorDeletingClient.GetErrorMessage());
+            }
         }
+
     }
 }

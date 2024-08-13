@@ -32,7 +32,7 @@ namespace PurchaseServiceAPI.Controllers.Update
         public async Task<IActionResult> Update([FromBody] PurchaseModel model)
         {
             var purchaseEntity = _mapper.Map<Purchase>(model);
-            var result = await _mediator.Send(new UpdatePurchaseCommand() { Purchase = purchaseEntity });
+            var result = await _mediator.Send(new UpdatePurchaseCommand(purchaseEntity));
             if (result.IsFailure)
                 return BadRequest(result.Error);
             return Ok(CustomResponse<bool>.BuildSuccess(result.Value));

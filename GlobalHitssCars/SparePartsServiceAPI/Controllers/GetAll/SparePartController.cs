@@ -31,11 +31,7 @@ namespace SparePartsServiceAPI.Controllers.GetAll
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomResponse<object>))]
         public async Task<IActionResult> GetAllPurchases(int offset, int limit)
         {
-            var query = new GetAllSparePartsQuery()
-            {
-                Limit = limit,
-                Offset = offset
-            };
+            var query = new GetAllSparePartsQuery(offset, limit);
             var list = await _mediator.Send(query);
             if (list.IsFailure)
                 return BadRequest(list.Error);

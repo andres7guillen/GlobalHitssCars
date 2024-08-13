@@ -14,23 +14,27 @@ namespace SparePartServiceApplication.Commands
     public class UpdateSparePartCommand : IRequest<Result<bool>>
     {
         public SparePart Spare { get; set; }
-    }
 
-    public class UpdateSparePartCommandHandler : IRequestHandler<UpdateSparePartCommand, Result<bool>>
-    {
-        private readonly ISparePartRepository _sparePartRepository;
-
-        public UpdateSparePartCommandHandler(ISparePartRepository sparePartRepository)
+        public UpdateSparePartCommand(SparePart spare)
         {
-            _sparePartRepository = sparePartRepository;
+            Spare = spare;
         }
-
-        public async Task<Result<bool>> Handle(UpdateSparePartCommand request, CancellationToken cancellationToken)
+        public class UpdateSparePartCommandHandler : IRequestHandler<UpdateSparePartCommand, Result<bool>>
         {
-            var updated = await _sparePartRepository.UpdatateSpare(request.Spare);
-            return updated
-                ? Result.Success(updated)
-                : Result.Failure<bool>(SparePartContextExceptionEnum.ErrorUpdatingSparePart.GetErrorMessage());
+            private readonly ISparePartRepository _sparePartRepository;
+
+            public UpdateSparePartCommandHandler(ISparePartRepository sparePartRepository)
+            {
+                _sparePartRepository = sparePartRepository;
+            }
+
+            public async Task<Result<bool>> Handle(UpdateSparePartCommand request, CancellationToken cancellationToken)
+            {
+                var updated = await _sparePartRepository.UpdatateSpare(request.Spare);
+                return updated
+                    ? Result.Success(updated)
+                    : Result.Failure<bool>(SparePartContextExceptionEnum.ErrorUpdatingSparePart.GetErrorMessage());
+            }
         }
-    }
+    }    
 }

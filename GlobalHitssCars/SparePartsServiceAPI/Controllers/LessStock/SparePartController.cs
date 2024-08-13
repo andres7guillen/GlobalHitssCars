@@ -31,8 +31,8 @@ namespace SparePartsServiceAPI.Controllers.LessStock
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomResponse<object>))]
         public async Task<IActionResult> LessSparePart([FromBody] LessStockSparePartModel model)
         {
-            
-            var result = await _mediator.Send(new LessStockSparePartCommand() { Id = Guid.Parse(model.Id), stockQuantity = model.Quantity });
+
+            var result = await _mediator.Send(new LessStockSparePartCommand(Guid.Parse(model.Id), model.Quantity));
             if (result.IsFailure)
                 return BadRequest(result.Error);
             return Ok(CustomResponse<bool>.BuildSuccess(result.Value));

@@ -14,23 +14,28 @@ namespace ClientServiceApplication.Commands
     public class CreateClientCommand : IRequest<Result<Client>>
     {
         public Client Client { get; set; }
-    }
 
-    public class CreateClientCommandHandler : IRequestHandler<CreateClientCommand, Result<Client>>
-    {
-        private readonly IClientRepository _clientRepository;
-
-        public CreateClientCommandHandler(IClientRepository clientRepository)
+        public CreateClientCommand(Client client)
         {
-            _clientRepository = clientRepository;
+            Client = client;
         }
 
-        public async Task<Result<Client>> Handle(CreateClientCommand request, CancellationToken cancellationToken)
+        public class CreateClientCommandHandler : IRequestHandler<CreateClientCommand, Result<Client>>
         {
-            var client = await _clientRepository.Create(request.Client);
-            return client == null
-                ? Result.Failure<Client>(ClientContextExceptionEnum.ErrorCreatingClient.GetErrorMessage())
-                : Result.Success(client);
+            private readonly IClientRepository _clientRepository;
+
+            public CreateClientCommandHandler(IClientRepository clientRepository)
+            {
+                _clientRepository = clientRepository;
+            }
+
+            public async Task<Result<Client>> Handle(CreateClientCommand request, CancellationToken cancellationToken)
+            {
+                var client = await _clientRepository.Create(request.Client);
+                return client == null
+                    ? Result.Failure<Client>(ClientContextExceptionEnum.ErrorCreatingClient.GetErrorMessage())
+                    : Result.Success(client);
+            }
         }
     }
 }

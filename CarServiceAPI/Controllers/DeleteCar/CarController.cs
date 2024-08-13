@@ -30,10 +30,10 @@ namespace CarServiceAPI.Controllers.DeleteCar
         public async Task<IActionResult> Delete(string id)
         {
             var guidId = Guid.Parse(id);
-            var result = await _mediator.Send(new DeleteCarCommand() { Id = guidId });
+            var result = await _mediator.Send(new DeleteCarCommand(guidId));
 
             if (result.IsFailure)
-                return BadRequest(CarContextExceptionEnum.ErrorDeleteingCar.GetErrorMessage());
+                return BadRequest(CarContextExceptionEnum.ErrorDeletingCar.GetErrorMessage());
             return Ok(CustomResponse<bool>.BuildSuccess(result.Value));
         }
     }

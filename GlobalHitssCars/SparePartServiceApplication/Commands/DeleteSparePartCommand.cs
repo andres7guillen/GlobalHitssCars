@@ -13,24 +13,28 @@ namespace SparePartServiceApplication.Commands
     public class DeleteSparePartCommand : IRequest<Result<bool>>
     {
         public Guid Id { get; set; }
-    }
 
-    public class DeleteSparePartCommandHandler : IRequestHandler<DeleteSparePartCommand, Result<bool>>
-    {
-        private readonly ISparePartRepository _sparePartRepository;
-
-        public DeleteSparePartCommandHandler(ISparePartRepository sparePartRepository)
+        public DeleteSparePartCommand(Guid id)
         {
-            _sparePartRepository = sparePartRepository;
+            Id = id;
         }
 
-        public async Task<Result<bool>> Handle(DeleteSparePartCommand request, CancellationToken cancellationToken)
+        public class DeleteSparePartCommandHandler : IRequestHandler<DeleteSparePartCommand, Result<bool>>
         {
-            var deleted = await _sparePartRepository.DeleteSparePart(request.Id);
-            return deleted
-                ? Result.Success(deleted)
-                : Result.Failure<bool>(SparePartContextExceptionEnum.ErrorDeleteingSparePart.GetErrorMessage());
+            private readonly ISparePartRepository _sparePartRepository;
+
+            public DeleteSparePartCommandHandler(ISparePartRepository sparePartRepository)
+            {
+                _sparePartRepository = sparePartRepository;
+            }
+
+            public async Task<Result<bool>> Handle(DeleteSparePartCommand request, CancellationToken cancellationToken)
+            {
+                var deleted = await _sparePartRepository.DeleteSparePart(request.Id);
+                return deleted
+                    ? Result.Success(deleted)
+                    : Result.Failure<bool>(SparePartContextExceptionEnum.ErrorDeletingSparePart.GetErrorMessage());
+            }
         }
     }
-
 }
