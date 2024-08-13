@@ -33,7 +33,7 @@ namespace SparePartsServiceAPI.Controllers
         public async Task<IActionResult> Create([FromBody] SparePartModel model)
         {
             var sparePartEntity = _mapper.Map<SparePart>(model);
-            var result = await _mediator.Send(new CreateSparePartCommand() { SparePart = sparePartEntity, Stock = model.Stock });
+            var result = await _mediator.Send(new CreateSparePartCommand(sparePartEntity));
             if (result.IsFailure)
                 BadRequest(result.Error);
             var response = new CreateSparePartResponse()

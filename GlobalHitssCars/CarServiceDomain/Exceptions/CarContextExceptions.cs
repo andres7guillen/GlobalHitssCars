@@ -9,7 +9,7 @@ public static class CarContextExceptions
         { CarContextExceptionEnum.CarNotFoundByFilter, new Tuple<int, string>((int)CarContextExceptionEnum.CarNotFoundByFilter, "Car not found by filter") },
         { CarContextExceptionEnum.ErrorUpdatingCar, new Tuple<int, string> ((int)CarContextExceptionEnum.ErrorUpdatingCar, "Error updating car") },
         { CarContextExceptionEnum.ErrorCreatingCar, new Tuple<int, string>((int)CarContextExceptionEnum.ErrorCreatingCar, "Error creating car") },
-        { CarContextExceptionEnum.ErrorDeleteingCar, new Tuple<int, string>((int)CarContextExceptionEnum.ErrorDeleteingCar, "Error deleteing car") },
+        { CarContextExceptionEnum.ErrorDeletingCar, new Tuple<int, string>((int)CarContextExceptionEnum.ErrorDeletingCar, "Error deleting car") },
         { CarContextExceptionEnum.NoCarsFound, new Tuple<int, string>((int)CarContextExceptionEnum.NoCarsFound, "No cars found") },
         { CarContextExceptionEnum.UndefinedError, new Tuple<int, string>((int)CarContextExceptionEnum.UndefinedError, "Undefined error") }
 
@@ -24,7 +24,7 @@ public enum CarContextExceptionEnum
     CarNotFoundByFilter = 4001,
     ErrorUpdatingCar = 4002,
     ErrorCreatingCar = 4003,
-    ErrorDeleteingCar = 4004,
+    ErrorDeletingCar = 4004,
     NoCarsFound = 4005,
     UndefinedError = 4006
 }

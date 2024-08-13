@@ -30,7 +30,7 @@ namespace SparePartsServiceAPI.Controllers.UpdateStock
         public async Task<IActionResult> UpdateSpareStock(string id, int newStock)
         {
             Guid idGuid = Guid.Parse(id);
-            var result = await _mediator.Send(new LessStockSparePartCommand() { Id = idGuid, stockQuantity = newStock });
+            var result = await _mediator.Send(new LessStockSparePartCommand(idGuid, newStock));
             if (result.IsFailure)
                 return BadRequest(result.Error);
             return Ok(CustomResponse<bool>.BuildSuccess(result.Value));

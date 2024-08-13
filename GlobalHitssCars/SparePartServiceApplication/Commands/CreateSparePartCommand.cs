@@ -14,24 +14,26 @@ namespace SparePartServiceApplication.Commands
     public class CreateSparePartCommand : IRequest<Result<SparePart>>
     {
         public SparePart SparePart { get; set; }
-        public int Stock { get; set; }
-    }
-
-    public class CreateSparePartCommandHandler : IRequestHandler<CreateSparePartCommand, Result<SparePart>>
-    {
-        ISparePartRepository _sparePartRepository;
-
-        public CreateSparePartCommandHandler(ISparePartRepository sparePartRepository)
+        public CreateSparePartCommand(SparePart sparePart)
         {
-            _sparePartRepository = sparePartRepository;
+            SparePart = sparePart;
         }
 
-        public async Task<Result<SparePart>> Handle(CreateSparePartCommand request, CancellationToken cancellationToken)
+        public class CreateSparePartCommandHandler : IRequestHandler<CreateSparePartCommand, Result<SparePart>>
         {
-            var createdSpare = await _sparePartRepository.Create(request.SparePart);
-            return createdSpare == null
-                ? Result.Failure<SparePart>(SparePartContextExceptionEnum.ErrorCreatingSparePart.GetErrorMessage())
-                : Result.Success(createdSpare);
+            ISparePartRepository _sparePartRepository;
+
+            public CreateSparePartCommandHandler(ISparePartRepository sparePartRepository)
+            {
+                _sparePartRepository = sparePartRepository;
+            }
+            public async Task<Result<SparePart>> Handle(CreateSparePartCommand request, CancellationToken cancellationToken)
+            {
+                var createdSpare = await _sparePartRepository.Create(request.SparePart);
+                return createdSpare == null
+                    ? Result.Failure<SparePart>(SparePartContextExceptionEnum.ErrorCreatingSparePart.GetErrorMessage())
+                    : Result.Success(createdSpare);
+            }
         }
     }
 }

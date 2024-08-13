@@ -14,7 +14,7 @@ namespace PurchaseServiceDomain.Exceptions
         { PurchaseContextExceptionEnum.PurchaseNotFoundByFilter, new Tuple<int, string>((int)PurchaseContextExceptionEnum.PurchaseNotFoundByFilter, "Purchase not found by filter") },
         { PurchaseContextExceptionEnum.ErrorUpdatingPurchase, new Tuple<int, string> ((int)PurchaseContextExceptionEnum.ErrorUpdatingPurchase, "Error updating Purchase") },
         { PurchaseContextExceptionEnum.ErrorCreatingPurchase, new Tuple<int, string>((int)PurchaseContextExceptionEnum.ErrorCreatingPurchase, "Error creating Purchase") },
-        { PurchaseContextExceptionEnum.ErrorDeleteingPurchase, new Tuple<int, string>((int)PurchaseContextExceptionEnum.ErrorDeleteingPurchase, "Error deleteing Purchase") },
+        { PurchaseContextExceptionEnum.ErrorDeletingPurchase, new Tuple<int, string>((int)PurchaseContextExceptionEnum.ErrorDeletingPurchase, "Error deleting Purchase") },
         { PurchaseContextExceptionEnum.NoPurchasesFound, new Tuple<int, string>((int)PurchaseContextExceptionEnum.NoPurchasesFound, "No Purchases found") },
         { PurchaseContextExceptionEnum.UndefinedError, new Tuple<int, string>((int)PurchaseContextExceptionEnum.UndefinedError, "Undefined error") }
 
@@ -28,7 +28,7 @@ namespace PurchaseServiceDomain.Exceptions
         PurchaseNotFoundByFilter = 4001,
         ErrorUpdatingPurchase = 4002,
         ErrorCreatingPurchase = 4003,
-        ErrorDeleteingPurchase = 4004,
+        ErrorDeletingPurchase = 4004,
         NoPurchasesFound = 4005,
         UndefinedError = 4006
     }

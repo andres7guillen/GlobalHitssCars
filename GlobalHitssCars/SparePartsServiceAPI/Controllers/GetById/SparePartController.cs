@@ -31,10 +31,7 @@ namespace SparePartsServiceAPI.Controllers.GetById
         public async Task<IActionResult> GetById(string id)
         {
             Guid guidId = Guid.Parse(id);
-            var query = new GetSparePartByIdQuery()
-            {
-                Id = guidId
-            };
+            var query = new GetSparePartByIdQuery(guidId);
             var maybeSpare = await _mediator.Send(query);
             if (maybeSpare.IsFailure)
                 return BadRequest(maybeSpare.Error);

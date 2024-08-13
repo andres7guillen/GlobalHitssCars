@@ -14,23 +14,28 @@ namespace PurchaseApplication.Commands
     public class CreatePurchaseCommand : IRequest<Result<Purchase>>
     {
         public Purchase Purchase { get; set; }
-    }
 
-    public class CreatePurchaseCommandHandler : IRequestHandler<CreatePurchaseCommand, Result<Purchase>>
-    {
-        private readonly IPurchaseRepository _purchaseRepository;
-
-        public CreatePurchaseCommandHandler(IPurchaseRepository purchaseRepository)
+        public CreatePurchaseCommand(Purchase purchase)
         {
-            _purchaseRepository = purchaseRepository;
+            Purchase = purchase;
         }
 
-        public async Task<Result<Purchase>> Handle(CreatePurchaseCommand request, CancellationToken cancellationToken)
+        public class CreatePurchaseCommandHandler : IRequestHandler<CreatePurchaseCommand, Result<Purchase>>
         {
-            var purchaseCreated = await _purchaseRepository.Create(request.Purchase);
-            return purchaseCreated == null
-                ? Result.Failure<Purchase>(PurchaseContextExceptionEnum.ErrorCreatingPurchase.GetErrorMessage())
-                : Result.Success<Purchase>(purchaseCreated);
+            private readonly IPurchaseRepository _purchaseRepository;
+
+            public CreatePurchaseCommandHandler(IPurchaseRepository purchaseRepository)
+            {
+                _purchaseRepository = purchaseRepository;
+            }
+
+            public async Task<Result<Purchase>> Handle(CreatePurchaseCommand request, CancellationToken cancellationToken)
+            {
+                var purchaseCreated = await _purchaseRepository.Create(request.Purchase);
+                return purchaseCreated == null
+                    ? Result.Failure<Purchase>(PurchaseContextExceptionEnum.ErrorCreatingPurchase.GetErrorMessage())
+                    : Result.Success<Purchase>(purchaseCreated);
+            }
         }
     }
 }

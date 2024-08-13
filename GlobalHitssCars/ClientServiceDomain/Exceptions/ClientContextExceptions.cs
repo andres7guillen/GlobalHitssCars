@@ -14,7 +14,7 @@ namespace ClientServiceDomain.Exceptions
         { ClientContextExceptionEnum.ClientNotFoundByFilter, new Tuple<int, string>((int)ClientContextExceptionEnum.ClientNotFoundByFilter, "Client not found by filter") },
         { ClientContextExceptionEnum.ErrorUpdatingClient, new Tuple<int, string> ((int)ClientContextExceptionEnum.ErrorUpdatingClient, "Error updating Client") },
         { ClientContextExceptionEnum.ErrorCreatingClient, new Tuple<int, string>((int)ClientContextExceptionEnum.ErrorCreatingClient, "Error creating Client") },
-        { ClientContextExceptionEnum.ErrorDeleteingClient, new Tuple<int, string>((int)ClientContextExceptionEnum.ErrorDeleteingClient, "Error deleteing Client") },
+        { ClientContextExceptionEnum.ErrorDeletingClient, new Tuple<int, string>((int)ClientContextExceptionEnum.ErrorDeletingClient, "Error deleting Client") },
         { ClientContextExceptionEnum.NoClientsFound, new Tuple<int, string>((int)ClientContextExceptionEnum.NoClientsFound, "No Clients found") },
         { ClientContextExceptionEnum.UndefinedError, new Tuple<int, string>((int)ClientContextExceptionEnum.UndefinedError, "Undefined error") }
 
@@ -28,7 +28,7 @@ namespace ClientServiceDomain.Exceptions
         ClientNotFoundByFilter = 4001,
         ErrorUpdatingClient = 4002,
         ErrorCreatingClient = 4003,
-        ErrorDeleteingClient = 4004,
+        ErrorDeletingClient = 4004,
         NoClientsFound = 4005,
         UndefinedError = 4006
     }

@@ -32,7 +32,7 @@ namespace ClientServiceAPI.Controllers.DeleteClient
         public async Task<IActionResult> DeleteClient(string id)
         {
             var guidId = Guid.Parse(id);
-            var result = await _mediator.Send(new DeleteClientCommand() { Id = guidId });
+            var result = await _mediator.Send(new DeleteClientCommand(guidId));
             if (result.IsFailure)
                 return BadRequest(result.Error);
             return Ok(CustomResponse<bool>.BuildSuccess(result.Value));

@@ -31,11 +31,7 @@ namespace PurchaseServiceAPI.Controllers.GetAll
         {
             try
             {
-                var query = new GetAllPurchasesQuery() 
-                { 
-                    Limit = limit,
-                    Offset = offset
-                };
+                var query = new GetAllPurchasesQuery(offset, limit);
                 var list = await _mediator.Send(query);
                 if (list.IsFailure)
                     return BadRequest(list.Error);

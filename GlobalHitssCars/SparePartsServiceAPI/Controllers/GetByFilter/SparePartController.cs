@@ -31,10 +31,7 @@ namespace SparePartsServiceAPI.Controllers.GetByFilter
         public async Task<IActionResult> GetByFilter([FromBody] GetSparePartByFilterModel model) 
         {
             var filterEntity = _mapper.Map<GetSparePartByFilterDTO>(model);
-            var query = new GetSparePartsByFilterQuery
-            {
-                Filter = filterEntity
-            };
+            var query = new GetSparePartsByFilterQuery(filterEntity);
             var listResult = await _mediator.Send(query);
             if (listResult.IsFailure)
                 return BadRequest(listResult.Error);

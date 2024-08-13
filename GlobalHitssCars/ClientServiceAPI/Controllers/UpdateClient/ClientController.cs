@@ -33,7 +33,7 @@ namespace ClientServiceAPI.Controllers.UpdateClient
         public async Task<IActionResult> UpdateClient([FromBody] ClientModel model)
         {
             var clientEntity = _mapper.Map<Client>(model);
-            var result = await _mediator.Send(new UpdateClientCommand() { Client = clientEntity });
+            var result = await _mediator.Send(new UpdateClientCommand(clientEntity));
             if (result.IsFailure)
                 return BadRequest(result.Error);
             return Ok(CustomResponse<bool>.BuildSuccess(result.Value));

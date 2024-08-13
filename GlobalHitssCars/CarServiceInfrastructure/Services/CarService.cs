@@ -30,7 +30,7 @@ namespace CarServiceInfrastructure.Services
             bool wasDeleted = await _repository.Delete(id);
             return wasDeleted == true
                 ? Result.Success(wasDeleted)
-                : Result.Failure<bool>(CarContextExceptionEnum.ErrorDeleteingCar.GetErrorMessage());
+                : Result.Failure<bool>(CarContextExceptionEnum.ErrorDeletingCar.GetErrorMessage());
         }
 
         public async Task<Result<IEnumerable<Car>>> GetAll()

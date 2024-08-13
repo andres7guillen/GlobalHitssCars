@@ -14,24 +14,28 @@ namespace SparePartServiceApplication.Queries
     public class GetSparePartByIdQuery : IRequest<Result<SparePart>>
     {
         public Guid Id { get; set; }
-    }
 
-    public class GetSparePartByIdQueryHandler : IRequestHandler<GetSparePartByIdQuery, Result<SparePart>>
-    {
-        private readonly ISparePartRepository _sparePartRepository;
-
-        public GetSparePartByIdQueryHandler(ISparePartRepository sparePartRepository)
+        public GetSparePartByIdQuery(Guid id)
         {
-            _sparePartRepository = sparePartRepository;
+            Id = id;
         }
 
-        public async Task<Result<SparePart>> Handle(GetSparePartByIdQuery request, CancellationToken cancellationToken)
+        public class GetSparePartByIdQueryHandler : IRequestHandler<GetSparePartByIdQuery, Result<SparePart>>
         {
-            var maybeSpare = await _sparePartRepository.GetSparePartById(request.Id);
-            return maybeSpare.HasNoValue
-                ? Result.Failure<SparePart>(SparePartContextExceptionEnum.SparePartNotFound.GetErrorMessage())
-                : Result.Success<SparePart>(maybeSpare.Value);
+            private readonly ISparePartRepository _sparePartRepository;
+
+            public GetSparePartByIdQueryHandler(ISparePartRepository sparePartRepository)
+            {
+                _sparePartRepository = sparePartRepository;
+            }
+
+            public async Task<Result<SparePart>> Handle(GetSparePartByIdQuery request, CancellationToken cancellationToken)
+            {
+                var maybeSpare = await _sparePartRepository.GetSparePartById(request.Id);
+                return maybeSpare.HasNoValue
+                    ? Result.Failure<SparePart>(SparePartContextExceptionEnum.SparePartNotFound.GetErrorMessage())
+                    : Result.Success<SparePart>(maybeSpare.Value);
+            }
         }
     }
-
 }

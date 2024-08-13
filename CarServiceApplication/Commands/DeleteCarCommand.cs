@@ -13,23 +13,29 @@ namespace CarServiceApplication.Commands
     public class DeleteCarCommand : IRequest<Result<bool>>
     {
         public Guid Id { get; set; }
-    }
 
-    public class DeleteCarCommandHandler : IRequestHandler<DeleteCarCommand, Result<bool>>
-    {
-        private readonly ICarRepository _carRepository;
-        public DeleteCarCommandHandler(ICarRepository carRepository)
+        public DeleteCarCommand(Guid id)
         {
-            _carRepository = carRepository;
+            Id = id;
         }
-        public async Task<Result<bool>> Handle(DeleteCarCommand request, CancellationToken cancellationToken)
+
+        public class DeleteCarCommandHandler : IRequestHandler<DeleteCarCommand, Result<bool>>
         {
-            var wasDeleted = await _carRepository.Delete(request.Id);
-            return wasDeleted
-                ? Result.Success(true)
-                : Result.Failure<bool>(CarContextExceptionEnum.ErrorDeleteingCar.GetErrorMessage());
+            private readonly ICarRepository _carRepository;
+            public DeleteCarCommandHandler(ICarRepository carRepository)
+            {
+                _carRepository = carRepository;
+            }
+            public async Task<Result<bool>> Handle(DeleteCarCommand request, CancellationToken cancellationToken)
+            {
+                var wasDeleted = await _carRepository.Delete(request.Id);
+                return wasDeleted
+                    ? Result.Success(true)
+                    : Result.Failure<bool>(CarContextExceptionEnum.ErrorDeletingCar.GetErrorMessage());
+            }
         }
-    }
+
+    }    
 
 }
         

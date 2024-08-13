@@ -31,7 +31,7 @@ namespace PurchaseServiceAPI.Controllers.Delete
         public async Task<IActionResult> Delete(string id)
         {
             var guidId = Guid.Parse(id);
-            var result = await _mediator.Send(new DeletePurchaseCommand() { Id = guidId });
+            var result = await _mediator.Send(new DeletePurchaseCommand(guidId));
             if (result.IsFailure)
                 return BadRequest(result.Error);
             return Ok(CustomResponse<bool>.BuildSuccess(result.Value));

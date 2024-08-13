@@ -33,7 +33,7 @@ namespace CarServiceAPI.Controllers.CreateCar
         public async Task<IActionResult> Create([FromBody] CarModel model)
         {
             var carEntity = _mapper.Map<Car>(model);
-            var carResult = await _mediator.Send(new CreateCarCommand() { Car = carEntity });
+            var carResult = await _mediator.Send(new CreateCarCommand(carEntity));
             if (carResult.IsFailure)
                 return BadRequest(carResult.Error);
             var response = new CreateCarResponse

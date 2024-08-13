@@ -34,6 +34,5 @@ namespace CarServiceApplication.Queries
                 return Result.Success(maybeCar.Value);
             }
         }
-
     }
 }

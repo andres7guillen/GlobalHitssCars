@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GlobalHitssCars\CarServiceDomain\CarServiceDomain.csproj" />
+    <ProjectReference Include="..\GlobalHitssCars\CarServiceDomain\CarService.Domain.csproj" />
     <ProjectReference Include="..\GlobalHitssCars\Common.Logging\Common.Logging.csproj" />
   </ItemGroup>
 

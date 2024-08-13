@@ -20,24 +20,24 @@ namespace CarServiceApplication.Queries
         {
             Filter = filter;
         }
-    }
 
-    public class GetCarByFilterQueryHandler : IRequestHandler<GetCarByFilterQuery, Result<IEnumerable<Car>>>
-    {
-        private readonly ICarRepository _carRepository;
-
-        public GetCarByFilterQueryHandler(ICarRepository carRepository)
+        public class GetCarByFilterQueryHandler : IRequestHandler<GetCarByFilterQuery, Result<IEnumerable<Car>>>
         {
-            _carRepository = carRepository;
+            private readonly ICarRepository _carRepository;
+
+            public GetCarByFilterQueryHandler(ICarRepository carRepository)
+            {
+                _carRepository = carRepository;
+            }
+
+            public async Task<Result<IEnumerable<Car>>> Handle(GetCarByFilterQuery request, CancellationToken cancellationToken)
+            {
+                var cars = await _carRepository.GetCarByFilter(request.Filter);
+                return cars.Count() > 0
+                    ? Result.Success(cars)
+                    : Result.Failure<IEnumerable<Car>>(CarContextExceptionEnum.CarNotFoundByFilter.GetErrorMessage());
+            }
         }
 
-        public async Task<Result<IEnumerable<Car>>> Handle(GetCarByFilterQuery request, CancellationToken cancellationToken)
-        {
-            var cars = await _carRepository.GetCarByFilter(request.Filter);
-            return cars.Count() > 0
-                ? Result.Success(cars)
-                : Result.Failure<IEnumerable<Car>>(CarContextExceptionEnum.CarNotFoundByFilter.GetErrorMessage());                 
-        }
     }
-
 }

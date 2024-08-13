@@ -15,23 +15,29 @@ namespace SparePartServiceApplication.Queries
     {
         public int Offset { get; set; }
         public int Limit { get; set; }
-    }
-
-    public class GetAllSparePartsQueryHandler : IRequestHandler<GetAllSparePartsQuery, Result<IEnumerable<SparePart>>>
-    {
-        private ISparePartRepository _repository;
-
-        public GetAllSparePartsQueryHandler(ISparePartRepository repository)
+        public GetAllSparePartsQuery(int offset, int limit)
         {
-            _repository = repository;
+            Offset = offset;
+            Limit = limit;
         }
 
-        public async Task<Result<IEnumerable<SparePart>>> Handle(GetAllSparePartsQuery request, CancellationToken cancellationToken)
+        public class GetAllSparePartsQueryHandler : IRequestHandler<GetAllSparePartsQuery, Result<IEnumerable<SparePart>>>
         {
-            var list = await _repository.GetAllSpareParts(request.Offset, request.Limit);
-            return list.Count() > 0
-                ? Result.Success(list)
-                : Result.Failure<IEnumerable<SparePart>>(SparePartContextExceptionEnum.NoSparePartsFound.GetErrorMessage());
+            private ISparePartRepository _repository;
+
+            public GetAllSparePartsQueryHandler(ISparePartRepository repository)
+            {
+                _repository = repository;
+            }
+
+            public async Task<Result<IEnumerable<SparePart>>> Handle(GetAllSparePartsQuery request, CancellationToken cancellationToken)
+            {
+                var list = await _repository.GetAllSpareParts(request.Offset, request.Limit);
+                return list.Count() > 0
+                    ? Result.Success(list)
+                    : Result.Failure<IEnumerable<SparePart>>(SparePartContextExceptionEnum.NoSparePartsFound.GetErrorMessage());
+            }
         }
+
     }
 }

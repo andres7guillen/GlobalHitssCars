@@ -18,24 +18,24 @@ namespace ClientServiceApplication.Queries
         {
             Id = id;
         }
-    }
 
-    public class GetClientByIdQueryHandler : IRequestHandler<GetClientByIdQuery, Result<Client>>
-    {
-        private readonly IClientRepository _clientRepository;
-
-        public GetClientByIdQueryHandler(IClientRepository clientRepository)
+        public class GetClientByIdQueryHandler : IRequestHandler<GetClientByIdQuery, Result<Client>>
         {
-            _clientRepository = clientRepository;
+            private readonly IClientRepository _clientRepository;
+
+            public GetClientByIdQueryHandler(IClientRepository clientRepository)
+            {
+                _clientRepository = clientRepository;
+            }
+
+            public async Task<Result<Client>> Handle(GetClientByIdQuery request, CancellationToken cancellationToken)
+            {
+                var clientMaybe = await _clientRepository.GetById(request.Id);
+                return clientMaybe.HasNoValue
+                    ? Result.Failure<Client>(ClientContextExceptionEnum.ClientNotFound.GetErrorMessage())
+                    : Result.Success(clientMaybe.Value);
+            }
         }
 
-        public async Task<Result<Client>> Handle(GetClientByIdQuery request, CancellationToken cancellationToken)
-        {
-            var clientMaybe = await _clientRepository.GetById(request.Id);
-            return clientMaybe.HasNoValue
-                ? Result.Failure<Client>(ClientContextExceptionEnum.ClientNotFound.GetErrorMessage())
-                : Result.Success(clientMaybe.Value);
-        }
     }
-
 }
