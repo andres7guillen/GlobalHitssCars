@@ -19,7 +19,6 @@ namespace SparePartsServiceInfrastructure.Repositories
 
         public async Task<SparePart> Create(SparePart model)
         {
-            model.Id = Guid.NewGuid();
             model.IsInStock = true;
             await _context.SpareParts.AddAsync(model);
             await _context.SaveChangesAsync();
@@ -35,7 +34,7 @@ namespace SparePartsServiceInfrastructure.Repositories
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<IEnumerable<SparePart>> GetAllSpareParts(int offset, int limit)
+        public async Task<IEnumerable<SparePart>> GetAllSpareParts(int offset = 0, int limit = 10)
         {
             var spares = await _context.SpareParts
                 .Skip(offset)
@@ -74,7 +73,7 @@ namespace SparePartsServiceInfrastructure.Repositories
         public async Task<bool> LessStock(Guid id, int stockQuantity)
         {
             var spare = await _context.SpareParts.FindAsync(id);
-            if (spare != null) 
+            if (spare != null)
             {
                 spare.Stock -= stockQuantity;
                 return await _context.SaveChangesAsync() > 0;

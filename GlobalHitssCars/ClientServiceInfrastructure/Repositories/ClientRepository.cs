@@ -21,7 +21,6 @@ namespace ClientServiceInfrastructure.Repositories
 
         public async Task<Client> Create(Client model)
         {
-            model.Id = Guid.NewGuid();
             _context.Clients.Add(model);
             await _context.SaveChangesAsync();
             return model;

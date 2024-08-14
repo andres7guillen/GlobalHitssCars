@@ -33,6 +33,7 @@ namespace ClientServiceAPI.Controllers.CreateController
         public async Task<IActionResult> CreateClient([FromBody] ClientModel model)
         {
             var clientEntity = _mapper.Map<Client>(model);
+            clientEntity.Id = Guid.NewGuid();
             var clientCreated = await _mediator.Send(new CreateClientCommand(clientEntity));
             if (clientCreated.IsFailure)
                 return BadRequest(clientCreated.Error);

@@ -23,15 +23,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Common.Logging\Common.Logging.csproj" />
     <ProjectReference Include="..\PurchaseServiceDomain\PurchaseServiceDomain.csproj" />
     <ProjectReference Include="..\SparePartServiceApplication\SparePartServiceApplication.csproj" />
     <ProjectReference Include="..\SparePartsServiceData\SparePartsServiceData.csproj" />
     <ProjectReference Include="..\SparePartsServiceDomain\SparePartsServiceDomain.csproj" />
+    <ProjectReference Include="..\SparePartsServiceInfrastructure\SparePartsServiceInfrastructure.csproj" />
   </ItemGroup>
 
 </Project>

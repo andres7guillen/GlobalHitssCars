@@ -19,6 +19,7 @@ namespace CarServiceInfrastructure.Services
 
         public async Task<Result<Car>> Create(Car model)
         {
+            model.Id = Guid.NewGuid();
             var carCreted = await _repository.Create(model);
             return carCreted == null
                 ? Result.Failure<Car>(CarContextExceptionEnum.ErrorCreatingCar.GetErrorMessage())

@@ -23,12 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\ClientServiceApplication\ClientServiceApplication.csproj" />
     <ProjectReference Include="..\ClientServiceData\ClientServiceData.csproj" />
+    <ProjectReference Include="..\ClientServiceInfrastructure\ClientServiceInfrastructure.csproj" />
     <ProjectReference Include="..\Common.Logging\Common.Logging.csproj" />
   </ItemGroup>
 
