@@ -21,7 +21,6 @@ namespace PurchaseServiceInfrastructure.Repositories
 
         public async Task<Purchase> Create(Purchase model)
         {
-            model.Id = Guid.NewGuid();
             _context.Purchases.Add(model);
             await _context.SaveChangesAsync();
             return model;
@@ -30,13 +29,15 @@ namespace PurchaseServiceInfrastructure.Repositories
         public async Task<bool> Delete(Guid id)
         {
             var purchase = await _context.Purchases.FindAsync(id);
+            if (purchase == null)
+                return false;
             _context.Purchases.Remove(purchase);
             return await _context.SaveChangesAsync() > 0
                 ? true
                 : false;
         }
 
-        public async Task<IEnumerable<Purchase>> GetAll(int offset, int limit)
+        public async Task<IEnumerable<Purchase>> GetAll(int offset = 0, int limit = 10)
         {
             var list = await _context.Purchases
                 .Skip(offset)

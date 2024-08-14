@@ -18,7 +18,6 @@ namespace CarServiceInfrastructure.Repositories
 
         public async Task<Car> Create(Car model)
         {
-            model.Id = Guid.NewGuid();
             await _context.Cars.AddAsync(model);
             await _context.SaveChangesAsync();
             return model;
@@ -27,6 +26,8 @@ namespace CarServiceInfrastructure.Repositories
         public async Task<bool> Delete(Guid id)
         {
             var car = await _context.Cars.FindAsync(id);
+            if (car == null)
+                return false;
             _context.Cars.Remove(car);
             return await _context.SaveChangesAsync() > 0;
         }

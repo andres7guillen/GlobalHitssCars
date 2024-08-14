@@ -21,15 +21,12 @@
   <ItemGroup>
     <ProjectReference Include="..\..\CarServiceApplication\CarService.Application.csproj" />
     <ProjectReference Include="..\CarServiceData\CarService.Data.csproj" />
+    <ProjectReference Include="..\CarServiceInfrastructure\CarService.Infrastructure.csproj" />
     <ProjectReference Include="..\Common.Logging\Common.Logging.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="Xunit" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>

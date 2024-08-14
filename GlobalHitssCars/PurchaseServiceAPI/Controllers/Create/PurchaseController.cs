@@ -31,6 +31,7 @@ namespace PurchaseServiceAPI.Controllers.Create
         public async Task<IActionResult> Create([FromBody] PurchaseModel model)
         {
             var purchaseEntity = _mapper.Map<Purchase>(model);
+            purchaseEntity.Id = Guid.NewGuid();
             var result = await _mediator.Send(new CreatePurchaseCommand(purchaseEntity));
             if (result.IsFailure)
                 return BadRequest(result.Error);
