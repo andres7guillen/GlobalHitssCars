@@ -19,22 +19,16 @@ namespace ClientService.Tests.Queries
         {
             //Arrange
             List<Client> list = new List<Client>();
-            Client client1 = new Client()
-            {
-                Email = "client1@test.com",
-                Id = Guid.NewGuid(),
-                Name = "Test name",
-                SurName = "Test surname"
-            };
-            Client client2 = new Client()
-            {
-                Email = "client2@test.com",
-                Id = Guid.NewGuid(),
-                Name = "Test2 name",
-                SurName = "Test2 surname"
-            };
-            list.Add(client1);
-            list.Add(client2);
+            var client1= Client.Build(
+                withEmail: "client1@test.com",
+                withSurName: "Test surname",
+                withName: "Test name");
+            var client2 = Client.Build(
+                withEmail: "client2@test.com",
+                withSurName: "Test surname2",
+                withName: "Test name2");
+            list.Add(client1.Value);
+            list.Add(client2.Value);
 
             var mockClientRepository = new Mock<IClientRepository>();
             mockClientRepository.Setup(repo => repo.GetAll(It.IsAny<int>(), It.IsAny<int>()))

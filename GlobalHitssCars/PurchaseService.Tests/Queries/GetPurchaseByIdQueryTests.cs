@@ -16,16 +16,13 @@ namespace PurchaseService.Tests.Queries
             var mockPurchaseRepository = new Mock<IPurchaseRepository>();
             var mockLogger = new Mock<ILogger>();
             var newGuid = Guid.NewGuid();
-            Purchase purchase1 = new Purchase()
-            {
-                Amount = 10,
-                CarId = Guid.NewGuid(),
-                ClientId = Guid.NewGuid(),
-                Id = Guid.NewGuid()
-            };
+            var purchaseExpected = Purchase.Build(
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+                70000000);
 
             mockPurchaseRepository.Setup(repo => repo.GetById(It.IsAny<Guid>()))
-                .ReturnsAsync(purchase1);
+                .ReturnsAsync(purchaseExpected.Value);
 
             var handler = new GetPurchaseByIdQuery.GetPurchaseByIdQueryHandler(mockPurchaseRepository.Object);
             var query = new GetPurchaseByIdQuery(newGuid);
@@ -35,7 +32,7 @@ namespace PurchaseService.Tests.Queries
 
             //Assert
             Assert.True(result.IsSuccess);
-            Assert.Equal(purchase1, result.Value);
+            Assert.Equal(purchaseExpected.Value, result.Value);
             mockPurchaseRepository.Verify(repo => repo.GetById(It.IsAny<Guid>()), Times.Once);
         }
 

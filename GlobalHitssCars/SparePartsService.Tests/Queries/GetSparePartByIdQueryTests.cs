@@ -16,20 +16,16 @@ namespace SparePartsService.Tests.Queries
             var mockSparePartRepository = new Mock<ISparePartRepository>();
             var mockLogger = new Mock<ILogger>();
             var newGuid = Guid.NewGuid();
-            SparePart SparePart1 = new SparePart()
-            {
-                BrandCar = "Brand car test",
-                BrandSpare = "Brand spare test",
-                Id = newGuid,
-                IsInStock = true,
-                ModelCar = 2000,
-                ReferenceCar = "Reference test",
-                SpareName = "Spare test",
-                Stock = 0
-            };
+            var SparePartExpected = SparePart.Build("Spare test",
+                "Brand spare test",
+                "Brand car test",
+                2000,
+                "Reference test",
+                true,
+                10);
 
             mockSparePartRepository.Setup(repo => repo.GetSparePartById(It.IsAny<Guid>()))
-                .ReturnsAsync(SparePart1);
+                .ReturnsAsync(SparePartExpected.Value);
 
             var handler = new GetSparePartByIdQuery.GetSparePartByIdQueryHandler(mockSparePartRepository.Object);
             var query = new GetSparePartByIdQuery(newGuid);
@@ -39,7 +35,7 @@ namespace SparePartsService.Tests.Queries
 
             //Assert
             Assert.True(result.IsSuccess);
-            Assert.Equal(SparePart1, result.Value);
+            Assert.Equal(SparePartExpected.Value, result.Value);
             mockSparePartRepository.Verify(repo => repo.GetSparePartById(It.IsAny<Guid>()), Times.Once);
         }
 

@@ -16,26 +16,20 @@ namespace CarService.Tests.Queries
             var mockCarRepository = new Mock<ICarRepository>();
             var mockLogger = new Mock<ILogger>();
             var cars = new List<Car>();
-            var Car1 = new Car()
-            {
-                Brand = "Brand test1",
-                Colour = "Colour test1",
-                Id = Guid.NewGuid(),
-                LicensePlate = "Test1",
-                Model = 1970,
-                Reference = "Reference test1"
-            };
-            var Car2 = new Car()
-            {
-                Brand = "Brand test2",
-                Colour = "Colour test2",
-                Id = Guid.NewGuid(),
-                LicensePlate = "Test2",
-                Model = 1970,
-                Reference = "Reference test2"
-            };
-            cars.Add(Car1);
-            cars.Add(Car2);
+            var car1 = Car.Build("Brand test1",
+                2021,
+                "Reference test1",
+                "Colour test1",
+                "ABC123"
+                );
+            var car2 = Car.Build("Brand test2",
+                2022,
+                "Reference test2",
+                "Colour test2",
+                "ABC123"
+                );
+            cars.Add(car1.Value);
+            cars.Add(car2.Value);
             mockCarRepository.Setup(repo => repo.GetAll(It.IsAny<int>(), It.IsAny<int>()))
                 .ReturnsAsync(cars);
 

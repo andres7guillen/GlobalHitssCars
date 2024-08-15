@@ -13,13 +13,18 @@ namespace ClientServiceApplication.Commands
 {
     public class UpdateClientCommand : IRequest<Result<bool>>
     {
-        public Client Client { get; set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string SurName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
 
-        public UpdateClientCommand(Client client)
+        public UpdateClientCommand(string name, string surName, string email, Guid id)
         {
-            Client = client;
+            Name = name;
+            SurName = surName;
+            Email = email;
+            Id = id;
         }
-
         public class UpdateClientCommandHandler : IRequestHandler<UpdateClientCommand, Result<bool>>
         {
             private readonly IClientRepository _clientRepository;
@@ -31,7 +36,9 @@ namespace ClientServiceApplication.Commands
 
             public async Task<Result<bool>> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
             {
-                var isUpdated = await _clientRepository.Update(request.Client);
+                var clientToUpdate = Client.Load(request.Id, request.Name, request.SurName, request.Email);
+
+                var isUpdated = await _clientRepository.Update(clientToUpdate.Value);
                 return isUpdated
                     ? Result.Success(isUpdated)
                     : Result.Failure<bool>(ClientContextExceptionEnum.ErrorUpdatingClient.GetErrorMessage());

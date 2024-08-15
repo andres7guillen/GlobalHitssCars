@@ -4,6 +4,7 @@ using CarServiceDomain.Repositories;
 using Common.Logging.Interfaces;
 using CSharpFunctionalExtensions;
 using MediatR;
+using System.ComponentModel.DataAnnotations;
 
 namespace CarServiceApplication.Commands
 {
@@ -27,15 +28,15 @@ namespace CarServiceApplication.Commands
             }
             public async Task<Result<Car>> Handle(CreateCarCommand request, CancellationToken cancellationToken)
             {
-                _logger.Info("Create car command started");
-                var car = await _carRepository.Create(request.Car);
-                if (car == null)
+                _logger.Info("Create car command started");               
+
+                var saveResult = await _carRepository.Create(request.Car);
+                if (saveResult == null)
                 {
-                    _logger.Error($"Create car command finished with: {CarContextExceptionEnum.ErrorCreatingCar.GetErrorMessage()}", new Exception() { });
+                    _logger.Error(CarContextExceptionEnum.ErrorCreatingCar.GetErrorMessage(), new Exception());
                     return Result.Failure<Car>(CarContextExceptionEnum.ErrorCreatingCar.GetErrorMessage());
-                }
-                _logger.Info($"Create car command finished.");
-                return Result.Success<Car>(car);
+                }            
+                return Result.Success<Car>(saveResult);
             }
         }
     }

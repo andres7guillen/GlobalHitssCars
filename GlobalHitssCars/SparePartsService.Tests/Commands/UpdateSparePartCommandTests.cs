@@ -16,22 +16,17 @@ namespace SparePartsService.Tests.Commands
         public async void UpdateSparePartShouldWorks()
         {
             //Arrange
-            var newGuid = Guid.NewGuid();
-            SparePart SparePart1 = new SparePart()
-            {
-                BrandCar = "Brand car test",
-                BrandSpare = "Brand spare test",
-                Id = newGuid,
-                IsInStock = true,
-                ModelCar = 2000,
-                ReferenceCar = "Reference test",
-                SpareName = "Spare test",
-                Stock = 0
-            };
+            var SparePartExpected = SparePart.Build("Spare test",
+                "Brand spare test",
+                "Brand car test",
+                2000,
+                "Reference test",
+                true,
+                10);
             var mockSparePartRepository = new Mock<ISparePartRepository>();
             mockSparePartRepository.Setup(repo => repo.UpdatateSpare(It.IsAny<SparePart>()))
                 .ReturnsAsync(true);
-            var command = new UpdateSparePartCommand(SparePart1);
+            var command = new UpdateSparePartCommand(SparePartExpected.Value);
             var handler = new UpdateSparePartCommand.UpdateSparePartCommandHandler(mockSparePartRepository.Object);
 
             //Act
@@ -46,22 +41,17 @@ namespace SparePartsService.Tests.Commands
         public async void UpdateSparePartShouldFails()
         {
             //Arrange
-            var newGuid = Guid.NewGuid();
-            SparePart SparePart1 = new SparePart()
-            {
-                BrandCar = "Brand car test",
-                BrandSpare = "Brand spare test",
-                Id = newGuid,
-                IsInStock = true,
-                ModelCar = 2000,
-                ReferenceCar = "Reference test",
-                SpareName = "Spare test",
-                Stock = 0
-            };
+            var SparePartExpected = SparePart.Build("Spare test",
+                "Brand spare test",
+                "Brand car test",
+                2000,
+                "Reference test",
+                true,
+                10);
             var mockSparePartRepository = new Mock<ISparePartRepository>();
             mockSparePartRepository.Setup(repo => repo.UpdatateSpare(It.IsAny<SparePart>()))
                 .ReturnsAsync(false);
-            var command = new UpdateSparePartCommand(SparePart1);
+            var command = new UpdateSparePartCommand(SparePartExpected.Value);
             var handler = new UpdateSparePartCommand.UpdateSparePartCommandHandler(mockSparePartRepository.Object);
 
             //Act

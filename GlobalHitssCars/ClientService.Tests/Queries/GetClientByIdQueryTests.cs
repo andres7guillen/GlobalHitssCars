@@ -21,16 +21,13 @@ namespace ClientService.Tests.Queries
             var mockClientRepository = new Mock<IClientRepository>();
             var mockLogger = new Mock<ILogger>();
             var newGuid = Guid.NewGuid();
-            Client client1 = new Client()
-            {
-                Email = "client1@test.com",
-                Id = Guid.NewGuid(),
-                Name = "Test name",
-                SurName = "Test surname"
-            };
+            var client1 = Client.Build(
+                withEmail: "client1@test.com",
+                withSurName: "Test surname",
+                withName: "Test name");
 
             mockClientRepository.Setup(repo => repo.GetById(It.IsAny<Guid>()))
-                .ReturnsAsync(client1);
+                .ReturnsAsync(client1.Value);
 
             var handler = new GetClientByIdQuery.GetClientByIdQueryHandler(mockClientRepository.Object);
             var query = new GetClientByIdQuery(newGuid);

@@ -14,32 +14,23 @@ namespace SparePartsService.Tests.Queries
         {
             //Arrange
             List<SparePart> list = new List<SparePart>();
-            var newGuid = Guid.NewGuid();
-            SparePart SparePart1 = new SparePart()
-            {
-                BrandCar = "Brand car test",
-                BrandSpare = "Brand spare test",
-                Id = newGuid,
-                IsInStock = true,
-                ModelCar = 2000,
-                ReferenceCar = "Reference test",
-                SpareName = "Spare test",
-                Stock = 0
-            };
+            var SparePartExpected1 = SparePart.Build("Spare test",
+                "Brand spare test",
+                "Brand car test",
+                2000,
+                "Reference test",
+                true,
+                10);
             var newGuid2 = Guid.NewGuid();
-            SparePart SparePart2 = new SparePart()
-            {
-                BrandCar = "Brand car test2",
-                BrandSpare = "Brand spare test2",
-                Id = newGuid2,
-                IsInStock = true,
-                ModelCar = 2000,
-                ReferenceCar = "Reference test2",
-                SpareName = "Spare test2",
-                Stock = 1
-            };
-            list.Add(SparePart1);
-            list.Add(SparePart2);
+            var SparePartExpected2 = SparePart.Build("Spare test",
+                "Brand spare test",
+                "Brand car test",
+                2000,
+                "Reference test",
+                true,
+                10);
+            list.Add(SparePartExpected1.Value);
+            list.Add(SparePartExpected2.Value);
 
             var mockSparePartRepository = new Mock<ISparePartRepository>();
             mockSparePartRepository.Setup(repo => repo.GetAllSpareParts(It.IsAny<int>(), It.IsAny<int>()))

@@ -16,18 +16,14 @@ namespace PurchaseService.Tests.Commands
         public async void UpdatePurchaseShouldWorks()
         {
             //Arrange
-            var newGuid = Guid.NewGuid();
-            Purchase purchase1 = new Purchase()
-            {
-                Amount = 10,
-                CarId = Guid.NewGuid(),
-                ClientId = Guid.NewGuid(),
-                Id = Guid.NewGuid()
-            };
+            var purchaseExpected = Purchase.Build(
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+                70000000);
             var mockPurchaseRepository = new Mock<IPurchaseRepository>();
             mockPurchaseRepository.Setup(repo => repo.Update(It.IsAny<Purchase>()))
                 .ReturnsAsync(true);
-            var command = new UpdatePurchaseCommand(purchase1);
+            var command = new UpdatePurchaseCommand(purchaseExpected.Value);
             var handler = new UpdatePurchaseCommand.UpdatePurchaseCommandHandler(mockPurchaseRepository.Object);
 
             //Act
@@ -42,18 +38,14 @@ namespace PurchaseService.Tests.Commands
         public async void UpdatePurchaseShouldFails()
         {
             //Arrange
-            var newGuid = Guid.NewGuid();
-            Purchase purchase1 = new Purchase()
-            {
-                Amount = 10,
-                CarId = Guid.NewGuid(),
-                ClientId = Guid.NewGuid(),
-                Id = Guid.NewGuid()
-            };
+            var purchaseExpected = Purchase.Build(
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+                70000000);
             var mockPurchaseRepository = new Mock<IPurchaseRepository>();
             mockPurchaseRepository.Setup(repo => repo.Update(It.IsAny<Purchase>()))
                 .ReturnsAsync(false);
-            var command = new UpdatePurchaseCommand(purchase1);
+            var command = new UpdatePurchaseCommand(purchaseExpected.Value);
             var handler = new UpdatePurchaseCommand.UpdatePurchaseCommandHandler(mockPurchaseRepository.Object);
 
             //Act

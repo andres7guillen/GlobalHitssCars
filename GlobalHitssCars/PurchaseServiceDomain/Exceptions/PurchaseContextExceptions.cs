@@ -16,7 +16,8 @@ namespace PurchaseServiceDomain.Exceptions
         { PurchaseContextExceptionEnum.ErrorCreatingPurchase, new Tuple<int, string>((int)PurchaseContextExceptionEnum.ErrorCreatingPurchase, "Error creating Purchase") },
         { PurchaseContextExceptionEnum.ErrorDeletingPurchase, new Tuple<int, string>((int)PurchaseContextExceptionEnum.ErrorDeletingPurchase, "Error deleting Purchase") },
         { PurchaseContextExceptionEnum.NoPurchasesFound, new Tuple<int, string>((int)PurchaseContextExceptionEnum.NoPurchasesFound, "No Purchases found") },
-        { PurchaseContextExceptionEnum.UndefinedError, new Tuple<int, string>((int)PurchaseContextExceptionEnum.UndefinedError, "Undefined error") }
+        { PurchaseContextExceptionEnum.UndefinedError, new Tuple<int, string>((int)PurchaseContextExceptionEnum.UndefinedError, "Undefined error") },
+        { PurchaseContextExceptionEnum.AmountLessThanZero, new Tuple<int, string>((int)PurchaseContextExceptionEnum.AmountLessThanZero, "Value of the amount cannot be less than zero") }
 
     };
     }
@@ -30,7 +31,8 @@ namespace PurchaseServiceDomain.Exceptions
         ErrorCreatingPurchase = 4003,
         ErrorDeletingPurchase = 4004,
         NoPurchasesFound = 4005,
-        UndefinedError = 4006
+        AmountLessThanZero = 4006,
+        UndefinedError = 4007
     }
 
     public static class PurchaseContextExceptionEnumExtensions
