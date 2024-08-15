@@ -13,20 +13,15 @@ namespace SparePartsService.Tests.Repositories
             //Arrange
             var context = ApplicationSparePartDbContextInMemory.Get();
             var repository = new SparePartRepository(context);
-            var idSparePart = Guid.NewGuid();
-            var SparePartTest = new SparePart()
-            {
-                Id = idSparePart,
-                BrandCar = "BrandCarTest",
-                BrandSpare = "BransSpareTest",
-                IsInStock = true,
-                ModelCar = 2000,
-                ReferenceCar = "ReferenceCarTest",
-                SpareName = "SpareNameTest",
-                Stock = 10
-            };
+            var SparePartExpected = SparePart.Build("Spare test",
+                "Brand spare test",
+                "Brand car test",
+                2000,
+                "Reference test",
+                true,
+                10);
             //Act
-            var result = await repository.Create(SparePartTest);
+            var result = await repository.Create(SparePartExpected.Value);
 
             //Assert
             Assert.NotNull(result);
@@ -38,23 +33,18 @@ namespace SparePartsService.Tests.Repositories
             //Arrange
             var context = ApplicationSparePartDbContextInMemory.Get();
             var repository = new SparePartRepository(context);
-            var idSparePart = Guid.NewGuid();
-            var SparePartTest = new SparePart()
-            {
-                Id = idSparePart,
-                BrandCar = "BrandCarTest",
-                BrandSpare = "BransSpareTest",
-                IsInStock = true,
-                ModelCar = 2000,
-                ReferenceCar = "ReferenceCarTest",
-                SpareName = "SpareNameTest",
-                Stock = 10
-            };
+            var sparePartExpected = SparePart.Build("Spare test",
+                "Brand spare test",
+                "Brand car test",
+                2000,
+                "Reference test",
+                true,
+                10);
 
             //Act
-            await repository.Create(SparePartTest);
-            var resultDeletedOk = await repository.DeleteSparePart(idSparePart);
-            var resultGetById = await repository.GetSparePartById(idSparePart);
+            await repository.Create(sparePartExpected.Value);
+            var resultDeletedOk = await repository.DeleteSparePart(sparePartExpected.Value.Id);
+            var resultGetById = await repository.GetSparePartById(sparePartExpected.Value.Id);
 
             //Assert
             Assert.True(resultDeletedOk);
@@ -67,19 +57,14 @@ namespace SparePartsService.Tests.Repositories
             //Arrange
             var context = ApplicationSparePartDbContextInMemory.Get();
             var repository = new SparePartRepository(context);
-            var idSparePart = Guid.NewGuid();
-            var SparePartTest = new SparePart()
-            {
-                Id = idSparePart,
-                BrandCar = "BrandCarTest",
-                BrandSpare = "BransSpareTest",
-                IsInStock = true,
-                ModelCar = 2000,
-                ReferenceCar = "ReferenceCarTest",
-                SpareName = "SpareNameTest",
-                Stock = 10
-            };
-            await repository.Create(SparePartTest);
+            var sparePartExpected = SparePart.Build("Spare test",
+                "Brand spare test",
+                "Brand car test",
+                2000,
+                "Reference test",
+                true,
+                10);
+            await repository.Create(sparePartExpected.Value);
 
             //Act
             var resultDeletedFail = await repository.DeleteSparePart(Guid.NewGuid());
@@ -94,21 +79,16 @@ namespace SparePartsService.Tests.Repositories
             //Arrange
             var context = ApplicationSparePartDbContextInMemory.Get();
             var repository = new SparePartRepository(context);
-            var idSparePart = Guid.NewGuid();
-            var SparePartTest = new SparePart()
-            {
-                Id = idSparePart,
-                BrandCar = "BrandCarTest",
-                BrandSpare = "BransSpareTest",
-                IsInStock = true,
-                ModelCar = 2000,
-                ReferenceCar = "ReferenceCarTest",
-                SpareName = "SpareNameTest",
-                Stock = 10
-            };
+            var sparePartExpected = SparePart.Build("Spare test",
+                "Brand spare test",
+                "Brand car test",
+                2000,
+                "Reference test",
+                true,
+                10);
 
             //Act
-            await repository.Create(SparePartTest);
+            await repository.Create(sparePartExpected.Value);
             var list = await repository.GetAllSpareParts();
 
             //Assert
@@ -121,22 +101,17 @@ namespace SparePartsService.Tests.Repositories
             //Arrange
             var context = ApplicationSparePartDbContextInMemory.Get();
             var repository = new SparePartRepository(context);
-            var idSparePart = Guid.NewGuid();
-            var SparePartTest = new SparePart()
-            {
-                Id = idSparePart,
-                BrandCar = "BrandCarTest",
-                BrandSpare = "BransSpareTest",
-                IsInStock = true,
-                ModelCar = 2000,
-                ReferenceCar = "ReferenceCarTest",
-                SpareName = "SpareNameTest",
-                Stock = 10
-            };
+            var sparePartExpected = SparePart.Build("Spare test",
+                "Brand spare test",
+                "Brand car test",
+                2000,
+                "Reference test",
+                true,
+                10);
 
             //Act
-            await repository.Create(SparePartTest);
-            var SparePartById = await repository.GetSparePartById(idSparePart);
+            await repository.Create(sparePartExpected.Value);
+            var SparePartById = await repository.GetSparePartById(sparePartExpected.Value.Id);
 
             //Assert
             Assert.NotNull(SparePartById.Value);
@@ -150,21 +125,16 @@ namespace SparePartsService.Tests.Repositories
             var context = ApplicationSparePartDbContextInMemory.Get();
             var repository = new SparePartRepository(context);
 
-            var idSparePart = Guid.NewGuid();
-            var SparePartTest = new SparePart()
-            {
-                Id = idSparePart,
-                BrandCar = "BrandCarTest",
-                BrandSpare = "BransSpareTest",
-                IsInStock = true,
-                ModelCar = 2000,
-                ReferenceCar = "ReferenceCarTest",
-                SpareName = "SpareNameTest",
-                Stock = 10
-            };
+            var sparePartExpected = SparePart.Build("Spare test",
+                "Brand spare test",
+                "Brand car test",
+                2000,
+                "Reference test",
+                true,
+                10);
 
             //Act
-            await repository.Create(SparePartTest);
+            await repository.Create(sparePartExpected.Value);
             var SparePartById = await repository.GetSparePartById(Guid.NewGuid());
 
             //Assert
@@ -178,26 +148,21 @@ namespace SparePartsService.Tests.Repositories
             var context = ApplicationSparePartDbContextInMemory.Get();
             var repository = new SparePartRepository(context);
 
-            var idSparePart = Guid.NewGuid();
-            var SparePartTest = new SparePart()
-            {
-                Id = idSparePart,
-                BrandCar = "BrandCarTest",
-                BrandSpare = "BransSpareTest",
-                IsInStock = true,
-                ModelCar = 2000,
-                ReferenceCar = "ReferenceCarTest",
-                SpareName = "SpareNameTest",
-                Stock = 10
-            };
+            var sparePartExpected = SparePart.Build("Spare test",
+                "Brand spare test",
+                "Brand car test",
+                2000,
+                "Reference test",
+                true,
+                10);
             var filter = new GetSparePartByFilterDTO()
             {
-                BrandCar = "BrandCarTest",
-                BrandSpare = "BransSpareTest"
+                BrandCar = "Brand car test",
+                BrandSpare = "Brand spare test"
             };
 
             //Act
-            await repository.Create(SparePartTest);
+            await repository.Create(sparePartExpected.Value);
             var SparePartByFilter = await repository.GetSparePartsByFilter(filter);
 
             //Assert
@@ -211,26 +176,21 @@ namespace SparePartsService.Tests.Repositories
             var context = ApplicationSparePartDbContextInMemory.Get();
             var repository = new SparePartRepository(context);
 
-            var idSparePart = Guid.NewGuid();
-            var SparePartTest = new SparePart()
-            {
-                Id = idSparePart,
-                BrandCar = "BrandCarTest",
-                BrandSpare = "BransSpareTest",
-                IsInStock = true,
-                ModelCar = 2000,
-                ReferenceCar = "ReferenceCarTest",
-                SpareName = "SpareNameTest",
-                Stock = 10
-            };
+            var sparePartExpected = SparePart.Build("Spare test",
+                "Brand spare test",
+                "Brand car test",
+                2000,
+                "Reference test",
+                true,
+                10);
             var filter = new GetSparePartByFilterDTO()
             {
-                BrandCar = "BrandCar",
-                BrandSpare = "BransSpare"
+                BrandCar = "BrandCarTest",
+                BrandSpare = "Brand spare test"
             };
 
             //Act
-            await repository.Create(SparePartTest);
+            await repository.Create(sparePartExpected.Value);
             var SparePartByFilter = await repository.GetSparePartsByFilter(filter);
 
             //Assert
@@ -244,22 +204,17 @@ namespace SparePartsService.Tests.Repositories
             var context = ApplicationSparePartDbContextInMemory.Get();
             var repository = new SparePartRepository(context);
 
-            var idSparePart = Guid.NewGuid();
-            var SparePartTest = new SparePart()
-            {
-                Id = idSparePart,
-                BrandCar = "BrandCarTest",
-                BrandSpare = "BransSpareTest",
-                IsInStock = true,
-                ModelCar = 2000,
-                ReferenceCar = "ReferenceCarTest",
-                SpareName = "SpareNameTest",
-                Stock = 10
-            };
+            var sparePartExpected = SparePart.Build("Spare test",
+                "Brand spare test",
+                "Brand car test",
+                2000,
+                "Reference test",
+                true,
+                10);
 
             //Act
-            await repository.Create(SparePartTest);
-            var SpareStockSub = await repository.LessStock(idSparePart,1);
+            await repository.Create(sparePartExpected.Value);
+            var SpareStockSub = await repository.LessStock(sparePartExpected.Value.Id,1);
 
             //Assert
             Assert.True(SpareStockSub);
@@ -272,22 +227,17 @@ namespace SparePartsService.Tests.Repositories
             var context = ApplicationSparePartDbContextInMemory.Get();
             var repository = new SparePartRepository(context);
 
-            var idSparePart = Guid.NewGuid();
-            var SparePartTest = new SparePart()
-            {
-                Id = idSparePart,
-                BrandCar = "BrandCarTest",
-                BrandSpare = "BransSpareTest",
-                IsInStock = true,
-                ModelCar = 2000,
-                ReferenceCar = "ReferenceCarTest",
-                SpareName = "SpareNameTest",
-                Stock = 10
-            };
+            var sparePartExpected = SparePart.Build("Spare test",
+                "Brand spare test",
+                "Brand car test",
+                2000,
+                "Reference test",
+                true,
+                10);
 
             //Act
-            await repository.Create(SparePartTest);
-            var SpareStockAdded = await repository.AddStock(idSparePart, 1);
+            await repository.Create(sparePartExpected.Value);
+            var SpareStockAdded = await repository.AddStock(sparePartExpected.Value.Id, 1);
 
             //Assert
             Assert.True(SpareStockAdded);
@@ -300,26 +250,21 @@ namespace SparePartsService.Tests.Repositories
             var context = ApplicationSparePartDbContextInMemory.Get();
             var repository = new SparePartRepository(context);
             var newStock = -10;
-            var idSparePart = Guid.NewGuid();
-            var SparePartTest = new SparePart()
-            {
-                Id = idSparePart,
-                BrandCar = "BrandCarTest",
-                BrandSpare = "BransSpareTest",
-                IsInStock = true,
-                ModelCar = 2000,
-                ReferenceCar = "ReferenceCarTest",
-                SpareName = "SpareNameTest",
-                Stock = 10
-            };
+            var sparePartExpected = SparePart.Build("Spare test",
+                "Brand spare test",
+                "Brand car test",
+                2000,
+                "Reference test",
+                true,
+                10);
             //Act
-            await repository.Create(SparePartTest);
-            var SparePartById = await repository.GetSparePartById(idSparePart);
+            await repository.Create(sparePartExpected.Value);
+            var SparePartById = await repository.GetSparePartById(sparePartExpected.Value.Id);
             var SparePartToUpdate = SparePartById.Value;
             SparePartToUpdate.Stock = newStock;
             await repository.UpdatateSpare(SparePartToUpdate);
 
-            var SparePartByIdUpdated = await repository.GetSparePartById(idSparePart);
+            var SparePartByIdUpdated = await repository.GetSparePartById(sparePartExpected.Value.Id);
 
             //Assert
             Assert.True(SparePartToUpdate.Stock == newStock);

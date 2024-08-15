@@ -67,11 +67,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Logging", "Common.Lo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarService.Tests", "CarService.Tests\CarService.Tests.csproj", "{B136B1AC-8565-4404-BD8C-4900293DC06F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientService.Tests", "ClientService.Tests\ClientService.Tests.csproj", "{1799C462-1AE9-470F-A062-CD18D7FABB2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientService.Tests", "ClientService.Tests\ClientService.Tests.csproj", "{1799C462-1AE9-470F-A062-CD18D7FABB2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurchaseService.Tests", "PurchaseService.Tests\PurchaseService.Tests.csproj", "{2AFB1B94-C4BD-4878-B385-E19C7605839A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PurchaseService.Tests", "PurchaseService.Tests\PurchaseService.Tests.csproj", "{2AFB1B94-C4BD-4878-B385-E19C7605839A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparePartsService.Tests", "SparePartsService.Tests\SparePartsService.Tests.csproj", "{CCBFCE89-7829-4508-A6B0-D70512B3F853}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SparePartsService.Tests", "SparePartsService.Tests\SparePartsService.Tests.csproj", "{CCBFCE89-7829-4508-A6B0-D70512B3F853}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

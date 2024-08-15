@@ -21,29 +21,25 @@ namespace CarService.Tests.Queries
             //Arrange
             var mockCarRepository = new Mock<ICarRepository>();
             var mockLogger = new Mock<ILogger>();
-            var newGuid = Guid.NewGuid();
-            var Car1 = new Car()
-            {
-                Brand = "Brand test1",
-                Colour = "Colour test1",
-                Id = newGuid,
-                LicensePlate = "Test1",
-                Model = 1970,
-                Reference = "Reference test1"
-            };
+            var car1 = Car.Build("Brand test1",
+                2021,
+                "Reference test1",
+                "Colour test1",
+                "ABC123"
+                );
 
             mockCarRepository.Setup(repo => repo.GetById(It.IsAny<Guid>()))
-                .ReturnsAsync(Car1);
+                .ReturnsAsync(car1.Value);
 
             var handler = new GetCarByIdQuery.GetCarByIdQueryHandler(mockCarRepository.Object);
-            var query = new GetCarByIdQuery(newGuid);
+            var query = new GetCarByIdQuery(car1.Value.Id);
 
             //Act
             var result = await handler.Handle(query, CancellationToken.None);
 
             //Assert
             Assert.True(result.IsSuccess);
-            Assert.Equal(Car1, result.Value);
+            Assert.Equal(car1.Value, result.Value);
             mockCarRepository.Verify(repo => repo.GetById(It.IsAny<Guid>()), Times.Once);
 
         }

@@ -34,7 +34,7 @@ namespace ClientServiceAPI.Controllers.CreateController
         {
             var clientEntity = _mapper.Map<Client>(model);
             clientEntity.Id = Guid.NewGuid();
-            var clientCreated = await _mediator.Send(new CreateClientCommand(clientEntity));
+            var clientCreated = await _mediator.Send(new CreateClientCommand(clientEntity.Id, clientEntity.Name, clientEntity.SurName, clientEntity.Email));
             if (clientCreated.IsFailure)
                 return BadRequest(clientCreated.Error);
             var response = new CreateClientResponse

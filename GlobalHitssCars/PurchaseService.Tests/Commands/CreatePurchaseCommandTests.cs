@@ -20,18 +20,15 @@ namespace PurchaseService.Tests.Commands
             var mockPurchaseRepository = new Mock<IPurchaseRepository>();
             var mockLogger = new Mock<ILogger>();
 
-            var newGuid = Guid.NewGuid();
-            Purchase purchase1 = new Purchase()
-            {
-                Amount = 10,
-                CarId = Guid.NewGuid(),
-                ClientId = Guid.NewGuid(),
-                Id = Guid.NewGuid()
-            };
+            var purchaseExpected = Purchase.Build(
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+                70000000);                
+            
             mockPurchaseRepository.Setup(repo => repo.Create(It.IsAny<Purchase>()))
-                .ReturnsAsync(purchase1);
+                .ReturnsAsync(purchaseExpected.Value);
 
-            var command = new CreatePurchaseCommand(purchase1);
+            var command = new CreatePurchaseCommand(purchaseExpected.Value);
             var handler = new CreatePurchaseCommand.CreatePurchaseCommandHandler(mockPurchaseRepository.Object);
 
             //Act
@@ -39,7 +36,7 @@ namespace PurchaseService.Tests.Commands
 
             //Assert
             Assert.True(result.IsSuccess);
-            Assert.Equal(purchase1, result.Value);
+            Assert.Equal(purchaseExpected.Value, result.Value);
             mockPurchaseRepository.Verify(repo => repo.Create(It.IsAny<Purchase>()), Times.Once);
         }
 
@@ -51,17 +48,14 @@ namespace PurchaseService.Tests.Commands
             var mockLogger = new Mock<ILogger>();
 
             var newGuid = Guid.NewGuid();
-            Purchase purchase1 = new Purchase()
-            {
-                Amount = 10,
-                CarId = Guid.NewGuid(),
-                ClientId = Guid.NewGuid(),
-                Id = Guid.NewGuid()
-            };
+            var purchaseExpected = Purchase.Build(
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+                70000000);
             mockPurchaseRepository.Setup(repo => repo.Create(It.IsAny<Purchase>()))
                 .ReturnsAsync((Purchase)null);
 
-            var command = new CreatePurchaseCommand(purchase1);
+            var command = new CreatePurchaseCommand(purchaseExpected.Value);
             var handler = new CreatePurchaseCommand.CreatePurchaseCommandHandler(mockPurchaseRepository.Object);
 
             //Act

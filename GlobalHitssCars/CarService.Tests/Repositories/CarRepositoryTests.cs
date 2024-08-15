@@ -19,18 +19,14 @@ namespace CarService.Tests.Repositories
             //Arrange
             var context = ApplicationCarDbContextInMemory.Get();
             var repository = new CarRepository(context);
-            var idCar = Guid.NewGuid();
-            var carTest = new Car()
-            {
-                Id = idCar,
-                Brand = "Brand test",
-                Colour = "Colour test",
-                LicensePlate = "ABC123",
-                Model = 0000,
-                Reference = "Reference test"
-            };
+            var car1 = Car.Build("Brand test1",
+                2021,
+                "Reference test1",
+                "Colour test1",
+                "ABC123"
+                );
             //Act
-            var result = await repository.Create(carTest);
+            var result = await repository.Create(car1.Value);
 
             //Assert
             Assert.NotNull(result);            
@@ -42,21 +38,17 @@ namespace CarService.Tests.Repositories
             //Arrange
             var context = ApplicationCarDbContextInMemory.Get();
             var repository = new CarRepository(context);
-            var carId = Guid.NewGuid();
-            var carTest = new Car()
-            {   
-                Id = carId,
-                Brand = "Brand test",
-                Colour = "Colour test",
-                LicensePlate = "ABC123",
-                Model = 0000,
-                Reference = "Reference test"
-            };
+            var carTest = Car.Build("Brand test1",
+                2024,
+                "Reference test1",
+                "Colour test1",
+                "ABC123"
+                );
 
             //Act
-            await repository.Create(carTest);
-            var resultDeletedOk = await repository.Delete(carId);
-            var resultGetById = await repository.GetById(carId);
+            await repository.Create(carTest.Value);
+            var resultDeletedOk = await repository.Delete(carTest.Value.Id);
+            var resultGetById = await repository.GetById(carTest.Value.Id);
 
             //Assert
             Assert.True(resultDeletedOk);
@@ -69,17 +61,13 @@ namespace CarService.Tests.Repositories
             //Arrange
             var context = ApplicationCarDbContextInMemory.Get();
             var repository = new CarRepository(context);
-            var carId = Guid.NewGuid();
-            var carTest = new Car()
-            {
-                Id = carId,
-                Brand = "Brand test",
-                Colour = "Colour test",
-                LicensePlate = "ABC123",
-                Model = 0000,
-                Reference = "Reference test"
-            };
-            await repository.Create(carTest);
+            var carTest = Car.Build("Brand test1",
+                 2024,
+                 "Reference test1",
+                 "Colour test1",
+                 "ABC123"
+                 );
+            await repository.Create(carTest.Value);
 
             //Act
             var resultDeletedFail = await repository.Delete(Guid.NewGuid());
@@ -94,19 +82,15 @@ namespace CarService.Tests.Repositories
             //Arrange
             var context = ApplicationCarDbContextInMemory.Get();
             var repository = new CarRepository(context);
-            var carId = Guid.NewGuid();
-            var carTest = new Car()
-            {
-                Id = carId,
-                Brand = "Brand test",
-                Colour = "Colour test",
-                LicensePlate = "ABC123",
-                Model = 0000,
-                Reference = "Reference test"
-            };
+            var carTest = Car.Build("Brand test1",
+                2021,
+                "Reference test1",
+                "Colour test1",
+                "ABC123"
+                );
 
             //Act
-            await repository.Create(carTest);
+            await repository.Create(carTest.Value);
             var list = await repository.GetAll();
 
             //Assert
@@ -118,22 +102,18 @@ namespace CarService.Tests.Repositories
         {
             //Arrange
             var context = ApplicationCarDbContextInMemory.Get();
-            var idCar = Guid.NewGuid();
             var repository = new CarRepository(context);
-            
-            var carTest = new Car()
-            {
-                Id = idCar,
-                Brand = "Brand test",
-                Colour = "Colour test",
-                LicensePlate = "ABC123",
-                Model = 0000,
-                Reference = "Reference test"
-            };
+
+            var carTest = Car.Build("Brand test1",
+                2021,
+                "Reference test1",
+                "Colour test1",
+                "ABC123"
+                );
 
             //Act
-            await repository.Create(carTest);
-            var carById = await repository.GetById(idCar);
+            await repository.Create(carTest.Value);
+            var carById = await repository.GetById(carTest.Value.Id);
 
             //Assert
             Assert.NotNull(carById.Value);
@@ -145,21 +125,17 @@ namespace CarService.Tests.Repositories
         {
             //Arrange
             var context = ApplicationCarDbContextInMemory.Get();
-            var idCar = Guid.NewGuid();
             var repository = new CarRepository(context);
 
-            var carTest = new Car()
-            {
-                Id = idCar,
-                Brand = "Brand test",
-                Colour = "Colour test",
-                LicensePlate = "ABC123",
-                Model = 0000,
-                Reference = "Reference test"
-            };
+            var carTest = Car.Build("Brand test1",
+                2021,
+                "Reference test1",
+                "Colour test1",
+                "ABC123"
+                );
 
             //Act
-            await repository.Create(carTest);
+            await repository.Create(carTest.Value);
             var carById = await repository.GetById(Guid.NewGuid());
 
             //Assert
@@ -171,18 +147,14 @@ namespace CarService.Tests.Repositories
         {
             //Arrange
             var context = ApplicationCarDbContextInMemory.Get();
-            var idCar = Guid.NewGuid();
             var repository = new CarRepository(context);
 
-            var carTest = new Car()
-            {
-                Id = idCar,
-                Brand = "Brand test",
-                Colour = "Colour test",
-                LicensePlate = "ABC123",
-                Model = 0000,
-                Reference = "Reference test"
-            };
+            var carTest = Car.Build("Brand test1",
+                2021,
+                "Reference test1",
+                "Colour test1",
+                "ABC123"
+                );
 
             var filter = new CarByFilterDTO()
             {
@@ -190,7 +162,7 @@ namespace CarService.Tests.Repositories
             };
 
             //Act
-            await repository.Create(carTest);
+            await repository.Create(carTest.Value);
             var resultCarByFilter = await repository.GetCarByFilter(filter);
 
             //Assert
@@ -202,18 +174,14 @@ namespace CarService.Tests.Repositories
         {
             //Arrange
             var context = ApplicationCarDbContextInMemory.Get();
-            var idCar = Guid.NewGuid();
             var repository = new CarRepository(context);
 
-            var carTest = new Car()
-            {
-                Id = idCar,
-                Brand = "Brand test",
-                Colour = "Colour test",
-                LicensePlate = "ABC123",
-                Model = 0000,
-                Reference = "Reference test"
-            };
+            var carTest = Car.Build("Brand test1",
+                2021,
+                "Reference test1",
+                "Colour test1",
+                "ABC123"
+                );
 
             var filter = new CarByFilterDTO()
             {
@@ -221,7 +189,7 @@ namespace CarService.Tests.Repositories
             };
 
             //Act
-            await repository.Create(carTest);
+            await repository.Create(carTest.Value);
             var resultCarByFilter = await repository.GetCarByFilter(filter);
 
             //Assert
@@ -234,25 +202,21 @@ namespace CarService.Tests.Repositories
             //Arrange
             var context = ApplicationCarDbContextInMemory.Get();
             var repository = new CarRepository(context);
-            var idCar = Guid.NewGuid();
             var newBrand = "NewBrandUpdated";
-            var carTest = new Car()
-            {
-                Id = idCar,
-                Brand = "Brand test",
-                Colour = "Colour test",
-                LicensePlate = "ABC123",
-                Model = 0000,
-                Reference = "Reference test"
-            };
+            var carTest = Car.Build("Brand test1",
+                2021,
+                "Reference test1",
+                "Colour test1",
+                "ABC123"
+                );
             //Act
-            await repository.Create(carTest);
-            var carById = await repository.GetById(idCar);
+            await repository.Create(carTest.Value);
+            var carById = await repository.GetById(carTest.Value.Id);
             var carToUpdate = carById.Value;
             carToUpdate.Brand = newBrand;
             await repository.Update(carToUpdate);
 
-            var carByIdUpdated = await repository.GetById(idCar);
+            var carByIdUpdated = await repository.GetById(carTest.Value.Id);
 
             //Assert
             Assert.True(carToUpdate.Brand == newBrand);

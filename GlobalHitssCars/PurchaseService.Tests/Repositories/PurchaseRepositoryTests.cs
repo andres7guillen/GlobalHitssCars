@@ -18,15 +18,12 @@ namespace PurchaseService.Tests.Repositories
             var context = ApplicationPurchaseDbContextInMemory.Get();
             var repository = new PurchaseRepository(context);
             var idPurchase = Guid.NewGuid();
-            var PurchaseTest = new Purchase()
-            {
-                Id = idPurchase,
-                Amount = 0,
-                CarId = Guid.NewGuid(),
-                ClientId = Guid.NewGuid()
-            };
+            var purchaseExpected = Purchase.Build(
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+                70000000);
             //Act
-            var result = await repository.Create(PurchaseTest);
+            var result = await repository.Create(purchaseExpected.Value);
 
             //Assert
             Assert.NotNull(result);
@@ -38,19 +35,15 @@ namespace PurchaseService.Tests.Repositories
             //Arrange
             var context = ApplicationPurchaseDbContextInMemory.Get();
             var repository = new PurchaseRepository(context);
-            var idPurchase = Guid.NewGuid();
-            var PurchaseTest = new Purchase()
-            {
-                Id = idPurchase,
-                Amount = 0,
-                CarId = Guid.NewGuid(),
-                ClientId = Guid.NewGuid()
-            };
+            var purchaseExpected = Purchase.Build(
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+                70000000);
 
             //Act
-            await repository.Create(PurchaseTest);
-            var resultDeletedOk = await repository.Delete(idPurchase);
-            var resultGetById = await repository.GetById(idPurchase);
+            await repository.Create(purchaseExpected.Value);
+            var resultDeletedOk = await repository.Delete(purchaseExpected.Value.Id);
+            var resultGetById = await repository.GetById(purchaseExpected.Value.Id);
 
             //Assert
             Assert.True(resultDeletedOk);
@@ -63,15 +56,11 @@ namespace PurchaseService.Tests.Repositories
             //Arrange
             var context = ApplicationPurchaseDbContextInMemory.Get();
             var repository = new PurchaseRepository(context);
-            var idPurchase = Guid.NewGuid();
-            var PurchaseTest = new Purchase()
-            {
-                Id = idPurchase,
-                Amount = 0,
-                CarId = Guid.NewGuid(),
-                ClientId = Guid.NewGuid()
-            };
-            await repository.Create(PurchaseTest);
+            var purchaseExpected = Purchase.Build(
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+                70000000);
+            await repository.Create(purchaseExpected.Value);
 
             //Act
             var resultDeletedFail = await repository.Delete(Guid.NewGuid());
@@ -87,16 +76,13 @@ namespace PurchaseService.Tests.Repositories
             var context = ApplicationPurchaseDbContextInMemory.Get();
             var repository = new PurchaseRepository(context);
             var idPurchase = Guid.NewGuid();
-            var PurchaseTest = new Purchase()
-            {
-                Id = idPurchase,
-                Amount = 0,
-                CarId = Guid.NewGuid(),
-                ClientId = Guid.NewGuid()
-            };
+            var purchaseExpected = Purchase.Build(
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+                70000000);
 
             //Act
-            await repository.Create(PurchaseTest);
+            await repository.Create(purchaseExpected.Value);
             var list = await repository.GetAll();
 
             //Assert
@@ -109,18 +95,14 @@ namespace PurchaseService.Tests.Repositories
             //Arrange
             var context = ApplicationPurchaseDbContextInMemory.Get();            
             var repository = new PurchaseRepository(context);
-            var idPurchase = Guid.NewGuid();
-            var PurchaseTest = new Purchase()
-            {
-                Id = idPurchase,
-                Amount = 0,
-                CarId = Guid.NewGuid(),
-                ClientId = Guid.NewGuid()
-            };
+            var purchaseExpected = Purchase.Build(
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+                70000000);
 
             //Act
-            await repository.Create(PurchaseTest);
-            var PurchaseById = await repository.GetById(idPurchase);
+            await repository.Create(purchaseExpected.Value);
+            var PurchaseById = await repository.GetById(purchaseExpected.Value.Id);
 
             //Assert
             Assert.NotNull(PurchaseById.Value);
@@ -135,16 +117,13 @@ namespace PurchaseService.Tests.Repositories
             var repository = new PurchaseRepository(context);
 
             var idPurchase = Guid.NewGuid();
-            var PurchaseTest = new Purchase()
-            {
-                Id = idPurchase,
-                Amount = 0,
-                CarId = Guid.NewGuid(),
-                ClientId = Guid.NewGuid()
-            };
+            var purchaseExpected = Purchase.Build(
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+                70000000);
 
             //Act
-            await repository.Create(PurchaseTest);
+            await repository.Create(purchaseExpected.Value);
             var PurchaseById = await repository.GetById(Guid.NewGuid());
 
             //Assert
@@ -158,22 +137,18 @@ namespace PurchaseService.Tests.Repositories
             var context = ApplicationPurchaseDbContextInMemory.Get();
             var repository = new PurchaseRepository(context);
             var newAmount = 1552;
-            var idPurchase = Guid.NewGuid();
-            var PurchaseTest = new Purchase()
-            {
-                Id = idPurchase,
-                Amount = 0,
-                CarId = Guid.NewGuid(),
-                ClientId = Guid.NewGuid()
-            };
+            var purchaseExpected = Purchase.Build(
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+                70000000);
             //Act
-            await repository.Create(PurchaseTest);
-            var PurchaseById = await repository.GetById(idPurchase);
+            await repository.Create(purchaseExpected.Value);
+            var PurchaseById = await repository.GetById(purchaseExpected.Value.Id);
             var PurchaseToUpdate = PurchaseById.Value;
             PurchaseToUpdate.Amount = newAmount;
             await repository.Update(PurchaseToUpdate);
 
-            var PurchaseByIdUpdated = await repository.GetById(idPurchase);
+            var PurchaseByIdUpdated = await repository.GetById(purchaseExpected.Value.Id);
 
             //Assert
             Assert.True(PurchaseToUpdate.Amount == newAmount);

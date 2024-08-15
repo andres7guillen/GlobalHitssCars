@@ -16,20 +16,15 @@ namespace CarService.Tests.Commands
         public async void UpdateCarShouldWorks() 
         {
             //Arrange
-            var newGuid = Guid.NewGuid();
-            var car1 = new Car()
-            {
-                Brand = "Brand test1",
-                Colour = "Colour test1",
-                Id = newGuid,
-                LicensePlate = "Test1",
-                Model = 1970,
-                Reference = "Reference test1"
-            };
+            var car1 = Car.Build("Brand test1",
+                2022,
+                "Reference test",
+                "Colour test1",
+                "ABC123");
             var mockCarRepository = new Mock<ICarRepository>();
             mockCarRepository.Setup(repo => repo.Update(It.IsAny<Car>()))
                 .ReturnsAsync(true);
-            var command = new UpdateCarCommand(car1);
+            var command = new UpdateCarCommand(car1.Value);
             var handler = new UpdateCarCommand.UpdateCarCommandHandler(mockCarRepository.Object);
 
             //Act
@@ -44,20 +39,15 @@ namespace CarService.Tests.Commands
         public async void UpdateCarShouldFails()
         {
             //Arrange
-            var newGuid = Guid.NewGuid();
-            var car1 = new Car()
-            {
-                Brand = "Brand test1",
-                Colour = "Colour test1",
-                Id = newGuid,
-                LicensePlate = "Test1",
-                Model = 1970,
-                Reference = "Reference test1"
-            };
+            var car1 = Car.Build("Brand test1",
+                2022,
+                "Reference test",
+                "Colour test1",
+                "ABC123");
             var mockCarRepository = new Mock<ICarRepository>();
             mockCarRepository.Setup(repo => repo.Update(It.IsAny<Car>()))
                 .ReturnsAsync(false);
-            var command = new UpdateCarCommand(car1);
+            var command = new UpdateCarCommand(car1.Value);
             var handler = new UpdateCarCommand.UpdateCarCommandHandler(mockCarRepository.Object);
 
             //Act
@@ -65,7 +55,7 @@ namespace CarService.Tests.Commands
 
             //Assert
             Assert.False(result.IsSuccess);
-            Assert.Equal("4002: Error updating car", result.Error);
+            Assert.Equal("4002: Error updating car.", result.Error);
             mockCarRepository.Verify(repo => repo.Update(It.IsAny<Car>()), Times.Once);
         }
 

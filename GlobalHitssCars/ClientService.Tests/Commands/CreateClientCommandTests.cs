@@ -20,26 +20,23 @@ namespace ClientService.Tests.Commands
             var mockClientRepository = new Mock<IClientRepository>();
             var mockLogger = new Mock<ILogger>();
 
-            var newGuid = Guid.NewGuid();
-            Client client1 = new Client()
-            {
-                Email = "client1@test.com",
-                Id = Guid.NewGuid(),
-                Name = "Test name",
-                SurName = "Test surname"
-            };
+            var clientExpected = Client.Build(
+                withEmail: "client1@test.com",
+                withSurName: "Test surname",
+                withName: "Test name");
+            
             mockClientRepository.Setup(repo => repo.Create(It.IsAny<Client>()))
-                .ReturnsAsync(client1);
+                .ReturnsAsync(clientExpected.Value);
 
             var handler = new CreateClientCommand.CreateClientCommandHandler(mockClientRepository.Object);
-            var command = new CreateClientCommand(client1);
+            var command = new CreateClientCommand(clientExpected.Value.Id, clientExpected.Value.Name, clientExpected.Value.SurName, clientExpected.Value.Email);
 
             //Act
             var result = await handler.Handle(command, CancellationToken.None);
 
             //Assert
             Assert.True(result.IsSuccess);
-            Assert.Equal(client1, result.Value);
+            Assert.Equal(clientExpected.Value, result.Value);
             mockClientRepository.Verify(repo => repo.Create(It.IsAny<Client>()), Times.Once);
         }
 
@@ -50,18 +47,14 @@ namespace ClientService.Tests.Commands
             var mockClientRepository = new Mock<IClientRepository>();
             var mockLogger = new Mock<ILogger>();
 
-            var newGuid = Guid.NewGuid();
-            Client client1 = new Client()
-            {
-                Email = "client1@test.com",
-                Id = Guid.NewGuid(),
-                Name = "Test name",
-                SurName = "Test surname"
-            };
+            var clientExpected = Client.Build(
+                withEmail: "client1@test.com",
+                withSurName: "Test surname",
+                withName: "Test name");
             mockClientRepository.Setup(repo => repo.Create(It.IsAny<Client>()))
                 .ReturnsAsync((Client)null);
 
-            var command = new CreateClientCommand(client1);
+            var command = new CreateClientCommand(clientExpected.Value.Id, clientExpected.Value.Name, clientExpected.Value.SurName, clientExpected.Value.Email);
             var handler = new CreateClientCommand.CreateClientCommandHandler(mockClientRepository.Object);
 
             //Act

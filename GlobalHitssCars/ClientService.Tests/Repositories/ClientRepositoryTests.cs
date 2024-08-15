@@ -18,16 +18,12 @@ namespace ClientService.Tests.Repositories
             //Arrange
             var context = ApplicationClientDbContextInMemory.Get();
             var repository = new ClientRepository(context);
-            var idClient = Guid.NewGuid();
-            var ClientTest = new Client()
-            {
-                Id = idClient,
-                Email = "test@test.com",
-                Name = "Name Test",
-                SurName = "Surname Test"
-            };
+            var clientTest = Client.Build(
+                withEmail: "client1@test.com",
+                withSurName: "Test surname",
+                withName: "Test name");
             //Act
-            var result = await repository.Create(ClientTest);
+            var result = await repository.Create(clientTest.Value);
 
             //Assert
             Assert.NotNull(result);
@@ -40,18 +36,15 @@ namespace ClientService.Tests.Repositories
             var context = ApplicationClientDbContextInMemory.Get();
             var repository = new ClientRepository(context);
             var idClient = Guid.NewGuid();
-            var ClientTest = new Client()
-            {
-                Id = idClient,
-                Email = "test@test.com",
-                Name = "Name Test",
-                SurName = "Surname Test"
-            };
+            var clientTest = Client.Build(
+                withEmail: "client1@test.com",
+                withSurName: "Test surname",
+                withName: "Test name");
 
             //Act
-            await repository.Create(ClientTest);
-            var resultDeletedOk = await repository.Delete(idClient);
-            var resultGetById = await repository.GetById(idClient);
+            var clientCreated = await repository.Create(clientTest.Value);
+            var resultDeletedOk = await repository.Delete(clientCreated.Id);
+            var resultGetById = await repository.GetById(clientCreated.Id);
 
             //Assert
             Assert.True(resultDeletedOk);
@@ -64,15 +57,11 @@ namespace ClientService.Tests.Repositories
             //Arrange
             var context = ApplicationClientDbContextInMemory.Get();
             var repository = new ClientRepository(context);
-            var idClient = Guid.NewGuid();
-            var ClientTest = new Client()
-            {
-                Id = idClient,
-                Email = "test@test.com",
-                Name = "Name Test",
-                SurName = "Surname Test"
-            };
-            await repository.Create(ClientTest);
+            var clientTest = Client.Build(
+                withEmail: "client1@test.com",
+                withSurName: "Test surname",
+                withName: "Test name");
+            var clientCreated = await repository.Create(clientTest.Value);
 
             //Act
             var resultDeletedFail = await repository.Delete(Guid.NewGuid());
@@ -88,16 +77,13 @@ namespace ClientService.Tests.Repositories
             var context = ApplicationClientDbContextInMemory.Get();
             var repository = new ClientRepository(context);
             var idClient = Guid.NewGuid();
-            var ClientTest = new Client()
-            {
-                Id = idClient,
-                Email = "test@test.com",
-                Name = "Name Test",
-                SurName = "Surname Test"
-            };
+            var clientTest = Client.Build(
+                withEmail: "client1@test.com",
+                withSurName: "Test surname",
+                withName: "Test name");
 
             //Act
-            await repository.Create(ClientTest);
+            await repository.Create(clientTest.Value);
             var list = await repository.GetAll();
 
             //Assert
@@ -109,20 +95,16 @@ namespace ClientService.Tests.Repositories
         {
             //Arrange
             var context = ApplicationClientDbContextInMemory.Get();
-            var idClient = Guid.NewGuid();
             var repository = new ClientRepository(context);
 
-            var ClientTest = new Client()
-            {
-                Id = idClient,
-                Email = "test@test.com",
-                Name = "Name Test",
-                SurName = "Surname Test"
-            };
+            var clientTest = Client.Build(
+                withEmail: "client1@test.com",
+                withSurName: "Test surname",
+                withName: "Test name");
 
             //Act
-            await repository.Create(ClientTest);
-            var ClientById = await repository.GetById(idClient);
+            await repository.Create(clientTest.Value);
+            var ClientById = await repository.GetById(clientTest.Value.Id);
 
             //Assert
             Assert.NotNull(ClientById.Value);
@@ -137,16 +119,13 @@ namespace ClientService.Tests.Repositories
             var idClient = Guid.NewGuid();
             var repository = new ClientRepository(context);
 
-            var ClientTest = new Client()
-            {
-                Id = idClient,
-                Email = "test@test.com",
-                Name = "Name Test",
-                SurName = "Surname Test"
-            };
+            var clientTest = Client.Build(
+                withEmail: "client1@test.com",
+                withSurName: "Test surname",
+                withName: "Test name");
 
             //Act
-            await repository.Create(ClientTest);
+            await repository.Create(clientTest.Value);
             var ClientById = await repository.GetById(Guid.NewGuid());
 
             //Assert
@@ -159,23 +138,19 @@ namespace ClientService.Tests.Repositories
             //Arrange
             var context = ApplicationClientDbContextInMemory.Get();
             var repository = new ClientRepository(context);
-            var idClient = Guid.NewGuid();
             var newEmail = "NewEmailUpdated";
-            var ClientTest = new Client()
-            {
-                Id = idClient,
-                Email = "test@test.com",
-                Name = "Name Test",
-                SurName = "Surname Test"
-            };
+            var clientTest = Client.Build(
+                withEmail: "client1@test.com",
+                withSurName: "Test surname",
+                withName: "Test name");
             //Act
-            await repository.Create(ClientTest);
-            var ClientById = await repository.GetById(idClient);
+            await repository.Create(clientTest.Value);
+            var ClientById = await repository.GetById(clientTest.Value.Id);
             var ClientToUpdate = ClientById.Value;
             ClientToUpdate.Email = newEmail;
             await repository.Update(ClientToUpdate);
 
-            var ClientByIdUpdated = await repository.GetById(idClient);
+            var ClientByIdUpdated = await repository.GetById(clientTest.Value.Id);
 
             //Assert
             Assert.True(ClientToUpdate.Email == newEmail);

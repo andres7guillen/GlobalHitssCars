@@ -22,17 +22,13 @@ namespace CarService.Tests.Queries
             var mockCarRepository = new Mock<ICarRepository>();
             var mockLogger = new Mock<ILogger>();
             List<Car> cars = new List<Car>();
-            var newGuid = Guid.NewGuid();
-            var Car1 = new Car()
-            {
-                Brand = "Brand test1",
-                Colour = "Colour test1",
-                Id = newGuid,
-                LicensePlate = "Test1",
-                Model = 1970,
-                Reference = "Reference test1"
-            };
-            cars.Add(Car1);
+            var car1 = Car.Build("Brand test1",
+                2021,
+                "Reference test1",
+                "Colour test1",
+                "ABC123"
+                );
+            cars.Add(car1.Value);
 
             mockCarRepository.Setup(repo => repo.GetCarByFilter(It.IsAny<CarByFilterDTO>()))
                 .ReturnsAsync(cars);

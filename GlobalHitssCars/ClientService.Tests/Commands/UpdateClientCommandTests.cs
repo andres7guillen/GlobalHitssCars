@@ -11,18 +11,14 @@ namespace ClientService.Tests.Commands
         public async void UpdateClientShouldWorks()
         {
             //Arrange
-            var newGuid = Guid.NewGuid();
-            Client client1 = new Client()
-            {
-                Email = "client1@test.com",
-                Id = Guid.NewGuid(),
-                Name = "Test name",
-                SurName = "Test surname"
-            };
+            var clientExpected = Client.Build(
+                withEmail: "client1@test.com",
+                withSurName: "Test surname",
+                withName: "Test name");
             var mockClientRepository = new Mock<IClientRepository>();
             mockClientRepository.Setup(repo => repo.Update(It.IsAny<Client>()))
                 .ReturnsAsync(true);
-            var command = new UpdateClientCommand(client1);
+            var command = new UpdateClientCommand(clientExpected.Value.Name, clientExpected.Value.SurName, clientExpected.Value.Email, clientExpected.Value.Id);
             var handler = new UpdateClientCommand.UpdateClientCommandHandler(mockClientRepository.Object);
 
             //Act
@@ -37,18 +33,14 @@ namespace ClientService.Tests.Commands
         public async void UpdateClientShouldFails()
         {
             //Arrange
-            var newGuid = Guid.NewGuid();
-            Client client1 = new Client()
-            {
-                Email = "client1@test.com",
-                Id = Guid.NewGuid(),
-                Name = "Test name",
-                SurName = "Test surname"
-            };
+            var clientExpected = Client.Build(
+                withEmail: "client1@test.com",
+                withSurName: "Test surname",
+                withName: "Test name");
             var mockClientRepository = new Mock<IClientRepository>();
             mockClientRepository.Setup(repo => repo.Update(It.IsAny<Client>()))
                 .ReturnsAsync(false);
-            var command = new UpdateClientCommand(client1);
+            var command = new UpdateClientCommand(clientExpected.Value.Name, clientExpected.Value.SurName, clientExpected.Value.Email, clientExpected.Value.Id);
             var handler = new UpdateClientCommand.UpdateClientCommandHandler(mockClientRepository.Object);
 
             //Act

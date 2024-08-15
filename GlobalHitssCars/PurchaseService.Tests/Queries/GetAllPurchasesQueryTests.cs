@@ -18,22 +18,16 @@ namespace PurchaseService.Tests.Queries
         {
             //Arrange
             List<Purchase> list = new List<Purchase>();
-            Purchase purchase1 = new Purchase()
-            {
-                Amount = 10,
-                CarId = Guid.NewGuid(),
-                ClientId = Guid.NewGuid(),
-                Id = Guid.NewGuid()
-            };
-            Purchase purchase2 = new Purchase()
-            {
-                Amount = 20,
-                CarId = Guid.NewGuid(),
-                ClientId = Guid.NewGuid(),
-                Id = Guid.NewGuid()
-            };
-            list.Add(purchase1);
-            list.Add(purchase2);
+            var purchaseExpected1 = Purchase.Build(
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+                70000000);
+            var purchaseExpected2 = Purchase.Build(
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+                78000000);
+            list.Add(purchaseExpected1.Value);
+            list.Add(purchaseExpected2.Value);
 
             var mockPurchaseRepository = new Mock<IPurchaseRepository>();
             mockPurchaseRepository.Setup(repo => repo.GetAll(It.IsAny<int>(), It.IsAny<int>()))

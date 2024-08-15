@@ -53,7 +53,7 @@ namespace CarService.Tests.Commands
 
             //Assert
             Assert.False(result.IsSuccess);
-            Assert.Equal("4004: Error deleting car", result.Error);
+            Assert.Equal("4004: Error deleting car.", result.Error);
             mockCarRepository.Verify(repo => repo.Delete(It.IsAny<Guid>()), Times.Once);
         }
 
