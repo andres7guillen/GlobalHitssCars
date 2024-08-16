@@ -2,11 +2,6 @@
 using PurchaseApplication.Commands;
 using PurchaseServiceDomain.Entities;
 using PurchaseServiceDomain.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PurchaseService.Tests.Commands
 {
@@ -21,9 +16,11 @@ namespace PurchaseService.Tests.Commands
                 Guid.NewGuid(),
                 70000000);
             var mockPurchaseRepository = new Mock<IPurchaseRepository>();
+            mockPurchaseRepository.Setup(repo => repo.GetById(It.IsAny<Guid>()))
+                .ReturnsAsync(purchaseExpected.Value);
             mockPurchaseRepository.Setup(repo => repo.Update(It.IsAny<Purchase>()))
                 .ReturnsAsync(true);
-            var command = new UpdatePurchaseCommand(purchaseExpected.Value);
+            var command = new UpdatePurchaseCommand(purchaseExpected.Value.Amount);
             var handler = new UpdatePurchaseCommand.UpdatePurchaseCommandHandler(mockPurchaseRepository.Object);
 
             //Act
@@ -43,9 +40,11 @@ namespace PurchaseService.Tests.Commands
                 Guid.NewGuid(),
                 70000000);
             var mockPurchaseRepository = new Mock<IPurchaseRepository>();
+            mockPurchaseRepository.Setup(repo => repo.GetById(It.IsAny<Guid>()))
+                .ReturnsAsync(purchaseExpected.Value);
             mockPurchaseRepository.Setup(repo => repo.Update(It.IsAny<Purchase>()))
                 .ReturnsAsync(false);
-            var command = new UpdatePurchaseCommand(purchaseExpected.Value);
+            var command = new UpdatePurchaseCommand(purchaseExpected.Value.Amount);
             var handler = new UpdatePurchaseCommand.UpdatePurchaseCommandHandler(mockPurchaseRepository.Object);
 
             //Act

@@ -40,5 +40,24 @@ namespace SparePartsServiceDomain.Entities
             return new SparePart(withId, withSpareName, withBrandSpare, withBrandCar, withModelCar, withReferenceCar, withIsInStock, withStock);
         }
 
+        public void UpdateSpare(string? spareName = null, string? brandSpare = null, string? brandCar = null, int? model = null, string? reference = null, bool? isInStock = null, int? stock = null) 
+        {
+            if (!string.IsNullOrWhiteSpace(spareName))
+                SpareName = spareName;
+            if(!string.IsNullOrWhiteSpace(brandSpare))
+                BrandSpare = brandSpare;
+            if(!string.IsNullOrWhiteSpace(brandCar))
+                BrandCar = brandCar;
+            if(model.HasValue)
+                ModelCar = model.Value;
+            if(!string.IsNullOrWhiteSpace(reference))
+                ReferenceCar = reference;
+            if(isInStock.HasValue)
+                IsInStock = isInStock.Value;
+            if(stock.HasValue)
+                Stock = stock.Value;
+
+        }
+
     }
 }

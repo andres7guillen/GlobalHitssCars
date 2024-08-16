@@ -65,5 +65,19 @@ namespace CarServiceDomain.Entities
             return new Car(withId, withBrand, withModel, withReference, withColour, withLicensePlate);
         }
 
+        public void UpdateCar(string? newBrand = null, int? newModel = null, string? newReference = null, string? newColour = null, string? newLicensePlate = null) 
+        { 
+            if(!string.IsNullOrWhiteSpace(newBrand))
+                Brand = newBrand;
+            if (newModel.HasValue)
+                Model = newModel.Value;
+            if(!string.IsNullOrWhiteSpace(newReference))
+                Reference = newReference;
+            if(!string.IsNullOrWhiteSpace(newColour))
+                Colour = newColour;
+            if(!string.IsNullOrWhiteSpace(newLicensePlate))
+                LicensePlate = newLicensePlate;
+        }
+
     }
 }

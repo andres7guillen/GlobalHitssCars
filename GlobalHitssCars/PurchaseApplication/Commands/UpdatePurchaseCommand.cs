@@ -13,11 +13,12 @@ namespace PurchaseApplication.Commands
 {
     public class UpdatePurchaseCommand : IRequest<Result<bool>>
     {
-        public Purchase Purchase { get; set; }
+        public Guid Id { get; set; }
+        public double Amount { get; set; }
 
-        public UpdatePurchaseCommand(Purchase purchase)
+        public UpdatePurchaseCommand(double amount)
         {
-            Purchase = purchase;
+            Amount = amount;
         }
 
         public class UpdatePurchaseCommandHandler : IRequestHandler<UpdatePurchaseCommand, Result<bool>>
@@ -31,7 +32,11 @@ namespace PurchaseApplication.Commands
 
             public async Task<Result<bool>> Handle(UpdatePurchaseCommand request, CancellationToken cancellationToken)
             {
-                var isUpdated = await _purchaseRepository.Update(request.Purchase);
+                var purchase = await _purchaseRepository.GetById(request.Id);
+                purchase.Value.Amount = request.Amount;
+                purchase.Value.UpdatePurchase();
+                var isUpdated = await _purchaseRepository.Update(purchase.Value);
+
                 return isUpdated
                     ? Result.Success(isUpdated)
                     : Result.Failure<bool>(PurchaseContextExceptionEnum.ErrorUpdatingPurchase.GetErrorMessage());

@@ -29,7 +29,7 @@ namespace ClientService.Tests.Commands
                 .ReturnsAsync(clientExpected.Value);
 
             var handler = new CreateClientCommand.CreateClientCommandHandler(mockClientRepository.Object);
-            var command = new CreateClientCommand(clientExpected.Value.Id, clientExpected.Value.Name, clientExpected.Value.SurName, clientExpected.Value.Email);
+            var command = new CreateClientCommand(clientExpected.Value.Name, clientExpected.Value.SurName, clientExpected.Value.Email);
 
             //Act
             var result = await handler.Handle(command, CancellationToken.None);
@@ -54,7 +54,7 @@ namespace ClientService.Tests.Commands
             mockClientRepository.Setup(repo => repo.Create(It.IsAny<Client>()))
                 .ReturnsAsync((Client)null);
 
-            var command = new CreateClientCommand(clientExpected.Value.Id, clientExpected.Value.Name, clientExpected.Value.SurName, clientExpected.Value.Email);
+            var command = new CreateClientCommand(clientExpected.Value.Name, clientExpected.Value.SurName, clientExpected.Value.Email);
             var handler = new CreateClientCommand.CreateClientCommandHandler(mockClientRepository.Object);
 
             //Act

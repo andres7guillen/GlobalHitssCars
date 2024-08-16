@@ -26,7 +26,11 @@ namespace CarService.Tests.Commands
             mockCarRepository.Setup(repo => repo.Create(It.IsAny<Car>()))
             .ReturnsAsync(expectedCar.Value);
 
-            var command = new CreateCarCommand(expectedCar.Value);
+            var command = new CreateCarCommand(expectedCar.Value.Brand, 
+                expectedCar.Value.Model, 
+                expectedCar.Value.Reference, 
+                expectedCar.Value.Colour, 
+                expectedCar.Value.LicensePlate);
             var handler = new CreateCarCommand.CreateCarCommandHandler(mockCarRepository.Object, mockLogger.Object);
 
             //Act
@@ -53,7 +57,11 @@ namespace CarService.Tests.Commands
 
             mockCarRepository.Setup(repo => repo.Create(It.IsAny<Car>()))
                 .ReturnsAsync((Car car) => null);
-            var command = new CreateCarCommand(expectedCar.Value);
+            var command = new CreateCarCommand(expectedCar.Value.Brand,
+                expectedCar.Value.Model,
+                expectedCar.Value.Reference,
+                expectedCar.Value.Colour,
+                expectedCar.Value.LicensePlate);
             var handler = new CreateCarCommand.CreateCarCommandHandler(mockCarRepository.Object, mockLogger.Object);
 
             //Act

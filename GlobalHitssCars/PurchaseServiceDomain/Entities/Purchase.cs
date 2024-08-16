@@ -37,6 +37,10 @@ namespace PurchaseServiceDomain.Entities
             return new Purchase(withCarId, withClientId, withCarId, withAmount);
         }
 
-
+        public void UpdatePurchase(double? amount = null)
+        {
+            if (amount.HasValue)
+                Amount = amount.Value;
+        }
     }
 }

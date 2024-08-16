@@ -29,8 +29,13 @@ namespace CarServiceAPI.Controllers.UpdateCar
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomResponse<object>))]
         public async Task<IActionResult> UpdateCar([FromBody] CarModel model)
         {
-            var carEntity = _mapper.Map<Car>(model);
-            var carUpdated = await _mediator.Send(new UpdateCarCommand(carEntity));
+            var carUpdated = await _mediator.Send(new UpdateCarCommand(
+                Guid.Parse(model.Id),
+                model.Brand, 
+                model.Model, 
+                model.Reference, 
+                model.Colour, 
+                model.LicensePlate));
 
             if (carUpdated.IsFailure)
                 return BadRequest(carUpdated.Error);

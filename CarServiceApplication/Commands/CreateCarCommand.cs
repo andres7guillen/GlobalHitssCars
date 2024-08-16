@@ -10,12 +10,21 @@ namespace CarServiceApplication.Commands
 {
     public class CreateCarCommand : IRequest<Result<Car>>
     {
-        public Car Car { get; set; }
+        public string Brand { get; set; }
+        public int Model { get; set; }
+        public string Reference { get; set; }
+        public string Colour { get; set; }
+        public string LicensePlate { get; set; }
 
-        public CreateCarCommand(Car car)
+        public CreateCarCommand(string brand, int model, string reference, string colour, string licensePlate)
         {
-            Car = car;
-        }
+            Brand = brand;
+            Model = model;
+            Reference = reference;
+            Colour = colour;
+            LicensePlate = licensePlate;
+        }        
+        
 
         public class CreateCarCommandHandler : IRequestHandler<CreateCarCommand, Result<Car>>
         {
@@ -28,9 +37,10 @@ namespace CarServiceApplication.Commands
             }
             public async Task<Result<Car>> Handle(CreateCarCommand request, CancellationToken cancellationToken)
             {
-                _logger.Info("Create car command started");               
+                _logger.Info("Create car command started");
+                var carToCreate = Car.Build(request.Brand, request.Model, request.Reference, request.Colour, request.LicensePlate);
 
-                var saveResult = await _carRepository.Create(request.Car);
+                var saveResult = await _carRepository.Create(carToCreate.Value);
                 if (saveResult == null)
                 {
                     _logger.Error(CarContextExceptionEnum.ErrorCreatingCar.GetErrorMessage(), new Exception());

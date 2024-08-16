@@ -30,9 +30,7 @@ namespace PurchaseServiceAPI.Controllers.Create
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomResponse<object>))]
         public async Task<IActionResult> Create([FromBody] PurchaseModel model)
         {
-            var purchaseEntity = _mapper.Map<Purchase>(model);
-            purchaseEntity.Id = Guid.NewGuid();
-            var result = await _mediator.Send(new CreatePurchaseCommand(purchaseEntity));
+            var result = await _mediator.Send(new CreatePurchaseCommand(Guid.Parse(model.ClientId),Guid.Parse(model.CarId), model.Amount));
             if (result.IsFailure)
                 return BadRequest(result.Error);
             var response = new CreatePurchaseResponse

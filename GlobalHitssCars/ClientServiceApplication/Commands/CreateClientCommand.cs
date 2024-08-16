@@ -14,14 +14,12 @@ namespace ClientServiceApplication.Commands
 {
     public class CreateClientCommand : IRequest<Result<Client>>
     {
-        public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string SurName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
 
-        public CreateClientCommand(Guid id, string name, string surName, string email)
+        public CreateClientCommand(string name, string surName, string email)
         {
-            Id = id;
             Name = name;
             SurName = surName;
             Email = email;

@@ -3,22 +3,24 @@ using MediatR;
 using PurchaseServiceDomain.Entities;
 using PurchaseServiceDomain.Exceptions;
 using PurchaseServiceDomain.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PurchaseApplication.Commands
 {
     public class CreatePurchaseCommand : IRequest<Result<Purchase>>
     {
-        public Purchase Purchase { get; set; }
 
-        public CreatePurchaseCommand(Purchase purchase)
+        public Guid ClientId { get; set; }
+        public Guid CarId { get; set; }
+        public double Amount { get; set; }
+
+        public CreatePurchaseCommand(Guid clientId, Guid carId, double amount)
         {
-            Purchase = purchase;
+            ClientId = clientId;
+            CarId = carId;
+            Amount = amount;
         }
+
+
 
         public class CreatePurchaseCommandHandler : IRequestHandler<CreatePurchaseCommand, Result<Purchase>>
         {
@@ -31,7 +33,8 @@ namespace PurchaseApplication.Commands
 
             public async Task<Result<Purchase>> Handle(CreatePurchaseCommand request, CancellationToken cancellationToken)
             {
-                var purchaseCreated = await _purchaseRepository.Create(request.Purchase);
+                var purchase = Purchase.Build(request.ClientId, request.CarId, request.Amount);
+                var purchaseCreated = await _purchaseRepository.Create(purchase.Value);
                 return purchaseCreated == null
                     ? Result.Failure<Purchase>(PurchaseContextExceptionEnum.ErrorCreatingPurchase.GetErrorMessage())
                     : Result.Success<Purchase>(purchaseCreated);

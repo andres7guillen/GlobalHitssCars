@@ -20,7 +20,7 @@ namespace SparePartsService.Tests.Commands
             var mockSparePartRepository = new Mock<ISparePartRepository>();
             var mockLogger = new Mock<ILogger>();
 
-            var SparePartExpected = SparePart.Build("Spare test", 
+            var sparePartExpected = SparePart.Build("Spare test", 
                 "Brand spare test", 
                 "Brand car test", 
                 2000, 
@@ -28,9 +28,15 @@ namespace SparePartsService.Tests.Commands
                 true, 
                 10);
             mockSparePartRepository.Setup(repo => repo.Create(It.IsAny<SparePart>()))
-                .ReturnsAsync(SparePartExpected.Value);
+                .ReturnsAsync(sparePartExpected.Value);
 
-            var command = new CreateSparePartCommand(SparePartExpected.Value);
+            var command = new CreateSparePartCommand(sparePartExpected.Value.SpareName, 
+                sparePartExpected.Value.BrandSpare, 
+                sparePartExpected.Value.BrandCar,
+                sparePartExpected.Value.ModelCar,
+                sparePartExpected.Value.ReferenceCar,
+                sparePartExpected.Value.IsInStock,
+                sparePartExpected.Value.Stock);
             var handler = new CreateSparePartCommand.CreateSparePartCommandHandler(mockSparePartRepository.Object);
 
             //Act
@@ -38,7 +44,7 @@ namespace SparePartsService.Tests.Commands
 
             //Assert
             Assert.True(result.IsSuccess);
-            Assert.Equal(SparePartExpected.Value, result.Value);
+            Assert.Equal(sparePartExpected.Value, result.Value);
             mockSparePartRepository.Verify(repo => repo.Create(It.IsAny<SparePart>()), Times.Once);
         }
 
@@ -49,7 +55,7 @@ namespace SparePartsService.Tests.Commands
             var mockSparePartRepository = new Mock<ISparePartRepository>();
             var mockLogger = new Mock<ILogger>();
 
-            var SparePartExpected = SparePart.Build("Spare test",
+            var sparePartExpected = SparePart.Build("Spare test",
                 "Brand spare test",
                 "Brand car test",
                 2000,
@@ -59,7 +65,13 @@ namespace SparePartsService.Tests.Commands
             mockSparePartRepository.Setup(repo => repo.Create(It.IsAny<SparePart>()))
                 .ReturnsAsync((SparePart)null);
 
-            var command = new CreateSparePartCommand(SparePartExpected.Value);
+            var command = new CreateSparePartCommand(sparePartExpected.Value.SpareName,
+                sparePartExpected.Value.BrandSpare,
+                sparePartExpected.Value.BrandCar,
+                sparePartExpected.Value.ModelCar,
+                sparePartExpected.Value.ReferenceCar,
+                sparePartExpected.Value.IsInStock,
+                sparePartExpected.Value.Stock);
             var handler = new CreateSparePartCommand.CreateSparePartCommandHandler(mockSparePartRepository.Object);
 
             //Act
