@@ -38,5 +38,15 @@ namespace ClientServiceDomain.Entities
             return new Client(withId, withName, withSurName, withEmail);
         }
 
+        public void UpdateClient(string? name = null, string? surName = null, string? email = null) 
+        { 
+            if(!string.IsNullOrWhiteSpace(name))
+                Name = name;
+            if(!string.IsNullOrWhiteSpace(surName))
+                SurName = surName;
+            if(!string.IsNullOrWhiteSpace(email))
+                Email = email;
+        }
+
     }
 }

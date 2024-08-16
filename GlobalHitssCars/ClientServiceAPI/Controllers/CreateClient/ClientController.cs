@@ -32,9 +32,7 @@ namespace ClientServiceAPI.Controllers.CreateController
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomResponse<object>))]
         public async Task<IActionResult> CreateClient([FromBody] ClientModel model)
         {
-            var clientEntity = _mapper.Map<Client>(model);
-            clientEntity.Id = Guid.NewGuid();
-            var clientCreated = await _mediator.Send(new CreateClientCommand(clientEntity.Id, clientEntity.Name, clientEntity.SurName, clientEntity.Email));
+            var clientCreated = await _mediator.Send(new CreateClientCommand(model.Name, model.SurName, model.Email));
             if (clientCreated.IsFailure)
                 return BadRequest(clientCreated.Error);
             var response = new CreateClientResponse

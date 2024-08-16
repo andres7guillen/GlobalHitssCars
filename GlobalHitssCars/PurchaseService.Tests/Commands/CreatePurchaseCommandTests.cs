@@ -28,7 +28,7 @@ namespace PurchaseService.Tests.Commands
             mockPurchaseRepository.Setup(repo => repo.Create(It.IsAny<Purchase>()))
                 .ReturnsAsync(purchaseExpected.Value);
 
-            var command = new CreatePurchaseCommand(purchaseExpected.Value);
+            var command = new CreatePurchaseCommand(purchaseExpected.Value.ClientId, purchaseExpected.Value.CarId,purchaseExpected.Value.Amount);
             var handler = new CreatePurchaseCommand.CreatePurchaseCommandHandler(mockPurchaseRepository.Object);
 
             //Act
@@ -47,7 +47,6 @@ namespace PurchaseService.Tests.Commands
             var mockPurchaseRepository = new Mock<IPurchaseRepository>();
             var mockLogger = new Mock<ILogger>();
 
-            var newGuid = Guid.NewGuid();
             var purchaseExpected = Purchase.Build(
                 Guid.NewGuid(),
                 Guid.NewGuid(),
@@ -55,7 +54,7 @@ namespace PurchaseService.Tests.Commands
             mockPurchaseRepository.Setup(repo => repo.Create(It.IsAny<Purchase>()))
                 .ReturnsAsync((Purchase)null);
 
-            var command = new CreatePurchaseCommand(purchaseExpected.Value);
+            var command = new CreatePurchaseCommand(purchaseExpected.Value.ClientId,purchaseExpected.Value.CarId, purchaseExpected.Value.Amount);
             var handler = new CreatePurchaseCommand.CreatePurchaseCommandHandler(mockPurchaseRepository.Object);
 
             //Act

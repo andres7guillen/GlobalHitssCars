@@ -24,7 +24,15 @@ namespace CarService.Tests.Commands
             var mockCarRepository = new Mock<ICarRepository>();
             mockCarRepository.Setup(repo => repo.Update(It.IsAny<Car>()))
                 .ReturnsAsync(true);
-            var command = new UpdateCarCommand(car1.Value);
+            mockCarRepository.Setup(repo => repo.GetById(It.IsAny<Guid>()))
+                .ReturnsAsync(car1.Value);
+            var command = new UpdateCarCommand(
+                car1.Value.Id,
+                car1.Value.Brand,
+                car1.Value.Model,
+                car1.Value.Reference,
+                car1.Value.Colour,
+                car1.Value.LicensePlate);
             var handler = new UpdateCarCommand.UpdateCarCommandHandler(mockCarRepository.Object);
 
             //Act
@@ -33,6 +41,8 @@ namespace CarService.Tests.Commands
             //Assert
             Assert.True(result.IsSuccess);
             Assert.True(result.Value);
+            mockCarRepository.Verify(repo => repo.Update(It.IsAny<Car>()), Times.Once);
+
         }
 
         [Fact]
@@ -47,7 +57,15 @@ namespace CarService.Tests.Commands
             var mockCarRepository = new Mock<ICarRepository>();
             mockCarRepository.Setup(repo => repo.Update(It.IsAny<Car>()))
                 .ReturnsAsync(false);
-            var command = new UpdateCarCommand(car1.Value);
+            mockCarRepository.Setup(repo => repo.GetById(It.IsAny<Guid>()))
+                .ReturnsAsync(car1.Value);
+            var command = new UpdateCarCommand(
+                car1.Value.Id,
+                car1.Value.Brand,
+                car1.Value.Model,
+                car1.Value.Reference,
+                car1.Value.Colour,
+                car1.Value.LicensePlate);
             var handler = new UpdateCarCommand.UpdateCarCommandHandler(mockCarRepository.Object);
 
             //Act

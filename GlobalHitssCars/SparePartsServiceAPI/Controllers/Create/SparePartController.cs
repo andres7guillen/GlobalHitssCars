@@ -32,8 +32,7 @@ namespace SparePartsServiceAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomResponse<object>))]
         public async Task<IActionResult> Create([FromBody] SparePartModel model)
         {
-            var sparePartEntity = _mapper.Map<SparePart>(model);
-            var result = await _mediator.Send(new CreateSparePartCommand(sparePartEntity));
+            var result = await _mediator.Send(new CreateSparePartCommand(model.SpareName, model.SpareName, model.BrandCar, model.ModelCar,model.ReferenceCar, model.IsInStock, model.Stock));
             if (result.IsFailure)
                 BadRequest(result.Error);
             var response = new CreateSparePartResponse()

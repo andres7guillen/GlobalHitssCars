@@ -18,6 +18,8 @@ namespace ClientService.Tests.Commands
             var mockClientRepository = new Mock<IClientRepository>();
             mockClientRepository.Setup(repo => repo.Update(It.IsAny<Client>()))
                 .ReturnsAsync(true);
+            mockClientRepository.Setup(repo => repo.GetById(It.IsAny<Guid>()))
+                .ReturnsAsync(clientExpected.Value);
             var command = new UpdateClientCommand(clientExpected.Value.Name, clientExpected.Value.SurName, clientExpected.Value.Email, clientExpected.Value.Id);
             var handler = new UpdateClientCommand.UpdateClientCommandHandler(mockClientRepository.Object);
 
@@ -27,6 +29,7 @@ namespace ClientService.Tests.Commands
             //Assert
             Assert.True(result.IsSuccess);
             Assert.True(result.Value);
+            mockClientRepository.Verify(repo => repo.Update(It.IsAny<Client>()), Times.Once);
         }
 
         [Fact]
@@ -38,6 +41,8 @@ namespace ClientService.Tests.Commands
                 withSurName: "Test surname",
                 withName: "Test name");
             var mockClientRepository = new Mock<IClientRepository>();
+            mockClientRepository.Setup(repo => repo.GetById(It.IsAny<Guid>()))
+                .ReturnsAsync(clientExpected.Value);
             mockClientRepository.Setup(repo => repo.Update(It.IsAny<Client>()))
                 .ReturnsAsync(false);
             var command = new UpdateClientCommand(clientExpected.Value.Name, clientExpected.Value.SurName, clientExpected.Value.Email, clientExpected.Value.Id);

@@ -32,8 +32,7 @@ namespace CarServiceAPI.Controllers.CreateCar
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomResponse<object>))]
         public async Task<IActionResult> Create([FromBody] CarModel model)
         {
-            var carEntity = _mapper.Map<Car>(model);
-            var carResult = await _mediator.Send(new CreateCarCommand(carEntity));
+            var carResult = await _mediator.Send(new CreateCarCommand(model.Brand, model.Model, model.Reference, model.Colour, model.LicensePlate));
             if (carResult.IsFailure)
                 return BadRequest(carResult.Error);
             var response = new CreateCarResponse

@@ -36,7 +36,12 @@ namespace ClientServiceApplication.Commands
 
             public async Task<Result<bool>> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
             {
-                var clientToUpdate = Client.Load(request.Id, request.Name, request.SurName, request.Email);
+                var clientToUpdate = await _clientRepository.GetById(request.Id);
+                clientToUpdate.Value.Email = request.Email;
+                clientToUpdate.Value.Name = request.Name;
+                clientToUpdate.Value.Id = request.Id;
+                clientToUpdate.Value.SurName = request.SurName;
+                clientToUpdate.Value.UpdateClient();
 
                 var isUpdated = await _clientRepository.Update(clientToUpdate.Value);
                 return isUpdated
