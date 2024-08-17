@@ -11,7 +11,7 @@ namespace PurchaseServiceDomain.Repository
     public interface IPurchaseRepository
     {
         Task<Purchase> Create(Purchase model);
-        Task<IEnumerable<Purchase>> GetAll(int offset, int limit);
+        Task<Tuple<int,IEnumerable<Purchase>>> GetAll(int offset, int limit);
         Task<Maybe<Purchase>> GetById(Guid id);
         Task<bool> Update(Purchase model);
         Task<bool> Delete(Guid id);

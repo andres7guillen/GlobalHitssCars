@@ -62,7 +62,7 @@ namespace SparePartsService.Tests.Queries
             var mockSparePartRepository = new Mock<ISparePartRepository>();
             List<SparePart> list = new List<SparePart>();
             mockSparePartRepository.Setup(repo => repo.GetAllSpareParts(It.IsAny<int>(), It.IsAny<int>()))
-                .ReturnsAsync(list);
+                .ReturnsAsync(new Tuple<int, IEnumerable<SparePart>>(list.Count(), list));
 
             var query = new GetAllSparePartsQuery(0, 10);
             var handler = new GetAllSparePartsQuery.GetAllSparePartsQueryHandler(mockSparePartRepository.Object);

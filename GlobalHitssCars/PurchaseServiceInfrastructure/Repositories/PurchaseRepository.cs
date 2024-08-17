@@ -37,14 +37,15 @@ namespace PurchaseServiceInfrastructure.Repositories
                 : false;
         }
 
-        public async Task<IEnumerable<Purchase>> GetAll(int offset = 0, int limit = 10)
+        public async Task<Tuple<int,IEnumerable<Purchase>>> GetAll(int offset = 0, int limit = 10)
         {
+            var total = await _context.Purchases.AsQueryable().CountAsync();
             var list = await _context.Purchases
                 .Skip(offset)
                 .Take(limit)
                 .AsQueryable().ToListAsync();
             IEnumerable<Purchase> purchases = list;
-            return purchases;
+            return new Tuple<int, IEnumerable<Purchase>>(total, purchases);
         }
 
         public async Task<Maybe<Purchase>> GetById(Guid id)

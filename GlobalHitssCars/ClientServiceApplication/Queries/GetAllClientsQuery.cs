@@ -6,7 +6,7 @@ using MediatR;
 
 namespace ClientServiceApplication.Queries
 {
-    public class GetAllClientsQuery : IRequest<Result<IEnumerable<Client>>>
+    public class GetAllClientsQuery : IRequest<Result<Tuple<int, IEnumerable<Client>>>>
     {
         public int Offset { get; set; }
         public int Limit { get; set; }
@@ -15,7 +15,7 @@ namespace ClientServiceApplication.Queries
             Offset = offset;
             Limit = limit;
         }
-        public class GetAllClientsQueryHandler : IRequestHandler<GetAllClientsQuery, Result<IEnumerable<Client>>>
+        public class GetAllClientsQueryHandler : IRequestHandler<GetAllClientsQuery, Result<Tuple<int, IEnumerable<Client>>>>
         {
             private readonly IClientRepository _clientRepository;
 
@@ -24,12 +24,12 @@ namespace ClientServiceApplication.Queries
                 _clientRepository = clientRepository;
             }
 
-            public async Task<Result<IEnumerable<Client>>> Handle(GetAllClientsQuery request, CancellationToken cancellationToken)
+            public async Task<Result<Tuple<int, IEnumerable<Client>>>> Handle(GetAllClientsQuery request, CancellationToken cancellationToken)
             {
                 var listClient = await _clientRepository.GetAll(offset: request.Offset, limit: request.Limit);
-                return listClient.Count() > 0
+                return listClient.Item1 > 0
                     ? Result.Success(listClient)
-                    : Result.Failure<IEnumerable<Client>>(ClientContextExceptionEnum.NoClientsFound.GetErrorMessage());
+                    : Result.Failure<Tuple<int,IEnumerable<Client>>>(ClientContextExceptionEnum.NoClientsFound.GetErrorMessage());
             }
         }
     }

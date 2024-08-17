@@ -39,7 +39,7 @@ namespace CarServiceAPI.Controllers.GetAllCars
                     return BadRequest(list.Error);
                 var response = new GetAllCarsResponse
                 {
-                    cars = _mapper.Map<IEnumerable<Car>, IEnumerable<CarModel>>(list.Value)
+                    cars = _mapper.Map<IEnumerable<Car>, IEnumerable<CarModel>>(list.Value.Item2)
                 };
                 return Ok(CustomResponse<GetAllCarsResponse>.BuildSuccess(response));
             }

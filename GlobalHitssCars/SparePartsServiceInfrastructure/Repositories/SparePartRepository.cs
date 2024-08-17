@@ -34,15 +34,16 @@ namespace SparePartsServiceInfrastructure.Repositories
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<IEnumerable<SparePart>> GetAllSpareParts(int offset = 0, int limit = 10)
+        public async Task<Tuple<int,IEnumerable<SparePart>>> GetAllSpareParts(int offset = 0, int limit = 10)
         {
+            var total = await _context.SpareParts.AsQueryable().CountAsync();
             var spares = await _context.SpareParts
                 .Skip(offset)
                 .Take(limit)
                 .AsQueryable()
                 .ToListAsync();
             IEnumerable<SparePart> list = spares;
-            return list;
+            return new Tuple<int, IEnumerable<SparePart>>(total, list);
         }
 
         public async Task<Maybe<SparePart>> GetSparePartById(Guid id)

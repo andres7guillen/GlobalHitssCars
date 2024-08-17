@@ -35,14 +35,15 @@ namespace ClientServiceInfrastructure.Repositories
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<IEnumerable<Client>> GetAll(int offset = 0, int limit = 50)
+        public async Task<Tuple<int,IEnumerable<Client>>> GetAll(int offset = 0, int limit = 50)
         {
+            var total = await _context.Clients.AsQueryable().CountAsync();
             var list = await _context.Clients.AsQueryable()
                 .Skip(offset)
                 .Take(limit)
                 .ToListAsync();
             IEnumerable<Client> clientsCollection = list;
-            return clientsCollection;
+            return new Tuple<int, IEnumerable<Client>>(total, clientsCollection);
         }
 
         public async Task<Maybe<Client>> GetById(Guid id)
