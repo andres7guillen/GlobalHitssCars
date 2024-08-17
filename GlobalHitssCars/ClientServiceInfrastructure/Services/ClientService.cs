@@ -21,7 +21,7 @@ namespace ClientServiceInfrastructure.Services
 
         public async Task<bool> Delete(Guid id) => await _repository.Delete(id);
 
-        public async Task<IEnumerable<Client>> GetAll() => await _repository.GetAll();
+        public async Task<Tuple<int, IEnumerable<Client>>> GetAll() => await _repository.GetAll();
 
         public async Task<Client> GetById(Guid id) 
         {

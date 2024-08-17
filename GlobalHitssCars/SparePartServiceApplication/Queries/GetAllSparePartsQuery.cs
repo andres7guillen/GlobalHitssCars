@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SparePartServiceApplication.Queries
 {
-    public class GetAllSparePartsQuery : IRequest<Result<IEnumerable<SparePart>>>
+    public class GetAllSparePartsQuery : IRequest<Result<Tuple<int, IEnumerable<SparePart>>>>
     {
         public int Offset { get; set; }
         public int Limit { get; set; }
@@ -21,7 +21,7 @@ namespace SparePartServiceApplication.Queries
             Limit = limit;
         }
 
-        public class GetAllSparePartsQueryHandler : IRequestHandler<GetAllSparePartsQuery, Result<IEnumerable<SparePart>>>
+        public class GetAllSparePartsQueryHandler : IRequestHandler<GetAllSparePartsQuery, Result<Tuple<int,IEnumerable<SparePart>>>>
         {
             private ISparePartRepository _repository;
 
@@ -30,12 +30,12 @@ namespace SparePartServiceApplication.Queries
                 _repository = repository;
             }
 
-            public async Task<Result<IEnumerable<SparePart>>> Handle(GetAllSparePartsQuery request, CancellationToken cancellationToken)
+            public async Task<Result<Tuple<int, IEnumerable<SparePart>>>> Handle(GetAllSparePartsQuery request, CancellationToken cancellationToken)
             {
                 var list = await _repository.GetAllSpareParts(request.Offset, request.Limit);
-                return list.Count() > 0
+                return list.Item1 > 0
                     ? Result.Success(list)
-                    : Result.Failure<IEnumerable<SparePart>>(SparePartContextExceptionEnum.NoSparePartsFound.GetErrorMessage());
+                    : Result.Failure<Tuple<int, IEnumerable<SparePart>>>(SparePartContextExceptionEnum.NoSparePartsFound.GetErrorMessage());
             }
         }
 

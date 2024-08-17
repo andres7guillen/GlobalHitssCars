@@ -6,7 +6,7 @@ using PurchaseServiceDomain.Repository;
 
 namespace PurchaseApplication.Queries
 {
-    public class GetAllPurchasesQuery : IRequest<Result<IEnumerable<Purchase>>>
+    public class GetAllPurchasesQuery : IRequest<Result<Tuple<int, IEnumerable<Purchase>>>>
     {
         public int Offset { get; set; }
         public int Limit { get; set; }
@@ -16,7 +16,7 @@ namespace PurchaseApplication.Queries
             Limit = limit;
         }
 
-        public class GetAllPurchasesQueryHandler : IRequestHandler<GetAllPurchasesQuery, Result<IEnumerable<Purchase>>>
+        public class GetAllPurchasesQueryHandler : IRequestHandler<GetAllPurchasesQuery, Result<Tuple<int, IEnumerable<Purchase>>>>
         {
             private readonly IPurchaseRepository _purchaseRepository;
 
@@ -25,12 +25,12 @@ namespace PurchaseApplication.Queries
                 _purchaseRepository = purchaseRepository;
             }
 
-            public async Task<Result<IEnumerable<Purchase>>> Handle(GetAllPurchasesQuery request, CancellationToken cancellationToken)
+            public async Task<Result<Tuple<int, IEnumerable<Purchase>>>> Handle(GetAllPurchasesQuery request, CancellationToken cancellationToken)
             {
                 var list = await _purchaseRepository.GetAll(request.Offset, request.Limit);
-                return list.Count() > 0
+                return list.Item1 > 0
                     ? Result.Success(list)
-                    : Result.Failure<IEnumerable<Purchase>>(PurchaseContextExceptionEnum.NoPurchasesFound.GetErrorMessage());
+                    : Result.Failure<Tuple<int, IEnumerable<Purchase>>>(PurchaseContextExceptionEnum.NoPurchasesFound.GetErrorMessage());
             }
         }
     }

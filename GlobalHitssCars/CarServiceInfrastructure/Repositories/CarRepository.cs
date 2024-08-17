@@ -32,14 +32,15 @@ namespace CarServiceInfrastructure.Repositories
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<IEnumerable<Car>> GetAll(int offset = 0,int limit = 50)
+        public async Task<Tuple<int,IEnumerable<Car>>> GetAll(int offset = 0,int limit = 50)
         {
+            var count = await _context.Cars.AsQueryable().CountAsync();
             var cars = await _context.Cars.AsQueryable()
                 .Skip(offset)
                 .Take(limit)
                 .ToListAsync();
             IEnumerable<Car> carCollection = cars;
-            return carCollection;
+            return new Tuple<int, IEnumerable<Car>>(count, carCollection);
         }
 
         public async Task<Maybe<Car>> GetById(Guid id)

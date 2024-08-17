@@ -31,7 +31,7 @@ namespace CarService.Tests.Queries
             cars.Add(car1.Value);
             cars.Add(car2.Value);
             mockCarRepository.Setup(repo => repo.GetAll(It.IsAny<int>(), It.IsAny<int>()))
-                .ReturnsAsync(cars);
+                .ReturnsAsync(new Tuple<int, IEnumerable<Car>>(cars.Count(), cars));
 
             var handler = new GetAllCarsQuery.GetAllCarsQueryHandler(mockCarRepository.Object, mockLogger.Object);
             var query = new GetAllCarsQuery(offset: 0, limit: 10);
@@ -41,7 +41,7 @@ namespace CarService.Tests.Queries
 
             //Assert
             Assert.True(result.IsSuccess);
-            Assert.Equal(cars, result.Value);
+            Assert.Equal(cars, result.Value.Item2);
             mockCarRepository.Verify(repo => repo.GetAll(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
 
         }
@@ -55,7 +55,7 @@ namespace CarService.Tests.Queries
             var emptyCars = new List<Car>();
 
             mockCarRepository.Setup(repo => repo.GetAll(It.IsAny<int>(), It.IsAny<int>()))
-                             .ReturnsAsync(emptyCars);
+                             .ReturnsAsync(new Tuple<int, IEnumerable<Car>>(emptyCars.Count(), emptyCars));
 
             var handler = new GetAllCarsQuery.GetAllCarsQueryHandler(mockCarRepository.Object, mockLogger.Object);
             var query = new GetAllCarsQuery(offset: 0, limit: 10);

@@ -34,7 +34,7 @@ namespace SparePartsService.Tests.Queries
 
             var mockSparePartRepository = new Mock<ISparePartRepository>();
             mockSparePartRepository.Setup(repo => repo.GetAllSpareParts(It.IsAny<int>(), It.IsAny<int>()))
-                .ReturnsAsync(list);
+                .ReturnsAsync(new Tuple<int, IEnumerable<SparePart>>(list.Count(), list));
             var query = new GetAllSparePartsQuery(0, 10);
             var handler = new GetAllSparePartsQuery.GetAllSparePartsQueryHandler(mockSparePartRepository.Object);
 
@@ -42,7 +42,7 @@ namespace SparePartsService.Tests.Queries
             var result = await handler.Handle(query, CancellationToken.None);
             //Assert
             Assert.True(result.IsSuccess);
-            Assert.Equal(list, result.Value);
+            Assert.Equal(list, result.Value.Item2);
             mockSparePartRepository.Verify(repo => repo.GetAllSpareParts(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
         }
 
@@ -53,7 +53,7 @@ namespace SparePartsService.Tests.Queries
             var mockSparePartRepository = new Mock<ISparePartRepository>();
             List<SparePart> list = new List<SparePart>();
             mockSparePartRepository.Setup(repo => repo.GetAllSpareParts(It.IsAny<int>(), It.IsAny<int>()))
-                .ReturnsAsync(list);
+                .ReturnsAsync(new Tuple<int, IEnumerable<SparePart>>(list.Count(), list));
 
             var query = new GetAllSparePartsQuery(0, 10);
             var handler = new GetAllSparePartsQuery.GetAllSparePartsQueryHandler(mockSparePartRepository.Object);

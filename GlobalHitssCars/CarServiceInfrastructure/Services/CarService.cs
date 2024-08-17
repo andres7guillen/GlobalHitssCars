@@ -34,7 +34,7 @@ namespace CarServiceInfrastructure.Services
                 : Result.Failure<bool>(CarContextExceptionEnum.ErrorDeletingCar.GetErrorMessage());
         }
 
-        public async Task<Result<IEnumerable<Car>>> GetAll()
+        public async Task<Result<Tuple<int, IEnumerable<Car>>>> GetAll()
         { 
             var cars = await _repository.GetAll();
             return Result.Success(cars);

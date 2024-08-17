@@ -32,7 +32,7 @@ namespace ClientService.Tests.Queries
 
             var mockClientRepository = new Mock<IClientRepository>();
             mockClientRepository.Setup(repo => repo.GetAll(It.IsAny<int>(), It.IsAny<int>()))
-                .ReturnsAsync(list);
+                .ReturnsAsync(new Tuple<int,IEnumerable<Client>>(list.Count(),list));
             var query = new GetAllClientsQuery(0,10);
             var handler = new GetAllClientsQuery.GetAllClientsQueryHandler(mockClientRepository.Object);
 
@@ -40,7 +40,7 @@ namespace ClientService.Tests.Queries
             var result = await handler.Handle(query, CancellationToken.None);
             //Assert
             Assert.True(result.IsSuccess);
-            Assert.Equal(list, result.Value);
+            Assert.Equal(list, result.Value.Item2);
             mockClientRepository.Verify(repo => repo.GetAll(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
         }
 
@@ -51,7 +51,7 @@ namespace ClientService.Tests.Queries
             var mockClientRepository = new Mock<IClientRepository>();
             List<Client> list = new List<Client>();
             mockClientRepository.Setup(repo => repo.GetAll(It.IsAny<int>(), It.IsAny<int>()))
-                .ReturnsAsync(list);
+                .ReturnsAsync(new Tuple<int, IEnumerable<Client>>(list.Count(), list));
 
             var query = new GetAllClientsQuery(0, 10);
             var handler = new GetAllClientsQuery.GetAllClientsQueryHandler(mockClientRepository.Object);

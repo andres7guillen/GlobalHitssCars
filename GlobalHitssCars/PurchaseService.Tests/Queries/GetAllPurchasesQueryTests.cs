@@ -31,7 +31,7 @@ namespace PurchaseService.Tests.Queries
 
             var mockPurchaseRepository = new Mock<IPurchaseRepository>();
             mockPurchaseRepository.Setup(repo => repo.GetAll(It.IsAny<int>(), It.IsAny<int>()))
-                .ReturnsAsync(list);
+                .ReturnsAsync(new Tuple<int, IEnumerable<Purchase>>(list.Count(), list));
             var query = new GetAllPurchasesQuery(0, 10);
             var handler = new GetAllPurchasesQuery.GetAllPurchasesQueryHandler(mockPurchaseRepository.Object);
 
@@ -39,7 +39,7 @@ namespace PurchaseService.Tests.Queries
             var result = await handler.Handle(query, CancellationToken.None);
             //Assert
             Assert.True(result.IsSuccess);
-            Assert.Equal(list, result.Value);
+            Assert.Equal(list, result.Value.Item2);
             mockPurchaseRepository.Verify(repo => repo.GetAll(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
         }
 
@@ -50,7 +50,7 @@ namespace PurchaseService.Tests.Queries
             var mockPurchaseRepository = new Mock<IPurchaseRepository>();
             List<Purchase> list = new List<Purchase>();
             mockPurchaseRepository.Setup(repo => repo.GetAll(It.IsAny<int>(), It.IsAny<int>()))
-                .ReturnsAsync(list);
+                .ReturnsAsync(new Tuple<int, IEnumerable<Purchase>>(list.Count(), list));
 
             var query = new GetAllPurchasesQuery(0, 10);
             var handler = new GetAllPurchasesQuery.GetAllPurchasesQueryHandler(mockPurchaseRepository.Object);

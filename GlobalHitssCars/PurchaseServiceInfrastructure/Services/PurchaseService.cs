@@ -22,7 +22,7 @@ namespace PurchaseServiceInfrastructure.Services
 
         public async Task<bool> Delete(Guid id) => await _repository.Delete(id);
 
-        public async Task<IEnumerable<Purchase>> GetAll(int offset, int limit) => await _repository.GetAll(offset, limit);
+        public async Task<Tuple<int, IEnumerable<Purchase>>> GetAll(int offset, int limit) => await _repository.GetAll(offset, limit);
 
         public async Task<Purchase> GetById(Guid id) 
         {
