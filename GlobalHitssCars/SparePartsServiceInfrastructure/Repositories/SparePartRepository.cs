@@ -70,28 +70,6 @@ namespace SparePartsServiceInfrastructure.Repositories
                 : Result.Failure<int>(SparePartContextExceptionEnum.SparePartNotFound.GetErrorMessage());
         }
 
-        public async Task<bool> LessStock(Guid id, int stockQuantity)
-        {
-            var spare = await _context.SpareParts.FindAsync(id);
-            if (spare != null)
-            {
-                spare.Stock -= stockQuantity;
-                return await _context.SaveChangesAsync() > 0;
-            }  
-            return false;
-        }
-
-        public async Task<bool> AddStock(Guid id, int quantity)
-        {
-            var spare = await _context.SpareParts.FindAsync(id);
-            if (spare != null)
-            {
-                spare.Stock += quantity;
-                return await _context.SaveChangesAsync() > 0;
-            }
-            return false;
-        }
-
         public async Task<bool> UpdatateSpare(SparePart model)
         {
             _context.SpareParts.Update(model);

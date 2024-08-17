@@ -18,7 +18,8 @@ namespace SparePartsServiceDomain.Exceptions
         { SparePartContextExceptionEnum.NoSparePartsFound, new Tuple<int, string>((int)SparePartContextExceptionEnum.NoSparePartsFound, "No SpareParts found") },
         { SparePartContextExceptionEnum.UndefinedError, new Tuple<int, string>((int)SparePartContextExceptionEnum.UndefinedError, "Undefined error")},
         { SparePartContextExceptionEnum.IsNotEnoughStockToDelete, new Tuple<int, string>((int)SparePartContextExceptionEnum.IsNotEnoughStockToDelete,"The quantity items to delete is more than existing items in stock")},
-
+        { SparePartContextExceptionEnum.QuantityCannotBeLessThanZero, new Tuple<int, string>((int)SparePartContextExceptionEnum.QuantityCannotBeLessThanZero, "Quantity cannot be less or equal than zero." ) },
+        { SparePartContextExceptionEnum.ErrorTryingToAddStock, new Tuple<int, string>((int)SparePartContextExceptionEnum.ErrorTryingToAddStock, "Error trying to add stock") }
     };
     }
 
@@ -32,8 +33,10 @@ namespace SparePartsServiceDomain.Exceptions
         ErrorDeletingSparePart = 4004,
         NoSparePartsFound = 4005,
         IsNotEnoughStockToDelete = 4006,
-        UndefinedError = 4007,
-        ErrorTryingToLessStock = 4008
+        ErrorTryingToLessStock = 4007,
+        ErrorTryingToAddStock = 4008,
+        QuantityCannotBeLessThanZero = 4009,
+        UndefinedError = 4010
     }
 
     public static class SparePartContextExceptionEnumExtensions

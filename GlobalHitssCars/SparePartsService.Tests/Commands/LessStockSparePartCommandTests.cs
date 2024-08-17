@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Moq;
 using SparePartServiceApplication.Commands;
+using SparePartsServiceDomain.Entities;
 using SparePartsServiceDomain.Exceptions;
 using SparePartsServiceDomain.Repositories;
 using System;
@@ -13,57 +14,24 @@ namespace SparePartsService.Tests.Commands
 {
     public class LessStockSparePartCommandHandlerTests
     {
-        private readonly Mock<ISparePartRepository> _sparePartRepositoryMock;
-        private readonly LessStockSparePartCommand.LessStockSparePartCommandHandler _handler;
-
-        public LessStockSparePartCommandHandlerTests()
-        {
-            _sparePartRepositoryMock = new Mock<ISparePartRepository>();
-            _handler = new LessStockSparePartCommand.LessStockSparePartCommandHandler(_sparePartRepositoryMock.Object);
-        }
-
         [Fact]
-        public async Task Handle_ShouldReturnSuccess_WhenThereIsEnoughStock()
+        public async Task ShouldReturnFailure_WhenThereIsNotEnoughStock()
         {
-            // Arrange
-            var sparePartId = Guid.NewGuid();
-            var stockQuantity = 5;
-            var currentStock = 10;
+            // Arrange FAIIIL
+            var sparePartRepositoryMock = new Mock<ISparePartRepository>();
+            var sparePart = SparePart.Build("SampleSparePart", "BrandSpareTest", "BrandCarTest", 2000, "referenceTest", true, 10).Value;
+            var command = new LessStockSparePartCommand(Guid.NewGuid(), 50);
+            var handler = new LessStockSparePartCommand.LessStockSparePartCommandHandler(sparePartRepositoryMock.Object);
 
-            var command = new LessStockSparePartCommand(sparePartId, stockQuantity);
-
-            _sparePartRepositoryMock
-                .Setup(x => x.GetStockBySpareId(sparePartId))
-                .ReturnsAsync(Result.Success(currentStock));
-
-            _sparePartRepositoryMock
-                .Setup(x => x.LessStock(sparePartId, stockQuantity))
+            sparePartRepositoryMock
+                .Setup(repo => repo.GetSparePartById(It.IsAny<Guid>()))
+                .ReturnsAsync(sparePart);
+            sparePartRepositoryMock
+                .Setup(repo => repo.UpdatateSpare(It.IsAny<SparePart>()))
                 .ReturnsAsync(true);
 
             // Act
-            var result = await _handler.Handle(command, CancellationToken.None);
-
-            // Assert
-            Assert.True(result.IsSuccess);
-            Assert.True(result.Value);
-        }
-
-        [Fact]
-        public async Task Handle_ShouldReturnFailure_WhenThereIsNotEnoughStock()
-        {
-            // Arrange
-            var sparePartId = Guid.NewGuid();
-            var stockQuantity = 15;
-            var currentStock = 10;
-
-            var command = new LessStockSparePartCommand(sparePartId, stockQuantity);
-
-            _sparePartRepositoryMock
-                .Setup(x => x.GetStockBySpareId(sparePartId))
-                .ReturnsAsync(Result.Success(currentStock));
-
-            // Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
             Assert.False(result.IsSuccess);
@@ -71,29 +39,30 @@ namespace SparePartsService.Tests.Commands
         }
 
         [Fact]
-        public async Task Handle_ShouldReturnFailure_WhenErrorOccursWhileReducingStock()
+        public async Task ShouldReturnSuccess_WhenThereIsEnoughStock()
         {
             // Arrange
-            var sparePartId = Guid.NewGuid();
-            var stockQuantity = 5;
-            var currentStock = 10;
+            var sparePartRepositoryMock = new Mock<ISparePartRepository>();
+            var sparePart = SparePart.Build("SampleSparePart", "BrandSpareTest", "BrandCarTest", 2000, "referenceTest", true, 10).Value;
+            var command = new LessStockSparePartCommand(Guid.NewGuid(), 5);
+            var handler = new LessStockSparePartCommand.LessStockSparePartCommandHandler(sparePartRepositoryMock.Object);
 
-            var command = new LessStockSparePartCommand(sparePartId, stockQuantity);
-
-            _sparePartRepositoryMock
-                .Setup(x => x.GetStockBySpareId(sparePartId))
-                .ReturnsAsync(Result.Success(currentStock));
-
-            _sparePartRepositoryMock
-                .Setup(x => x.LessStock(sparePartId, stockQuantity))
-                .ReturnsAsync(false);
+            sparePartRepositoryMock
+                .Setup(repo => repo.GetSparePartById(It.IsAny<Guid>()))
+                .ReturnsAsync(sparePart);
+            sparePartRepositoryMock
+                .Setup(repo => repo.UpdatateSpare(It.IsAny<SparePart>()))
+                .ReturnsAsync(true);
 
             // Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.False(result.IsSuccess);
-            Assert.Equal(SparePartContextExceptionEnum.ErrorTryingToLessStock.GetErrorMessage(), result.Error);
+            Assert.True(result.IsSuccess);
+            Assert.True(result.Value);
+            sparePartRepositoryMock.Verify(repo => repo.GetSparePartById(It.IsAny<Guid>()), Times.Once);
         }
+
+
     }
 }

@@ -31,11 +31,25 @@ namespace SparePartServiceApplication.Commands
 
             public async Task<Result<bool>> Handle(AddSpareStockCommand request, CancellationToken cancellationToken)
             {
-                var newStock = await _sparePartRepository.AddStock(request.Id, request.Quantity);
-                return newStock
-                    ? Result.Success(newStock)
-                    : Result.Failure<bool>(SparePartContextExceptionEnum.ErrorUpdatingSparePart.GetErrorMessage());
+                var spare = await _sparePartRepository.GetSparePartById(request.Id);
+                if (spare.HasValue)
+                {
+                    var result = spare.Value.AddStock(request.Quantity);
+                    if (result.IsSuccess) 
+                    {
+                        var stockUpdated = await _sparePartRepository.UpdatateSpare(spare.Value);
+                        if (stockUpdated)
+                        {
+                            return Result.Success(stockUpdated);
+                        }
+                    }                    
+                    return Result.Failure<bool>(result.Error);                   
+                }
+                else
+                {
+                    return Result.Failure<bool>(SparePartContextExceptionEnum.ErrorTryingToAddStock.GetErrorMessage());
+                }
             }
         }
-    }    
+    }
 }
