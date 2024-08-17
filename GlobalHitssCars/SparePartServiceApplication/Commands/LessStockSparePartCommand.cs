@@ -8,11 +8,11 @@ namespace SparePartServiceApplication.Commands
     public class LessStockSparePartCommand : IRequest<Result<bool>>
     {
         public Guid Id { get; set; }
-        public int stockQuantity { get; set; }
+        public int StockQuantity { get; set; }
         public LessStockSparePartCommand(Guid id, int stockQuantity)
         {
             Id = id;
-            this.stockQuantity = stockQuantity;
+            StockQuantity = stockQuantity;
         }
 
         public class LessStockSparePartCommandHandler : IRequestHandler<LessStockSparePartCommand, Result<bool>>
@@ -26,13 +26,25 @@ namespace SparePartServiceApplication.Commands
 
             public async Task<Result<bool>> Handle(LessStockSparePartCommand request, CancellationToken cancellationToken)
             {
-                var totalStock = await _sparePartRepository.GetStockBySpareId(request.Id);
-                if (request.stockQuantity > totalStock.Value)
-                    return Result.Failure<bool>(SparePartContextExceptionEnum.IsNotEnoughStockToDelete.GetErrorMessage());
-                var result = await _sparePartRepository.LessStock(request.Id, request.stockQuantity);
-                return result
-                    ? Result.Success(result)
-                    : Result.Failure<bool>(SparePartContextExceptionEnum.ErrorTryingToLessStock.GetErrorMessage());
+                var spare = await _sparePartRepository.GetSparePartById(request.Id);
+                if (spare.HasValue) 
+                {
+                    var result = spare.Value.LessStock(request.StockQuantity);
+                    if (result.IsSuccess)
+                    {
+                        var stockUpdated = await _sparePartRepository.UpdatateSpare(spare.Value);
+                        if (stockUpdated)
+                        {
+                            return Result.Success(stockUpdated);
+                        }
+                    }
+                    else 
+                    {
+                        return Result.Failure<bool>(result.Error);
+                    }                    
+                }
+                return Result.Failure<bool>(SparePartContextExceptionEnum.ErrorTryingToLessStock.GetErrorMessage());
+
             }
         }
     }

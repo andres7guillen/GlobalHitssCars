@@ -198,52 +198,6 @@ namespace SparePartsService.Tests.Repositories
         }
 
         [Fact]
-        public async void LessStockShouldWorks() 
-        {
-            //Arrange
-            var context = ApplicationSparePartDbContextInMemory.Get();
-            var repository = new SparePartRepository(context);
-
-            var sparePartExpected = SparePart.Build("Spare test",
-                "Brand spare test",
-                "Brand car test",
-                2000,
-                "Reference test",
-                true,
-                10);
-
-            //Act
-            await repository.Create(sparePartExpected.Value);
-            var SpareStockSub = await repository.LessStock(sparePartExpected.Value.Id,1);
-
-            //Assert
-            Assert.True(SpareStockSub);
-        }
-
-        [Fact]
-        public async void AddStockShouldWorks() 
-        {
-            //Arrange
-            var context = ApplicationSparePartDbContextInMemory.Get();
-            var repository = new SparePartRepository(context);
-
-            var sparePartExpected = SparePart.Build("Spare test",
-                "Brand spare test",
-                "Brand car test",
-                2000,
-                "Reference test",
-                true,
-                10);
-
-            //Act
-            await repository.Create(sparePartExpected.Value);
-            var SpareStockAdded = await repository.AddStock(sparePartExpected.Value.Id, 1);
-
-            //Assert
-            Assert.True(SpareStockAdded);
-        }
-
-        [Fact]
         public async void UpdateSparePartShouldWorks()
         {
             //Arrange

@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using SparePartsServiceDomain.Exceptions;
 using System.ComponentModel.DataAnnotations;
 
 namespace SparePartsServiceDomain.Entities
@@ -35,28 +36,67 @@ namespace SparePartsServiceDomain.Entities
             return new SparePart(Guid.NewGuid(), withSpareName, withBrandSpare, withBrandCar, withModelCar, withReferenceCar, withIsInStock, withStock);
         }
 
-        public static Result<SparePart> Load(Guid withId,string withSpareName, string withBrandSpare, string withBrandCar, int withModelCar, string withReferenceCar, bool withIsInStock, int withStock)
+        public static Result<SparePart> Load(Guid withId, string withSpareName, string withBrandSpare, string withBrandCar, int withModelCar, string withReferenceCar, bool withIsInStock, int withStock)
         {
             return new SparePart(withId, withSpareName, withBrandSpare, withBrandCar, withModelCar, withReferenceCar, withIsInStock, withStock);
         }
 
-        public void UpdateSpare(string? spareName = null, string? brandSpare = null, string? brandCar = null, int? model = null, string? reference = null, bool? isInStock = null, int? stock = null) 
+        public void UpdateSpare(string? spareName = null, string? brandSpare = null, string? brandCar = null, int? model = null, string? reference = null, bool? isInStock = null, int? stock = null)
         {
             if (!string.IsNullOrWhiteSpace(spareName))
                 SpareName = spareName;
-            if(!string.IsNullOrWhiteSpace(brandSpare))
+            if (!string.IsNullOrWhiteSpace(brandSpare))
                 BrandSpare = brandSpare;
-            if(!string.IsNullOrWhiteSpace(brandCar))
+            if (!string.IsNullOrWhiteSpace(brandCar))
                 BrandCar = brandCar;
-            if(model.HasValue)
+            if (model.HasValue)
                 ModelCar = model.Value;
-            if(!string.IsNullOrWhiteSpace(reference))
+            if (!string.IsNullOrWhiteSpace(reference))
                 ReferenceCar = reference;
-            if(isInStock.HasValue)
+            if (isInStock.HasValue)
                 IsInStock = isInStock.Value;
-            if(stock.HasValue)
+            if (stock.HasValue)
                 Stock = stock.Value;
 
+        }
+
+        public Result<bool> AddStock(int? quantity = null)
+        {
+            if (quantity.HasValue)
+            {
+                if (quantity.Value <= 0)
+                {
+                    return Result.Failure<bool>(SparePartContextExceptionEnum.QuantityCannotBeLessThanZero.GetErrorMessage());
+                }
+                else 
+                {
+                    Stock += quantity.Value;
+                    return Result.Success(true);
+                }
+            }
+            return Result.Failure<bool>(SparePartContextExceptionEnum.ErrorTryingToAddStock.GetErrorMessage());
+
+        }
+
+        public Result<bool> LessStock(int? quantity = null) 
+        {
+            if (quantity.HasValue)
+            {
+                if (quantity.Value <= 0)
+                {
+                    return Result.Failure<bool>(SparePartContextExceptionEnum.QuantityCannotBeLessThanZero.GetErrorMessage());
+                }
+                else if (quantity.Value > Stock)
+                {
+                    return Result.Failure<bool>(SparePartContextExceptionEnum.IsNotEnoughStockToDelete.GetErrorMessage());
+                }
+                else 
+                { 
+                    Stock -= quantity.Value;
+                    return Result.Success(true);
+                }
+            }
+            return Result.Failure<bool>(SparePartContextExceptionEnum.ErrorTryingToLessStock.GetErrorMessage());
         }
 
     }

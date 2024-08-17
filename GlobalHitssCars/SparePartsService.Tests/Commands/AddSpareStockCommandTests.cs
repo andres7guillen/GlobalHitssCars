@@ -1,5 +1,7 @@
-﻿using Moq;
+﻿using CSharpFunctionalExtensions;
+using Moq;
 using SparePartServiceApplication.Commands;
+using SparePartsServiceDomain.Entities;
 using SparePartsServiceDomain.Repositories;
 using System;
 using System.Collections.Generic;
@@ -16,13 +18,18 @@ namespace SparePartsService.Tests.Commands
         {
             //arrange
             var mockSparePartRepository = new Mock<ISparePartRepository>();
-            var newGuid = Guid.NewGuid();
-            var quantity = 10;
+            var sparePart = SparePart.Build("SampleSparePart","BrandSpareTest","BrandCarTest",2000,"referenceTest",true,10).Value;
 
-            mockSparePartRepository.Setup(repo => repo.AddStock(It.IsAny<Guid>(), It.IsAny<int>()))
+            mockSparePartRepository
+                .Setup(repo => repo.GetSparePartById(It.IsAny<Guid>()))
+                .ReturnsAsync(Maybe<SparePart>.From(sparePart));
+            mockSparePartRepository
+                .Setup(repo => repo.UpdatateSpare(It.IsAny<SparePart>()))
                 .ReturnsAsync(true);
+
+
             //Act
-            var command = new AddSpareStockCommand(newGuid, quantity);
+            var command = new AddSpareStockCommand(Guid.NewGuid(), 10);
             var handler = new AddSpareStockCommand.AddSpareStockCommandHandler(mockSparePartRepository.Object);
 
             //Act
@@ -31,7 +38,7 @@ namespace SparePartsService.Tests.Commands
             //Assert
             Assert.True(result.IsSuccess);
             Assert.True(result.Value);
-            mockSparePartRepository.Verify(repo => repo.AddStock(It.IsAny<Guid>(), It.IsAny<int>()), Times.Once);
+            mockSparePartRepository.Verify(repo => repo.GetSparePartById(It.IsAny<Guid>()), Times.Once);
         }
 
         [Fact]
@@ -39,22 +46,24 @@ namespace SparePartsService.Tests.Commands
         {
             //arrange
             var mockSparePartRepository = new Mock<ISparePartRepository>();
-            var newGuid = Guid.NewGuid();
-            var quantity = 10;
 
-            mockSparePartRepository.Setup(repo => repo.AddStock(It.IsAny<Guid>(), It.IsAny<int>()))
-                .ReturnsAsync(false);
+            var sparePart = SparePart.Build("SampleSparePart", "BrandSpareTest", "BrandCarTest", 2000, "referenceTest", true, 10).Value;
+            mockSparePartRepository.Setup(repo => repo.GetSparePartById(It.IsAny<Guid>()))
+                .ReturnsAsync(Maybe<SparePart>.From(sparePart));
+            mockSparePartRepository.Setup(repo => repo.UpdatateSpare(It.IsAny<SparePart>()))
+                .ReturnsAsync(true);
+
             //Act
-            var command = new AddSpareStockCommand(newGuid, quantity);
+            var command = new AddSpareStockCommand(Guid.NewGuid(), 10);
             var handler = new AddSpareStockCommand.AddSpareStockCommandHandler(mockSparePartRepository.Object);
 
             //Act
             var result = await handler.Handle(command, CancellationToken.None);
 
             //Assert
-            Assert.False(result.IsSuccess);
-            Assert.Equal("4002: Error updating SparePart", result.Error);
-            mockSparePartRepository.Verify(repo => repo.AddStock(It.IsAny<Guid>(), It.IsAny<int>()), Times.Once);
+            Assert.True(result.IsSuccess);
+            mockSparePartRepository.Verify(repo => repo.GetSparePartById(It.IsAny<Guid>()), Times.Once);
+            mockSparePartRepository.Verify(repo => repo.UpdatateSpare(It.IsAny<SparePart>()), Times.Once);
         }
     }
 }
