@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarServiceData.Migrations
 {
-    [DbContext(typeof(ApplicationCarDbContext))]
+    [DbContext(typeof(ApplicationCarStockDbContext))]
     [Migration("20240404234424_changeTipoButeToInt")]
     partial class changeTipoButeToInt
     {
@@ -25,7 +25,7 @@ namespace CarServiceData.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CarServiceDomain.Entities.Car", b =>
+            modelBuilder.Entity("CarServiceDomain.Entities.CarStock", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

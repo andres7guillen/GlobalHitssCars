@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PurchaseApplication.Commands;
 using PurchaseServiceAPI.Middleware;
 using PurchaseServiceAPI.Models;
 using PurchaseServiceDomain.Entities;
+using PurchaseServiceDomain.Enum;
 using PurchaseServiceDomain.Services;
 
 namespace PurchaseServiceAPI.Controllers.Create
@@ -30,7 +32,12 @@ namespace PurchaseServiceAPI.Controllers.Create
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomResponse<object>))]
         public async Task<IActionResult> Create([FromBody] PurchaseModel model)
         {
-            var result = await _mediator.Send(new CreatePurchaseCommand(Guid.Parse(model.ClientId),Guid.Parse(model.CarId), model.Amount));
+            if (string.IsNullOrWhiteSpace(model.TypePurchase) || Enum.TryParse(model.TypePurchase, true, out TypePurchaseEnum typePurchase)) 
+            {
+                ModelState.AddModelError("Error", "'TypePurchase' must be valid.");
+                return BadRequest(ModelState);
+            }
+            var result = await _mediator.Send(new CreatePurchaseCommand(Guid.Parse(model.ClientId),Guid.Parse(model.CarId), model.Amount, typePurchase, Guid.Parse(model.SpareId), model.Quantity));
             if (result.IsFailure)
                 return BadRequest(result.Error);
             var response = new CreatePurchaseResponse

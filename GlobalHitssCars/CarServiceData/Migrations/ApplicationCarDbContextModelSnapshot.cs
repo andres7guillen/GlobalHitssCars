@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarServiceData.Migrations
 {
-    [DbContext(typeof(ApplicationCarDbContext))]
+    [DbContext(typeof(ApplicationCarStockDbContext))]
     partial class ApplicationCarDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -22,7 +22,7 @@ namespace CarServiceData.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CarServiceDomain.Entities.Car", b =>
+            modelBuilder.Entity("CarServiceDomain.Entities.CarStock", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

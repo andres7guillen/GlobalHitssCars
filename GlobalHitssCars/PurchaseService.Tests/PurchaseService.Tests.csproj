@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Common.Logging\Common.Logging.csproj" />
-    <ProjectReference Include="..\PurchaseApplication\PurchaseApplication.csproj" />
+    <ProjectReference Include="..\PurchaseApplication\PurchaseServiceApplication.csproj" />
     <ProjectReference Include="..\PurchaseServiceData\PurchaseServiceData.csproj" />
     <ProjectReference Include="..\PurchaseServiceInfrastructure\PurchaseServiceInfrastructure.csproj" />
   </ItemGroup>

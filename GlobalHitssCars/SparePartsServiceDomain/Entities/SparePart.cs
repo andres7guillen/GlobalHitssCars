@@ -1,10 +1,13 @@
-﻿using CSharpFunctionalExtensions;
+﻿
+using CSharpFunctionalExtensions;
+using SparePartsServiceDomain.Events;
 using SparePartsServiceDomain.Exceptions;
+using SparePartsServiceDomain.SharedKernel;
 using System.ComponentModel.DataAnnotations;
 
 namespace SparePartsServiceDomain.Entities
 {
-    public class SparePart
+    public sealed record SparePart : EntityBase
     {
         public Guid Id { get; set; }
         [StringLength(100)]
@@ -68,9 +71,10 @@ namespace SparePartsServiceDomain.Entities
                 {
                     return Result.Failure<bool>(SparePartContextExceptionEnum.QuantityCannotBeLessThanZero.GetErrorMessage());
                 }
-                else 
+                else
                 {
                     Stock += quantity.Value;
+
                     return Result.Success(true);
                 }
             }
@@ -78,7 +82,7 @@ namespace SparePartsServiceDomain.Entities
 
         }
 
-        public Result<bool> LessStock(int? quantity = null) 
+        public Result<bool> LessStock(int? quantity = null)
         {
             if (quantity.HasValue)
             {
@@ -90,14 +94,18 @@ namespace SparePartsServiceDomain.Entities
                 {
                     return Result.Failure<bool>(SparePartContextExceptionEnum.IsNotEnoughStockToDelete.GetErrorMessage());
                 }
-                else 
-                { 
+                else
+                {
                     Stock -= quantity.Value;
                     return Result.Success(true);
                 }
             }
             return Result.Failure<bool>(SparePartContextExceptionEnum.ErrorTryingToLessStock.GetErrorMessage());
         }
+
+        #region EVENTS
+        
+        #endregion
 
     }
 }

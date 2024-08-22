@@ -1,11 +1,7 @@
 ﻿using PurchaseService.Tests.Config;
 using PurchaseServiceDomain.Entities;
+using PurchaseServiceDomain.Enum;
 using PurchaseServiceInfrastructure.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PurchaseService.Tests.Repositories
 {
@@ -21,7 +17,10 @@ namespace PurchaseService.Tests.Repositories
             var purchaseExpected = Purchase.Build(
                 Guid.NewGuid(),
                 Guid.NewGuid(),
-                70000000);
+                Guid.NewGuid(),
+                10,
+                70000000,
+                TypePurchaseEnum.Car);
             //Act
             var result = await repository.Create(purchaseExpected.Value);
 
@@ -38,7 +37,10 @@ namespace PurchaseService.Tests.Repositories
             var purchaseExpected = Purchase.Build(
                 Guid.NewGuid(),
                 Guid.NewGuid(),
-                70000000);
+                Guid.NewGuid(),
+                10,
+                70000000,
+                TypePurchaseEnum.Car);
 
             //Act
             await repository.Create(purchaseExpected.Value);
@@ -59,7 +61,10 @@ namespace PurchaseService.Tests.Repositories
             var purchaseExpected = Purchase.Build(
                 Guid.NewGuid(),
                 Guid.NewGuid(),
-                70000000);
+                Guid.NewGuid(),
+                10,
+                70000000,
+                TypePurchaseEnum.Car);
             await repository.Create(purchaseExpected.Value);
 
             //Act
@@ -79,7 +84,10 @@ namespace PurchaseService.Tests.Repositories
             var purchaseExpected = Purchase.Build(
                 Guid.NewGuid(),
                 Guid.NewGuid(),
-                70000000);
+                Guid.NewGuid(),
+                10,
+                70000000,
+                TypePurchaseEnum.Car);
 
             //Act
             await repository.Create(purchaseExpected.Value);
@@ -93,12 +101,15 @@ namespace PurchaseService.Tests.Repositories
         public async void GetPurchaseByIdShouldWorks()
         {
             //Arrange
-            var context = ApplicationPurchaseDbContextInMemory.Get();            
+            var context = ApplicationPurchaseDbContextInMemory.Get();
             var repository = new PurchaseRepository(context);
             var purchaseExpected = Purchase.Build(
                 Guid.NewGuid(),
                 Guid.NewGuid(),
-                70000000);
+                Guid.NewGuid(),
+                10,
+                70000000,
+                TypePurchaseEnum.Car);
 
             //Act
             await repository.Create(purchaseExpected.Value);
@@ -118,9 +129,12 @@ namespace PurchaseService.Tests.Repositories
 
             var idPurchase = Guid.NewGuid();
             var purchaseExpected = Purchase.Build(
-                Guid.NewGuid(),
-                Guid.NewGuid(),
-                70000000);
+                 Guid.NewGuid(),
+                 Guid.NewGuid(),
+                 Guid.NewGuid(),
+                 10,
+                 70000000,
+                 TypePurchaseEnum.Car);
 
             //Act
             await repository.Create(purchaseExpected.Value);
@@ -140,7 +154,10 @@ namespace PurchaseService.Tests.Repositories
             var purchaseExpected = Purchase.Build(
                 Guid.NewGuid(),
                 Guid.NewGuid(),
-                70000000);
+                Guid.NewGuid(),
+                10,
+                70000000,
+                TypePurchaseEnum.Car);
             //Act
             await repository.Create(purchaseExpected.Value);
             var PurchaseById = await repository.GetById(purchaseExpected.Value.Id);

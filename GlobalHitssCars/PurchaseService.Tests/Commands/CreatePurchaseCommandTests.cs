@@ -1,8 +1,11 @@
 ﻿using Common.Logging.Interfaces;
 using Moq;
 using PurchaseApplication.Commands;
+using PurchaseServiceApplication.MessageBus.Interfaces;
 using PurchaseServiceDomain.Entities;
+using PurchaseServiceDomain.Enum;
 using PurchaseServiceDomain.Repository;
+using PurchaseServiceDomain.SharedKernel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,16 +22,22 @@ namespace PurchaseService.Tests.Commands
             //arrange
             var mockPurchaseRepository = new Mock<IPurchaseRepository>();
             var mockLogger = new Mock<ILogger>();
+            var messageProducerMock = new Mock<IMessageProducer>();
 
             var purchaseExpected = Purchase.Build(
                 Guid.NewGuid(),
                 Guid.NewGuid(),
-                70000000);                
+                Guid.NewGuid(),
+                10,
+                70000000,
+                TypePurchaseEnum.Car
+                );                
             
             mockPurchaseRepository.Setup(repo => repo.Create(It.IsAny<Purchase>()))
                 .ReturnsAsync(purchaseExpected.Value);
+            messageProducerMock.Setup(m => m.SendingMessage(It.IsAny<Event<object>>(),""));
 
-            var command = new CreatePurchaseCommand(purchaseExpected.Value.ClientId, purchaseExpected.Value.CarId,purchaseExpected.Value.Amount);
+            var command = new CreatePurchaseCommand(purchaseExpected.Value.ClientId, purchaseExpected.Value.CarId.Value,purchaseExpected.Value.Amount, purchaseExpected.Value.TypePurchase,purchaseExpected.Value.SparePartId,purchaseExpected.Value.Quantity);
             var handler = new CreatePurchaseCommand.CreatePurchaseCommandHandler(mockPurchaseRepository.Object);
 
             //Act
@@ -46,15 +55,22 @@ namespace PurchaseService.Tests.Commands
             //arrange
             var mockPurchaseRepository = new Mock<IPurchaseRepository>();
             var mockLogger = new Mock<ILogger>();
+            var messageProducerMock = new Mock<IMessageProducer>();
+            messageProducerMock.Setup(m => m.SendingMessage(It.IsAny<Event<object>>(), ""));
 
             var purchaseExpected = Purchase.Build(
                 Guid.NewGuid(),
                 Guid.NewGuid(),
-                70000000);
+                Guid.NewGuid(),
+                10,
+                70000000,
+                TypePurchaseEnum.Car);
             mockPurchaseRepository.Setup(repo => repo.Create(It.IsAny<Purchase>()))
                 .ReturnsAsync((Purchase)null);
 
-            var command = new CreatePurchaseCommand(purchaseExpected.Value.ClientId,purchaseExpected.Value.CarId, purchaseExpected.Value.Amount);
+            var command = new CreatePurchaseCommand(purchaseExpected.Value.ClientId,purchaseExpected.Value.CarId.Value, 
+                purchaseExpected.Value.Amount,purchaseExpected.Value.TypePurchase,purchaseExpected.Value.SparePartId,
+                purchaseExpected.Value.Quantity);
             var handler = new CreatePurchaseCommand.CreatePurchaseCommandHandler(mockPurchaseRepository.Object);
 
             //Act

@@ -17,14 +17,14 @@ namespace CarService.Tests.Commands
         public async void DeleteCarShouldWorks() 
         {
             //arrange
-            var mockCarRepository = new Mock<ICarRepository>();
+            var mockCarRepository = new Mock<ICarStockRepository>();
             var newGuid = Guid.NewGuid();
             
             mockCarRepository.Setup(repo => repo.Delete(It.IsAny<Guid>()))
                 .ReturnsAsync(true);
             //Act
-            var command = new DeleteCarCommand(newGuid);
-            var handler = new DeleteCarCommand.DeleteCarCommandHandler(mockCarRepository.Object);
+            var command = new DeleteCarStockCommand(newGuid);
+            var handler = new DeleteCarStockCommand.DeleteCarCommandHandler(mockCarRepository.Object);
 
             //Act
             var result = await handler.Handle(command, CancellationToken.None);
@@ -39,21 +39,21 @@ namespace CarService.Tests.Commands
         public async void DeleteCarShouldFails()
         {
             //arrange
-            var mockCarRepository = new Mock<ICarRepository>();
+            var mockCarRepository = new Mock<ICarStockRepository>();
             var newGuid = Guid.NewGuid();
 
             mockCarRepository.Setup(repo => repo.Delete(It.IsAny<Guid>()))
                 .ReturnsAsync(false);
             //Act
-            var command = new DeleteCarCommand(newGuid);
-            var handler = new DeleteCarCommand.DeleteCarCommandHandler(mockCarRepository.Object);
+            var command = new DeleteCarStockCommand(newGuid);
+            var handler = new DeleteCarStockCommand.DeleteCarCommandHandler(mockCarRepository.Object);
 
             //Act
             var result = await handler.Handle(command, CancellationToken.None);
 
             //Assert
             Assert.False(result.IsSuccess);
-            Assert.Equal("4004: Error deleting car.", result.Error);
+            Assert.Equal("4004: Error deleting carStock.", result.Error);
             mockCarRepository.Verify(repo => repo.Delete(It.IsAny<Guid>()), Times.Once);
         }
 

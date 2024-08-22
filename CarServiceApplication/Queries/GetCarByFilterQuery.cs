@@ -12,30 +12,30 @@ using System.Threading.Tasks;
 
 namespace CarServiceApplication.Queries
 {
-    public class GetCarByFilterQuery : IRequest<Result<IEnumerable<Car>>>
+    public class GetCarByFilterQuery : IRequest<Result<IEnumerable<CarStock>>>
     {
-        public CarByFilterDTO Filter { get; set; }
+        public CarStockByFilterDTO Filter { get; set; }
 
-        public GetCarByFilterQuery(CarByFilterDTO filter)
+        public GetCarByFilterQuery(CarStockByFilterDTO filter)
         {
             Filter = filter;
         }
 
-        public class GetCarByFilterQueryHandler : IRequestHandler<GetCarByFilterQuery, Result<IEnumerable<Car>>>
+        public class GetCarByFilterQueryHandler : IRequestHandler<GetCarByFilterQuery, Result<IEnumerable<CarStock>>>
         {
-            private readonly ICarRepository _carRepository;
+            private readonly ICarStockRepository _carRepository;
 
-            public GetCarByFilterQueryHandler(ICarRepository carRepository)
+            public GetCarByFilterQueryHandler(ICarStockRepository carRepository)
             {
                 _carRepository = carRepository;
             }
 
-            public async Task<Result<IEnumerable<Car>>> Handle(GetCarByFilterQuery request, CancellationToken cancellationToken)
+            public async Task<Result<IEnumerable<CarStock>>> Handle(GetCarByFilterQuery request, CancellationToken cancellationToken)
             {
                 var cars = await _carRepository.GetCarByFilter(request.Filter);
                 return cars.Count() > 0
                     ? Result.Success(cars)
-                    : Result.Failure<IEnumerable<Car>>(CarContextExceptionEnum.CarNotFoundByFilter.GetErrorMessage());
+                    : Result.Failure<IEnumerable<CarStock>>(CarContextExceptionEnum.CarNotFoundByFilter.GetErrorMessage());
             }
         }
 

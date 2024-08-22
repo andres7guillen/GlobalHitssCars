@@ -30,7 +30,7 @@ builder.Services.AddSingleton<ILog>(LogManager.GetLogger(typeof(Program)));
 builder.Services.AddSingleton<Common.Logging.Interfaces.ILogger>(provider =>
     new Log4NetLogger(typeof(Program)));
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<ApplicationCarDbContext>(options =>
+builder.Services.AddDbContext<ApplicationCarStockDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"),
     sqlServerOptionsAction: sqlOptions =>
@@ -47,8 +47,8 @@ builder.Services.AddDbContext<ApplicationCarDbContext>(options =>
 
 builder.Services.AddHealthChecks()
     .AddCheck("CarApiCheck", () => HealthCheckResult.Healthy())
-    .AddDbContextCheck<ApplicationCarDbContext>(
-        name: "ApplicationCarDbContext",
+    .AddDbContextCheck<ApplicationCarStockDbContext>(
+        name: "ApplicationCarStockDbContext",
         failureStatus: HealthStatus.Unhealthy,
         tags: new[] { "ready", "db" }
     );
@@ -56,15 +56,15 @@ builder.Services.AddHealthChecks()
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly(),
-    typeof(CreateCarCommand).Assembly,
+    typeof(CreateCarStockCommand).Assembly,
     typeof(GetAllCarsQuery).Assembly,
     typeof(GetCarByIdQuery).Assembly,
     typeof(GetCarByFilterQuery).Assembly,
-    typeof(UpdateCarCommand).Assembly,
-    typeof(DeleteCarCommand).Assembly
+    typeof(UpdateCarStockCommand).Assembly,
+    typeof(DeleteCarStockCommand).Assembly
     ));
-builder.Services.AddScoped<ICarRepository, CarRepository>();
-builder.Services.AddScoped<ICarService, CarService>();
+builder.Services.AddScoped<ICarStockRepository, CarStockRepository>();
+builder.Services.AddScoped<ICarStockService, CarStockService>();
 
 var app = builder.Build();
 

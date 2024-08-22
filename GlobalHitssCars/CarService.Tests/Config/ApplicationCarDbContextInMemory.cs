@@ -10,12 +10,12 @@ namespace CarService.Tests.Config
 {
     public static class ApplicationCarDbContextInMemory
     {
-        public static ApplicationCarDbContext Get() 
+        public static ApplicationCarStockDbContext Get() 
         { 
-            var options = new DbContextOptionsBuilder<ApplicationCarDbContext>()
+            var options = new DbContextOptionsBuilder<ApplicationCarStockDbContext>()
                 .UseInMemoryDatabase(databaseName: "GlobalHitssCarDb")
                 .Options;
-            return new ApplicationCarDbContext(options);
+            return new ApplicationCarStockDbContext(options);
         }
     }
 }

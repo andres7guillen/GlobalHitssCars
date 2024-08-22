@@ -16,24 +16,19 @@ namespace CarService.Tests.Commands
         public async void UpdateCarShouldWorks() 
         {
             //Arrange
-            var car1 = Car.Build("Brand test1",
+            var car1 = CarStock.Build(Guid.NewGuid(),
                 2022,
-                "Reference test",
-                "Colour test1",
-                "ABC123");
-            var mockCarRepository = new Mock<ICarRepository>();
-            mockCarRepository.Setup(repo => repo.Update(It.IsAny<Car>()))
+                Guid.NewGuid(),
+                "Colour test1");
+            var mockCarRepository = new Mock<ICarStockRepository>();
+            mockCarRepository.Setup(repo => repo.Update(It.IsAny<CarStock>()))
                 .ReturnsAsync(true);
             mockCarRepository.Setup(repo => repo.GetById(It.IsAny<Guid>()))
                 .ReturnsAsync(car1.Value);
-            var command = new UpdateCarCommand(
+            var command = new UpdateCarStockCommand(
                 car1.Value.Id,
-                car1.Value.Brand,
-                car1.Value.Model,
-                car1.Value.Reference,
-                car1.Value.Colour,
-                car1.Value.LicensePlate);
-            var handler = new UpdateCarCommand.UpdateCarCommandHandler(mockCarRepository.Object);
+                car1.Value.Colour);
+            var handler = new UpdateCarStockCommand.UpdateCarCommandHandler(mockCarRepository.Object);
 
             //Act
             var result = await handler.Handle(command, CancellationToken.None);
@@ -41,7 +36,7 @@ namespace CarService.Tests.Commands
             //Assert
             Assert.True(result.IsSuccess);
             Assert.True(result.Value);
-            mockCarRepository.Verify(repo => repo.Update(It.IsAny<Car>()), Times.Once);
+            mockCarRepository.Verify(repo => repo.Update(It.IsAny<CarStock>()), Times.Once);
 
         }
 
@@ -49,32 +44,27 @@ namespace CarService.Tests.Commands
         public async void UpdateCarShouldFails()
         {
             //Arrange
-            var car1 = Car.Build("Brand test1",
+            var car1 = CarStock.Build(Guid.NewGuid(),
                 2022,
-                "Reference test",
-                "Colour test1",
-                "ABC123");
-            var mockCarRepository = new Mock<ICarRepository>();
-            mockCarRepository.Setup(repo => repo.Update(It.IsAny<Car>()))
+                Guid.NewGuid(),
+                "Colour test1");
+            var mockCarRepository = new Mock<ICarStockRepository>();
+            mockCarRepository.Setup(repo => repo.Update(It.IsAny<CarStock>()))
                 .ReturnsAsync(false);
             mockCarRepository.Setup(repo => repo.GetById(It.IsAny<Guid>()))
                 .ReturnsAsync(car1.Value);
-            var command = new UpdateCarCommand(
+            var command = new UpdateCarStockCommand(
                 car1.Value.Id,
-                car1.Value.Brand,
-                car1.Value.Model,
-                car1.Value.Reference,
-                car1.Value.Colour,
-                car1.Value.LicensePlate);
-            var handler = new UpdateCarCommand.UpdateCarCommandHandler(mockCarRepository.Object);
+                car1.Value.Colour);
+            var handler = new UpdateCarStockCommand.UpdateCarCommandHandler(mockCarRepository.Object);
 
             //Act
             var result = await handler.Handle(command, CancellationToken.None);
 
             //Assert
             Assert.False(result.IsSuccess);
-            Assert.Equal("4002: Error updating car.", result.Error);
-            mockCarRepository.Verify(repo => repo.Update(It.IsAny<Car>()), Times.Once);
+            Assert.Equal("4002: Error updating carStock.", result.Error);
+            mockCarRepository.Verify(repo => repo.Update(It.IsAny<CarStock>()), Times.Once);
         }
 
     }
