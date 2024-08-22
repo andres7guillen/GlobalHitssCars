@@ -13,25 +13,23 @@ namespace CarService.Tests.Commands
         public async void CreateCarShouldWorks()
         {
             // Arrange
-            var mockCarRepository = new Mock<ICarRepository>();
+            var mockCarRepository = new Mock<ICarStockRepository>();
             var mockLogger = new Mock<ILogger>();
-            var expectedCar = Car.Build(
-            withBrand: "Brand test1",
+            var expectedCar = CarStock.Build(
+            withBrandId: Guid.NewGuid(),
             withModel: 2023,
-            withReference: "Reference test1",
-            withColour: "Colour test1",
-            withLicensePlate: "ABC123");
+            withReferenceId: Guid.NewGuid(),
+            withColour: "Colour test1");
 
 
-            mockCarRepository.Setup(repo => repo.Create(It.IsAny<Car>()))
+            mockCarRepository.Setup(repo => repo.Create(It.IsAny<CarStock>()))
             .ReturnsAsync(expectedCar.Value);
 
-            var command = new CreateCarCommand(expectedCar.Value.Brand, 
+            var command = new CreateCarStockCommand(expectedCar.Value.BrandId, 
                 expectedCar.Value.Model, 
-                expectedCar.Value.Reference, 
-                expectedCar.Value.Colour, 
-                expectedCar.Value.LicensePlate);
-            var handler = new CreateCarCommand.CreateCarCommandHandler(mockCarRepository.Object, mockLogger.Object);
+                expectedCar.Value.ReferenceId, 
+                expectedCar.Value.Colour);
+            var handler = new CreateCarStockCommand.CreateCarCommandHandler(mockCarRepository.Object, mockLogger.Object);
 
             //Act
             var result = await handler.Handle(command, CancellationToken.None);
@@ -39,30 +37,28 @@ namespace CarService.Tests.Commands
             //Assert
             Assert.True(result.IsSuccess);
 
-            mockCarRepository.Verify(repo => repo.Create(It.IsAny<Car>()), Times.Once);
+            mockCarRepository.Verify(repo => repo.Create(It.IsAny<CarStock>()), Times.Once);
         }
 
         [Fact]
         public async void CreateCarShouldFails_WhenModelIsIncorrect()
         {
             //arrange
-            var expectedCar = Car.Build(
-            withBrand: "Brand test1",
+            var expectedCar = CarStock.Build(
+            withBrandId: Guid.NewGuid(),
             withModel: 2023,
-            withReference: "Reference test1",
-            withColour: "Colour test1",
-            withLicensePlate: "ABC123");
-            var mockCarRepository = new Mock<ICarRepository>();
+            withReferenceId: Guid.NewGuid(),
+            withColour: "Colour test1");
+            var mockCarRepository = new Mock<ICarStockRepository>();
             var mockLogger = new Mock<ILogger>();
 
-            mockCarRepository.Setup(repo => repo.Create(It.IsAny<Car>()))
-                .ReturnsAsync((Car car) => null);
-            var command = new CreateCarCommand(expectedCar.Value.Brand,
+            mockCarRepository.Setup(repo => repo.Create(It.IsAny<CarStock>()))
+                .ReturnsAsync((CarStock car) => null);
+            var command = new CreateCarStockCommand(expectedCar.Value.BrandId,
                 expectedCar.Value.Model,
-                expectedCar.Value.Reference,
-                expectedCar.Value.Colour,
-                expectedCar.Value.LicensePlate);
-            var handler = new CreateCarCommand.CreateCarCommandHandler(mockCarRepository.Object, mockLogger.Object);
+                expectedCar.Value.ReferenceId,
+                expectedCar.Value.Colour);
+            var handler = new CreateCarStockCommand.CreateCarCommandHandler(mockCarRepository.Object, mockLogger.Object);
 
             //Act
             var result = await handler.Handle(command, CancellationToken.None);
@@ -71,7 +67,7 @@ namespace CarService.Tests.Commands
             Assert.False(result.IsSuccess);
             Assert.True(result.IsFailure);
             mockLogger.Verify(logger => logger.Error(It.IsAny<string>(), It.IsAny<Exception>()), Times.Once);
-            mockCarRepository.Verify(repo => repo.Create(It.IsAny<Car>()), Times.Once);
+            mockCarRepository.Verify(repo => repo.Create(It.IsAny<CarStock>()), Times.Once);
 
         }
 

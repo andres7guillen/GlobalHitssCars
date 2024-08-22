@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PurchaseServiceDomain.Entities;
+using PurchaseServiceDomain.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,13 @@ namespace PurchaseServiceData.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Purchase>().HasKey(p => p.Id);
+            modelBuilder.Entity<Purchase>()
+            .Property(p => p.TypePurchase)
+            .HasConversion(
+                v => v.ToString(),
+                v => (TypePurchaseEnum)Enum.Parse(typeof(TypePurchaseEnum), v)
+            )
+            .HasMaxLength(10);
             base.OnModelCreating(modelBuilder);
         }
 

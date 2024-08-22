@@ -1,13 +1,9 @@
 ﻿using Moq;
 using PurchaseApplication.Queries;
 using PurchaseServiceDomain.Entities;
+using PurchaseServiceDomain.Enum;
 using PurchaseServiceDomain.Exceptions;
 using PurchaseServiceDomain.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PurchaseService.Tests.Queries
 {
@@ -21,11 +17,17 @@ namespace PurchaseService.Tests.Queries
             var purchaseExpected1 = Purchase.Build(
                 Guid.NewGuid(),
                 Guid.NewGuid(),
-                70000000);
+                Guid.NewGuid(),
+                10,
+                70000000,
+                TypePurchaseEnum.Car);
             var purchaseExpected2 = Purchase.Build(
                 Guid.NewGuid(),
                 Guid.NewGuid(),
-                78000000);
+                Guid.NewGuid(),
+                10,
+                70000000,
+                TypePurchaseEnum.Car);
             list.Add(purchaseExpected1.Value);
             list.Add(purchaseExpected2.Value);
 

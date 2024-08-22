@@ -3,6 +3,7 @@ using CSharpFunctionalExtensions;
 using Moq;
 using PurchaseApplication.Queries;
 using PurchaseServiceDomain.Entities;
+using PurchaseServiceDomain.Enum;
 using PurchaseServiceDomain.Repository;
 
 namespace PurchaseService.Tests.Queries
@@ -19,7 +20,10 @@ namespace PurchaseService.Tests.Queries
             var purchaseExpected = Purchase.Build(
                 Guid.NewGuid(),
                 Guid.NewGuid(),
-                70000000);
+                Guid.NewGuid(),
+                10,
+                70000000,
+                TypePurchaseEnum.Car);
 
             mockPurchaseRepository.Setup(repo => repo.GetById(It.IsAny<Guid>()))
                 .ReturnsAsync(purchaseExpected.Value);

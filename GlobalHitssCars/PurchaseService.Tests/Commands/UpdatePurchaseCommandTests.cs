@@ -1,6 +1,7 @@
 ﻿using Moq;
 using PurchaseApplication.Commands;
 using PurchaseServiceDomain.Entities;
+using PurchaseServiceDomain.Enum;
 using PurchaseServiceDomain.Repository;
 
 namespace PurchaseService.Tests.Commands
@@ -14,7 +15,10 @@ namespace PurchaseService.Tests.Commands
             var purchaseExpected = Purchase.Build(
                 Guid.NewGuid(),
                 Guid.NewGuid(),
-                70000000);
+                Guid.NewGuid(),
+                10,
+                70000000,
+                TypePurchaseEnum.Car);
             var mockPurchaseRepository = new Mock<IPurchaseRepository>();
             mockPurchaseRepository.Setup(repo => repo.GetById(It.IsAny<Guid>()))
                 .ReturnsAsync(purchaseExpected.Value);
@@ -38,7 +42,10 @@ namespace PurchaseService.Tests.Commands
             var purchaseExpected = Purchase.Build(
                 Guid.NewGuid(),
                 Guid.NewGuid(),
-                70000000);
+                Guid.NewGuid(),
+                10,
+                70000000,
+                TypePurchaseEnum.Car);
             var mockPurchaseRepository = new Mock<IPurchaseRepository>();
             mockPurchaseRepository.Setup(repo => repo.GetById(It.IsAny<Guid>()))
                 .ReturnsAsync(purchaseExpected.Value);

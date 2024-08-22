@@ -1,32 +1,24 @@
 ﻿using CarServiceApplication.Queries;
-using CarServiceDomain.DTOs;
 using CarServiceDomain.Entities;
 using CarServiceDomain.Repositories;
 using Common.Logging.Interfaces;
 using CSharpFunctionalExtensions;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CarService.Tests.Queries
 {
     public class GetCarByIdQueryTests
     {
         [Fact]
-        public async void GetCarByIdShouldWorks_WhenACarIsFoundById() 
+        public async void GetCarByIdShouldWorks_WhenACarIsFoundById()
         {
             //Arrange
-            var mockCarRepository = new Mock<ICarRepository>();
+            var mockCarRepository = new Mock<ICarStockRepository>();
             var mockLogger = new Mock<ILogger>();
-            var car1 = Car.Build("Brand test1",
-                2021,
-                "Reference test1",
-                "Colour test1",
-                "ABC123"
-                );
+            var car1 = CarStock.Build(Guid.NewGuid(),
+                2022,
+                Guid.NewGuid(),
+                "Colour test1");
 
             mockCarRepository.Setup(repo => repo.GetById(It.IsAny<Guid>()))
                 .ReturnsAsync(car1.Value);
@@ -48,12 +40,12 @@ namespace CarService.Tests.Queries
         public async void GetCarByIdShouldFails_WhenACarIsNotFoundById()
         {
             //Arrange
-            var mockCarRepository = new Mock<ICarRepository>();
+            var mockCarRepository = new Mock<ICarStockRepository>();
             var mockLogger = new Mock<ILogger>();
             var newGuid = Guid.NewGuid();
 
             mockCarRepository.Setup(repo => repo.GetById(It.IsAny<Guid>()))
-                .ReturnsAsync(Maybe<Car>.None);
+                .ReturnsAsync(Maybe<CarStock>.None);
 
             var handler = new GetCarByIdQuery.GetCarByIdQueryHandler(mockCarRepository.Object);
             var query = new GetCarByIdQuery(newGuid);

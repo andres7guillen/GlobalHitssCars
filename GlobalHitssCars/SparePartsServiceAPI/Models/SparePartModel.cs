@@ -4,7 +4,7 @@ namespace SparePartsServiceAPI.Models
 {
     public class SparePartModel
     {
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [StringLength(100)]
         public string SpareName { get; set; } 

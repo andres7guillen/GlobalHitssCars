@@ -19,23 +19,21 @@ namespace CarService.Tests.Queries
         public async void GetCarByFilterShouldWorks_WhenCarsAreFound() 
         {
             //Arrange
-            var mockCarRepository = new Mock<ICarRepository>();
+            var mockCarRepository = new Mock<ICarStockRepository>();
             var mockLogger = new Mock<ILogger>();
-            List<Car> cars = new List<Car>();
-            var car1 = Car.Build("Brand test1",
-                2021,
-                "Reference test1",
-                "Colour test1",
-                "ABC123"
-                );
+            List<CarStock> cars = new List<CarStock>();
+            var car1 = CarStock.Build(Guid.NewGuid(),
+                2022,
+                Guid.NewGuid(),
+                "Colour test1");
             cars.Add(car1.Value);
 
-            mockCarRepository.Setup(repo => repo.GetCarByFilter(It.IsAny<CarByFilterDTO>()))
+            mockCarRepository.Setup(repo => repo.GetCarByFilter(It.IsAny<CarStockByFilterDTO>()))
                 .ReturnsAsync(cars);
 
-            var filter = new CarByFilterDTO()
+            var filter = new CarStockByFilterDTO()
             {
-                Brand = "Brand test1",
+                BrandId = Guid.NewGuid(),
                 Colour = "Colour test1"
             };
 
@@ -48,7 +46,7 @@ namespace CarService.Tests.Queries
             //Assert
             Assert.True(result.IsSuccess);
             Assert.Equal(cars, result.Value);
-            mockCarRepository.Verify(repo => repo.GetCarByFilter(It.IsAny<CarByFilterDTO>()), Times.Once);
+            mockCarRepository.Verify(repo => repo.GetCarByFilter(It.IsAny<CarStockByFilterDTO>()), Times.Once);
 
         }
 
@@ -56,16 +54,16 @@ namespace CarService.Tests.Queries
         public async void GetCarByFilterShouldFails_WhenNoCarsAreFound()
         {
             //Arrange
-            var mockCarRepository = new Mock<ICarRepository>();
+            var mockCarRepository = new Mock<ICarStockRepository>();
             var mockLogger = new Mock<ILogger>();
-            List<Car> cars = new List<Car>();            
+            List<CarStock> cars = new List<CarStock>();            
 
-            mockCarRepository.Setup(repo => repo.GetCarByFilter(It.IsAny<CarByFilterDTO>()))
+            mockCarRepository.Setup(repo => repo.GetCarByFilter(It.IsAny<CarStockByFilterDTO>()))
                 .ReturnsAsync(cars);
 
-            var filter = new CarByFilterDTO()
+            var filter = new CarStockByFilterDTO()
             {
-                Brand = "Brand test1",
+                BrandId = Guid.NewGuid(),
                 Colour = "Colour test1"
             };
 
@@ -78,7 +76,7 @@ namespace CarService.Tests.Queries
             //Assert
             Assert.False(result.IsSuccess);
             Assert.Equal(CarContextExceptionEnum.CarNotFoundByFilter.GetErrorMessage(), result.Error);
-            mockCarRepository.Verify(repo => repo.GetCarByFilter(It.IsAny<CarByFilterDTO>()), Times.Once);
+            mockCarRepository.Verify(repo => repo.GetCarByFilter(It.IsAny<CarStockByFilterDTO>()), Times.Once);
         }
 
     }

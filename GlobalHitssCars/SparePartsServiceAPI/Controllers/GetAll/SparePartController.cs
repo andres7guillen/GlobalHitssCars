@@ -37,13 +37,15 @@ namespace SparePartsServiceAPI.Controllers.GetAll
                 return BadRequest(list.Error);
             var response = new GetAllSparePartsResponse()
             {
-                SpareParts = _mapper.Map<IEnumerable<SparePartModel>>(list.Value)
+                SpareParts = _mapper.Map<IEnumerable<SparePartModel>>(list.Value.Item2),
+                Quantity = list.Value.Item1
             };
             return Ok(CustomResponse<GetAllSparePartsResponse>.BuildSuccess(response));
         }
 
-        public class GetAllSparePartsResponse 
+        public class GetAllSparePartsResponse
         {
+            public int Quantity { get; set; }
             public IEnumerable<SparePartModel> SpareParts { get; set; }
         }
 

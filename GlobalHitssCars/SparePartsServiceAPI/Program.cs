@@ -49,6 +49,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.G
     ));
 builder.Services.AddScoped<ISparePartRepository, SparePartRepository>();
 builder.Services.AddScoped<ISparePartService, SparePartService>();
+//builder.Services.AddScoped<IMessageProducer, MessageProducer>();
 
 var app = builder.Build();
 
@@ -70,7 +71,8 @@ app.MapHealthChecks("/health", new HealthCheckOptions
         var result = JsonSerializer.Serialize(new
         {
             status = report.Status.ToString(),
-            checks = report.Entries.Select(entry => new {
+            checks = report.Entries.Select(entry => new
+            {
                 name = entry.Key,
                 status = entry.Value.Status.ToString(),
                 exception = entry.Value.Exception?.Message,

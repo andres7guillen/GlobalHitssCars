@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CarServiceApplication.Queries
 {
-    public class GetCarByIdQuery : IRequest<Result<Car>>
+    public class GetCarByIdQuery : IRequest<Result<CarStock>>
     {
         public Guid Id { get; set; }
         public GetCarByIdQuery(Guid id)
@@ -19,18 +19,18 @@ namespace CarServiceApplication.Queries
             Id = id;
         }
 
-        public class GetCarByIdQueryHandler : IRequestHandler<GetCarByIdQuery, Result<Car>>
+        public class GetCarByIdQueryHandler : IRequestHandler<GetCarByIdQuery, Result<CarStock>>
         {
-            private readonly ICarRepository _carRepository;
-            public GetCarByIdQueryHandler(ICarRepository carRepository)
+            private readonly ICarStockRepository _carRepository;
+            public GetCarByIdQueryHandler(ICarStockRepository carRepository)
             {
                 _carRepository = carRepository;
             }
-            public async Task<Result<Car>> Handle(GetCarByIdQuery request, CancellationToken cancellationToken)
+            public async Task<Result<CarStock>> Handle(GetCarByIdQuery request, CancellationToken cancellationToken)
             {
                 var maybeCar = await _carRepository.GetById(request.Id);
                 if (maybeCar.HasNoValue)
-                    return Result.Failure<Car>(CarContextExceptionEnum.CarNotFound.GetErrorMessage());
+                    return Result.Failure<CarStock>(CarContextExceptionEnum.CarNotFound.GetErrorMessage());
                 return Result.Success(maybeCar.Value);
             }
         }

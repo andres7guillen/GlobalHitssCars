@@ -27,7 +27,7 @@ namespace SparePartServiceApplication.Commands
             public async Task<Result<bool>> Handle(LessStockSparePartCommand request, CancellationToken cancellationToken)
             {
                 var spare = await _sparePartRepository.GetSparePartById(request.Id);
-                if (spare.HasValue) 
+                if (spare.HasValue)
                 {
                     var result = spare.Value.LessStock(request.StockQuantity);
                     if (result.IsSuccess)
@@ -38,10 +38,10 @@ namespace SparePartServiceApplication.Commands
                             return Result.Success(stockUpdated);
                         }
                     }
-                    else 
+                    else
                     {
                         return Result.Failure<bool>(result.Error);
-                    }                    
+                    }
                 }
                 return Result.Failure<bool>(SparePartContextExceptionEnum.ErrorTryingToLessStock.GetErrorMessage());
 
